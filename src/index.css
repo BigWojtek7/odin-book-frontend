@@ -3,3 +3,17 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+:root {
+  --nav-bg: #1c334b;
+  --body-bg: #0a141e;
+  --font-clr: #ffffff;
+}
+
+body {
+  font-family: sans-serif, 'Times New Roman';
+  font-size: 1.25rem;
+  background-color: var(--body-bg);
+  padding-inline-start: 20rem;
+  color: var(--font-clr);
+}

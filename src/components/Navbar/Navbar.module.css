@@ -1,0 +1,33 @@
+nav {
+  background-color: var(--nav-bg);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  padding-block: 2rem;
+}
+
+.navList{
+  list-style: none;
+  display: grid;
+  gap: 1rem;
+}
+
+
+
+.navList a {
+  padding-block: 1rem;
+  padding-inline: 4rem;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.navList li:hover{
+  background-color: var(--body-bg);
+}
+
+/* .navList li.active {
+  display: block;
+  background: var(--body-bg);
+} */
