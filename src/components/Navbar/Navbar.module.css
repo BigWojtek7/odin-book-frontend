@@ -7,13 +7,11 @@ nav {
   padding-block: 2rem;
 }
 
-.navList{
+.navList {
   list-style: none;
   display: grid;
   gap: 1rem;
 }
-
-
 
 .navList a {
   padding-block: 1rem;
@@ -23,11 +21,11 @@ nav {
   display: block;
 }
 
-.navList li:hover{
+.navList li:hover {
   background-color: var(--body-bg);
 }
 
-/* .navList li.active {
+.navList li.active {
   display: block;
   background: var(--body-bg);
-} */
+}
