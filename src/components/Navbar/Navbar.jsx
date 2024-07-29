@@ -5,11 +5,12 @@ function Navbar() {
   return (
     <nav>
       <ul className={styles.navList}>
-        <li className={styles.active}><Link to='/home'>Home</Link></li>
+        <li className={styles.active}><Link to='/'>Home</Link></li>
+        <li><Link to='sign-up'>SignUp</Link></li>
+        <li><Link to='login'>Login</Link></li>
+        <li><Link to='/home'>Posts</Link></li>
+        <li><Link to='/home'>Requests</Link></li>
         <li><Link to='/home'>Profile</Link></li>
-        <li><Link to='/home'>Friends</Link></li>
-        <li><Link to='/home'>Another</Link></li>
-        <li><Link to='/home'>Another one</Link></li>
       </ul>
     </nav>
   )

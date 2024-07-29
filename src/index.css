@@ -15,5 +15,7 @@ body {
   font-size: 1.25rem;
   background-color: var(--body-bg);
   padding-inline-start: 20rem;
+  padding-inline-end: 2rem;
+  padding-block-start: 2rem;
   color: var(--font-clr);
 }
