@@ -1,0 +1,31 @@
+.form {
+  display: grid;
+  width: min(15rem, 100%);
+  gap: 1.25rem;
+}
+.formGroup{
+  display: grid;
+  align-items: center;
+  gap: 0.5rem
+}
+.formGroup input {
+  background-color: var(--nav-bg);
+  border: solid 1px var(--input-bd);
+}
+
+.formGroup input, .button {
+  padding: 0.5em 0.75em;
+  color: var(--font-clr);
+  font-size: 1.25rem;
+}
+
+.form .button {
+  cursor: pointer;
+  background-color: var(--btn-clr);
+  border: none;
+  transition: 0.3s;
+}
+.form .button:hover{
+  background-color: #11423e;
+  
+}
