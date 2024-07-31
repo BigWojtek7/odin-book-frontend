@@ -1,14 +1,16 @@
 .post {
   background-color: var(--nav-bg);
   padding: 0.5em;
-  border-radius: 7px;
+  border-radius: 10px;
   max-width: 750px;
   box-shadow: 0 0 20px rgba(0,0,0,1);
+  margin-bottom: 0.2em;
 }
 
 .postInfo{
   display: flex;
   margin-bottom: 0.5em;
+  gap: 0.5em;
 }
 .postContent {
   margin-bottom: 0.5em;
