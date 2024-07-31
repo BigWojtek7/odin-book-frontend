@@ -1,0 +1,30 @@
+.post {
+  background-color: var(--nav-bg);
+  padding: 0.5em;
+  border-radius: 7px;
+  max-width: 750px;
+  box-shadow: 0 0 20px rgba(0,0,0,1);
+}
+
+.postInfo{
+  display: flex;
+  margin-bottom: 0.5em;
+}
+.postContent {
+  margin-bottom: 0.5em;
+}
+
+.listIcons {
+  display: flex;
+  list-style: none;
+  padding: 0.4em 0;
+  justify-content: space-evenly;
+}
+.listItem{
+  display: flex;
+  gap: 0.5em;
+}
+
+hr{
+  opacity: 0.3;
+}
