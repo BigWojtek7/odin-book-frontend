@@ -19,13 +19,13 @@
   font-size: 1.25rem;
 }
 
-.form .button {
+.button {
   cursor: pointer;
   background-color: var(--btn-clr);
   border: none;
   transition: 0.3s;
 }
-.form .button:hover{
+.button:hover{
   background-color: #11423e;
   
 }

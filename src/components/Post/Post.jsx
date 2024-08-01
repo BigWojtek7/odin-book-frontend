@@ -2,6 +2,7 @@ import styles from './Post.module.css';
 import Icon from '@mdi/react';
 import { mdiThumbUp, mdiMessage } from '@mdi/js';
 import Comment from '../Comment/Comment';
+import AddComment from '../AddComment/AddComment';
 
 function Post() {
   return (
@@ -32,6 +33,7 @@ function Post() {
           </li>
         </ul>
         <hr />
+        <AddComment />
         <Comment />
       </div>
       

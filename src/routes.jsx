@@ -2,7 +2,7 @@ import App from './App';
 import Home from './pages/Home';
 import Login from './pages/Login/Login';
 import SignUp from './pages/SignUp/SignUp';
-import Posts from './pages/Posts/Posts';
+import Profile from './pages/Profile/Profile'
 
 const routes = [
   {
@@ -12,7 +12,7 @@ const routes = [
       { index: true, element: <Home /> },
       { path: 'login', element: <Login /> },
       { path: 'sign-up', element: <SignUp /> },
-      { path: 'posts', element: <Posts /> },
+      { path: 'profile', element: <Profile /> },
     ],
   },
 ];

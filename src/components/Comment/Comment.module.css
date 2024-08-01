@@ -2,7 +2,8 @@
   background-color: var(--nav-bg);
   max-width: 750px;
   display: flex;
-  padding: 1em;
+  padding: 0 1em;
+  margin-bottom: 0.5em;
   gap: 0.5em;
 }
 .commentName {
