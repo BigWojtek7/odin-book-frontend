@@ -1,0 +1,7 @@
+.profile{
+  display: flex;
+  gap: 10px;
+}
+.posts {
+  flex: 2;
+}
