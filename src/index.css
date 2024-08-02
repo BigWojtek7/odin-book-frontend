@@ -15,10 +15,11 @@
 
 body {
   font-family: sans-serif, 'Times New Roman';
-  font-size: 1.25rem;
+  font-size: 1rem;
   background-color: var(--body-bg);
-  padding-inline-start: 20rem;
+  padding-inline-start: 17rem;
   padding-inline-end: 2rem;
   padding-block-start: 2rem;
   color: var(--font-clr);
+  line-height: 1.5;
 }

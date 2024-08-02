@@ -1,5 +1,5 @@
 import App from './App';
-import Home from './pages/Home';
+import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
 import SignUp from './pages/SignUp/SignUp';
 import Profile from './pages/Profile/Profile'
