@@ -1,0 +1,20 @@
+.container{
+  display: flex;
+  gap: 50px;
+}
+.sideCard {
+  max-width: 270px;
+}
+.sideHeading{
+  margin-bottom: 0.5em;
+}
+.usersCard {
+  background-color: var(--nav-bg);
+  border-radius: 10px;
+  margin-bottom: 0.5em;
+  padding-bottom: 0.5em;
+}
+
+button{
+  margin-left: 10px;
+}

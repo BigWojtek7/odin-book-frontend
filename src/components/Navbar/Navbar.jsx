@@ -11,7 +11,7 @@ function Navbar() {
         <li className={pathname === '/sign-up' ? styles.active : undefined}><Link to='sign-up'>SignUp</Link></li>
         <li className={pathname === '/login' ? styles.active: undefined}><Link to='login'>Login</Link></li>
         <li className={pathname === '/profile' ? styles.active: undefined}><Link to='profile'>Profile</Link></li>
-        <li><Link to='/home'>Requests</Link></li>
+        <li><Link to='/requests'>Requests</Link></li>
         <li><Link to='/home'>Settings</Link></li>
       </ul>
     </nav>
