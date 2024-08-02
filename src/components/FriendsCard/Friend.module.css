@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  gap: 0.5em;
+  margin-bottom: 0.5em;
+  background-color: var(--nav-bg);
+  border-radius: 10px;
+}
+.friendInfo {
+  padding: 0 0.5em;
+}
+
+.friendsNumber{
+  font-size: 0.8em;
+}
