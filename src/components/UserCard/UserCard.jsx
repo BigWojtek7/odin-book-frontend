@@ -1,4 +1,5 @@
 import styles from './UserCard.module.css';
+import FriendsMiniature from './FriendsMiniature';
 function UserCard() {
   return (
     <div className={styles.card}>
@@ -11,6 +12,16 @@ function UserCard() {
           dignissimos odio, nulla consequuntur non iusto officiis excepturi
           voluptatem provident, inventore eveniet quas.
         </p>
+      </div>
+      <h2>Friends:</h2>
+      <div className={styles.profileFriends}>
+        <FriendsMiniature />
+        <FriendsMiniature />
+        <FriendsMiniature />
+        <FriendsMiniature />
+        <FriendsMiniature />
+        <FriendsMiniature />
+        <FriendsMiniature />
       </div>
     </div>
   );

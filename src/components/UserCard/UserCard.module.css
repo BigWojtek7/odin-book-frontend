@@ -16,3 +16,10 @@
 .profileMain > * {
   margin-bottom: 1em;
 }
+
+.profileFriends {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4em;
+  padding: 0.9em;
+}
