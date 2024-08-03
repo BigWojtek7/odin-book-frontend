@@ -1,8 +1,8 @@
-import styles from './FriendsCard.module.css';
+
 import Friend from './Friend';
 function FriendsCard() {
   return (
-    <div className={styles.container}>
+    <div>
       <h2>Friends:</h2>
       <Friend />
       <Friend />

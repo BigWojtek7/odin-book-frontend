@@ -16,10 +16,12 @@ nav {
 
 .navList a {
   padding-block: 1rem;
-  padding-inline: 4rem;
+  padding-inline: 3rem 5rem;
   text-decoration: none;
   color: inherit;
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .navList li:hover {
