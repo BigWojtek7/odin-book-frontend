@@ -1,4 +1,5 @@
-.submitButton, .cancelButton {
+.submitButton,
+.cancelButton {
   padding: 0.5em 0.75em;
   color: var(--font-clr);
   font-size: 1.25rem;

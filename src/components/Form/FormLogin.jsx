@@ -1,4 +1,4 @@
-import styles from './Form.module.css'
+import styles from './Form.module.css';
 function FormLogin() {
   return (
     <form className={styles.form}>

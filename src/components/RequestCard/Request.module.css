@@ -1,6 +1,5 @@
 .container {
   max-width: 250px;
-  
 }
 
 .followRequest {
@@ -9,6 +8,6 @@
   margin-bottom: 0.5em;
 }
 
-button{
+button {
   margin-left: 10px;
 }

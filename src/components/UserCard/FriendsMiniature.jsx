@@ -1,4 +1,4 @@
-import styles from './FriendsMiniature.module.css'
+import styles from './FriendsMiniature.module.css';
 
 function FriendsMiniature() {
   return (
@@ -6,6 +6,6 @@ function FriendsMiniature() {
       <img src="https://i.pravatar.cc/45" alt="Friend's avatar miniature" />
       <p className={styles.name}>Michael Jayson</p>
     </div>
-  )
+  );
 }
-export default FriendsMiniature
+export default FriendsMiniature;

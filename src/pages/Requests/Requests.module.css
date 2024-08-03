@@ -1,11 +1,11 @@
-.container{
+.container {
   display: flex;
   gap: 30px;
 }
 .sideCard {
   width: 250px;
 }
-.sideHeading{
+.sideHeading {
   margin-bottom: 0.5em;
 }
 .usersCard {
@@ -15,6 +15,6 @@
   padding-bottom: 0.5em;
 }
 
-.form{
-  display:inline
+.form {
+  display: inline;
 }

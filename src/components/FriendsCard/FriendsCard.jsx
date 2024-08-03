@@ -1,5 +1,5 @@
-import styles from './FriendsCard.module.css'
-import Friend from './Friend'
+import styles from './FriendsCard.module.css';
+import Friend from './Friend';
 function FriendsCard() {
   return (
     <div className={styles.container}>
@@ -10,6 +10,6 @@ function FriendsCard() {
       <Friend />
       <Friend />
     </div>
-  )
+  );
 }
-export default FriendsCard
+export default FriendsCard;

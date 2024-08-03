@@ -36,7 +36,6 @@ function Post() {
         <AddComment />
         <Comment />
       </div>
-      
     </>
   );
 }

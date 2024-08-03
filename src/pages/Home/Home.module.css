@@ -1,7 +1,7 @@
-.container{
+.container {
   display: flex;
-  gap: 0.5em
+  gap: 30px;
 }
-.posts{
-  flex: 1
+.posts {
+  flex: 1;
 }

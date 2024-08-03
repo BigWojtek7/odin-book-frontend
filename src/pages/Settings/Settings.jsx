@@ -6,10 +6,10 @@ function Settings() {
   return (
     <div className={styles.container}>
       <div className={styles.profilAvatar}>
-        <h2>Edit Avatar:</h2>
+        <h2 className={styles.cardHeading}>Edit Avatar:</h2>
       </div>
       <div className={styles.editProfile}>
-        <h2>Edit your Profile:</h2>
+        <h2 className={styles.cardHeading}>Edit your Profile:</h2>
         <form className={stylesForm.form}>
           <Input type="text" name="first_name" labelName="First Name" />
           <Input type="text" name="last_name" labelName="Last Name" />
@@ -19,7 +19,7 @@ function Settings() {
         </form>
       </div>
       <div className={styles.editProfile}>
-        <h2>Change password:</h2>
+        <h2 className={styles.cardHeading}>Change password:</h2>
         <form className={stylesForm.form}>
           <Input type="password" name="password" labelName="Old password" />
           <Input type="password" name="password" labelName="Password" />

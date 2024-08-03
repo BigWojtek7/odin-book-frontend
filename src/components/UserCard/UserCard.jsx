@@ -3,7 +3,11 @@ import FriendsMiniature from './FriendsMiniature';
 function UserCard() {
   return (
     <div className={styles.card}>
-      <img className={styles.profileImage} src="https://i.pravatar.cc/125" alt="avatar" />
+      <img
+        className={styles.profileImage}
+        src="https://i.pravatar.cc/125"
+        alt="avatar"
+      />
       <div className={styles.profileMain}>
         <h2 className={styles.profileName}>James Smith</h2>
         <p className={styles.profilePosition}>Graphic Designer</p>

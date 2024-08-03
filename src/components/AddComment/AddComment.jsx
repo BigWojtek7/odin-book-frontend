@@ -12,7 +12,11 @@ function AddComment() {
           name="comment"
           placeholder="Write a comment..."
         ></textarea>
-        <SubmitButton type="submit" name="Post" style={{borderRadius: '10px'}} />
+        <SubmitButton
+          type="submit"
+          name="Post"
+          style={{ borderRadius: '10px' }}
+        />
       </form>
     </div>
   );
