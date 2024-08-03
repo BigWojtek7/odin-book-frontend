@@ -4,6 +4,7 @@ import Login from './pages/Login/Login';
 import SignUp from './pages/SignUp/SignUp';
 import Profile from './pages/Profile/Profile'
 import Requests from './pages/Requests/Requests';
+import Settings from './pages/Settings/Settings';
 
 const routes = [
   {
@@ -15,6 +16,7 @@ const routes = [
       { path: 'sign-up', element: <SignUp /> },
       { path: 'profile', element: <Profile /> },
       { path: 'requests', element: <Requests /> },
+      { path: 'settings', element: <Settings /> },
     ],
   },
 ];
