@@ -2,6 +2,7 @@ import styles from './Settings.module.css';
 import Input from '../../components/Form/Input';
 import SubmitButton from '../../components/Form/Buttons/SubmitButton';
 import stylesForm from '../../components/Form/Form.module.css';
+import Textarea from '../../components/Form/Textarea';
 function Settings() {
   return (
     <div className={styles.container}>
@@ -15,6 +16,11 @@ function Settings() {
           <Input type="text" name="last_name" labelName="Last Name" />
           <Input type="email" name="email" labelName="Email" />
           <Input type="text" name="username" labelName="Username" />
+          <Textarea
+            placeholder="A few words about you"
+            name="about"
+            isLabel="true"
+          />
           <SubmitButton type="submit" name="Submit" />
         </form>
       </div>

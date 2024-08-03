@@ -1,0 +1,19 @@
+.formGroup {
+  display: grid;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.textarea {
+  height: 6em;
+  width: 100%;
+  padding: 0.5em;
+  resize: none;
+  background-color: var(--nav-bg);
+  color: var(--font-clr);
+  border: var(--input-bd) solid 1px;
+}
+
+.textarea::placeholder {
+  color: var(--font-clr);
+}
