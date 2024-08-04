@@ -3,13 +3,16 @@
   gap: 30px;
 }
 .sideCard {
-  width: 250px;
+  width: 270px;
+  background-color: var(--nav-bg);
+  padding: 0.5em;
+  border-radius: 10px;
 }
 .sideHeading {
   margin-bottom: 0.5em;
 }
 .usersCard {
-  background-color: var(--nav-bg);
+  background-color: var(--body-bg);
   border-radius: 10px;
   margin-bottom: 0.5em;
   padding-bottom: 0.5em;

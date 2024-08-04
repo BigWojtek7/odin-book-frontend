@@ -8,7 +8,7 @@ function Requests() {
       <div className={styles.sideCard}>
         <h2 className={styles.sideHeading}>Following Requests:</h2>
         <div className={styles.usersCard}>
-          <Friend />
+          <Friend/>
           <form className={styles.form}>
             <input type="hidden" name="confirm_friend" value="34657" />
             <SubmitButton
