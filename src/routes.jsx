@@ -2,7 +2,7 @@ import App from './App';
 import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
 import SignUp from './pages/SignUp/SignUp';
-import Profile from './pages/Profile/Profile'
+import Profile from './pages/Profile/Profile';
 import Requests from './pages/Requests/Requests';
 import Settings from './pages/Settings/Settings';
 
