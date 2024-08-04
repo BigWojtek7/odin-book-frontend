@@ -3,3 +3,7 @@
   width: min(15rem, 100%);
   gap: 10px;
 }
+
+main .form{
+  margin-bottom: 1em;;
+}
