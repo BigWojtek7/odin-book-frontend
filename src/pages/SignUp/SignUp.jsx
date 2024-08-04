@@ -1,6 +1,6 @@
-import Input from '../../components/Form/Input';
+import Input from '../../components/Form/Input/Input';
 import Button from '../../components/Form/Buttons/SubmitButton';
-import styles from '../../components/Form/Form.module.css';
+import styles from './SignUp.module.css';
 
 function SignUp() {
   return (

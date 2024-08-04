@@ -1,4 +1,4 @@
-import styles from './Form.module.css';
+import styles from './Input.module.css';
 function Input({ type, name, labelName }) {
   return (
     <div className={styles.formGroup}>

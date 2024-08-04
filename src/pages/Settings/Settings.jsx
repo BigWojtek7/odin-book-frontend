@@ -1,8 +1,7 @@
 import styles from './Settings.module.css';
-import Input from '../../components/Form/Input';
+import Input from '../../components/Form/Input/Input';
 import SubmitButton from '../../components/Form/Buttons/SubmitButton';
-import stylesForm from '../../components/Form/Form.module.css';
-import Textarea from '../../components/Form/Textarea';
+import Textarea from '../../components/Form/Textarea/Textarea';
 function Settings() {
   return (
     <div className={styles.container}>
@@ -11,7 +10,7 @@ function Settings() {
       </div>
       <div className={styles.editProfile}>
         <h2 className={styles.cardHeading}>Edit your Profile:</h2>
-        <form className={stylesForm.form}>
+        <form className={styles.form}>
           <Input type="text" name="first_name" labelName="First Name" />
           <Input type="text" name="last_name" labelName="Last Name" />
           <Input type="email" name="email" labelName="Email" />
@@ -26,7 +25,7 @@ function Settings() {
       </div>
       <div className={styles.editProfile}>
         <h2 className={styles.cardHeading}>Change password:</h2>
-        <form className={stylesForm.form}>
+        <form className={styles.form}>
           <Input type="password" name="password" labelName="Old password" />
           <Input type="password" name="password" labelName="Password" />
           <Input
