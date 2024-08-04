@@ -32,3 +32,7 @@ nav {
   display: block;
   background: var(--body-bg);
 }
+
+.navList li.active svg {
+  color: var(--icon-clr);
+}

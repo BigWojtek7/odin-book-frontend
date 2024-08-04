@@ -41,13 +41,13 @@ function Navbar() {
             Profile
           </Link>
         </li>
-        <li>
+        <li className={pathname === '/requests' ? styles.active : undefined}>
           <Link to="/requests">
             <Icon path={mdiAccountGroup} size={1.4} />
             Requests
           </Link>
         </li>
-        <li>
+        <li className={pathname === '/settings' ? styles.active : undefined}>
           <Link to="/settings">
             <Icon path={mdiCogs} size={1.4} />
             Settings
