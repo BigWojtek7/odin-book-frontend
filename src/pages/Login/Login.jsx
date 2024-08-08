@@ -2,6 +2,7 @@ import Input from '../../components/Form/Input/Input';
 import SubmitButton from '../../components/Form/Buttons/SubmitButton';
 import CancelButton from '../../components/Form/Buttons/cancelButton';
 import styles from './Login.module.css';
+import Loader from '../Loader/Loader';
 
 import { useState } from 'react';
 
@@ -55,6 +56,7 @@ function Login() {
             <Input type="text" name="username" labelName="Username / E-mail" />
             <Input type="password" name="password" labelName="Password" />
             <SubmitButton type="submit" name="Submit" />
+            {fetchData && <p>{fetchData.msg}</p>}
           </form>
           <form className={styles.form}>
             <input type="hidden" name="guest_mode" value="true" />
