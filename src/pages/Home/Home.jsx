@@ -1,4 +1,4 @@
-import Posts from '../../components/Post/Post';
+import PostCard from '../../components/PostCard/PostCard';
 import FriendsCard from '../../components/FriendsCard/FriendsCard';
 import styles from './Home.module.css';
 
@@ -7,8 +7,8 @@ function Home() {
     <div className={styles.container}>
       <FriendsCard />
       <div className={styles.posts}>
-        <Posts />
-        <Posts />
+        <PostCard />
+        <PostCard />
       </div>
     </div>
   );

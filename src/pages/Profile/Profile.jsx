@@ -1,4 +1,4 @@
-import Post from '../../components/Post/Post';
+import PostCard from '../../components/PostCard/PostCard';
 import UserCard from '../../components/UserCard/UserCard';
 import styles from './Profile.module.css';
 function Profile() {
@@ -6,8 +6,8 @@ function Profile() {
     <div className={styles.profile}>
       <UserCard />
       <div className={styles.posts}>
-        <Post />
-        <Post />
+        <PostCard />
+        <PostCard />
       </div>
     </div>
   );

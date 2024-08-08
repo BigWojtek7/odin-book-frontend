@@ -2,7 +2,7 @@ import Input from '../../components/Form/Input/Input';
 import SubmitButton from '../../components/Form/Buttons/SubmitButton';
 import CancelButton from '../../components/Form/Buttons/cancelButton';
 import styles from './Login.module.css';
-import Loader from '../Loader/Loader';
+import Loader from '../../components/Loader/Loader';
 
 import { useState } from 'react';
 
@@ -19,7 +19,7 @@ function Login() {
     setIsLoading(true);
     const fetchDataForLogin = async () => {
       try {
-        const url = `${import.meta.env.VITE_BACKEND_URL}/login`;
+        const url = `${import.meta.env.VITE_BACKEND_URL}/users/login`;
         const headers = { 'Content-Type': 'application/json' };
         const data = {
           username: e.target.username.value,

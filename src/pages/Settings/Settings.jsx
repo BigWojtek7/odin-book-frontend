@@ -26,7 +26,7 @@ function Settings() {
       <div className={styles.editProfile}>
         <h2 className={styles.cardHeading}>Change password:</h2>
         <form className={styles.form}>
-          <Input type="password" name="password" labelName="Old password" />
+          <Input type="password" name="old_password" labelName="Old password" />
           <Input type="password" name="password" labelName="Password" />
           <Input
             type="password"

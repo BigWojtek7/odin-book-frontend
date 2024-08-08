@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import getRequestWithNativeFetch from './utils/fetchApiGet';
 
 function App() {
-  const [user, setUser] = useState({ _id: undefined, username: undefined });
+  const [user, setUser] = useState({});
 
   const currentToken = localStorage.getItem('token');
   const [token, setToken] = useState(currentToken);
@@ -14,7 +14,7 @@ function App() {
     if (token) {
       const fetchDataForUsers = async () => {
         try {
-          const url = `${import.meta.env.VITE_BACKEND_URL}/user`;
+          const url = `${import.meta.env.VITE_BACKEND_URL}/users/user`;
           const headers = {
             Authorization: token,
           };
