@@ -1,7 +1,6 @@
 import styles from './Friend.module.css';
 
 function Friend({name, friendsNumber, avatarURL, style}) {
-  console.log(avatarURL)
 
   return (
     <div className={styles.container} style={style}>

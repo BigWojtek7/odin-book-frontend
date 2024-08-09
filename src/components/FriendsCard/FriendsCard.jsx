@@ -21,7 +21,6 @@ function FriendsCard() {
             Authorization: token,
           };
           const friendsData = await getRequestWithNativeFetch(url, headers);
-          console.log(friendsData);
           setFriends(friendsData);
           setIsLoading(false);
         } catch (err) {

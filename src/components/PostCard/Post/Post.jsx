@@ -1,22 +1,18 @@
 import styles from './Post.module.css';
 import Icon from '@mdi/react';
 import { mdiThumbUp, mdiMessage } from '@mdi/js';
-function Post() {
+function Post({date,  author, content, avatarURL}) {
+  console.log(date, avatarURL)
   return (
     <div className={styles.post}>
       <div className={styles.postInfo}>
-        <img src="https://i.pravatar.cc/45" alt="avatar" />
+        <img src={avatarURL} alt="avatar" />
         <div>
-          <p className={styles.name}>James Smith</p>
-          <p className={styles.date}>3 min ago</p>
+          <p className={styles.name}>{author}</p>
+          <p className={styles.date}>{date}</p>
         </div>
       </div>
-      <p className={styles.postContent}>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores
-        voluptate cum vero, similique qui ipsum nostrum nesciunt delectus illum
-        possimus vel nihil, iusto rem veritatis assumenda debitis sint sunt
-        enim.
-      </p>
+      <p className={styles.postContent}>{content}</p>
       <hr />
       <ul className={styles.listIcons}>
         <li className={styles.listItem}>

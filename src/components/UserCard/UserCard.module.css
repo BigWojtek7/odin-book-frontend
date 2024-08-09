@@ -11,6 +11,7 @@
   border-radius: 50%;
   border: var(--input-bd) 4px solid;
   margin-bottom: 0.5em;
+  width: 125px;
 }
 
 .profileMain > * {

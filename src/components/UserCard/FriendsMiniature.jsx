@@ -1,10 +1,10 @@
 import styles from './FriendsMiniature.module.css';
 
-function FriendsMiniature() {
+function FriendsMiniature({name, avatarURL}) {
   return (
     <div className={styles.container}>
-      <img src="https://i.pravatar.cc/45" alt="Friend's avatar miniature" />
-      <p className={styles.name}>Michael Jayson</p>
+      <img src={avatarURL} alt="Friend's avatar miniature" />
+      <p className={styles.name}>{name}</p>
     </div>
   );
 }

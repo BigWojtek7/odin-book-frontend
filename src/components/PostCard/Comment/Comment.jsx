@@ -1,14 +1,50 @@
-import styles from './Comment.module.css'
-function Comment() {
+import { useOutletContext } from 'react-router-dom';
+import getRequestWithNativeFetch from '../../../utils/fetchApiGet';
+import styles from './Comment.module.css';
+import { useEffect, useState } from 'react';
+function Comment({ postId }) {
+  const [comments, setComments] = useState([]);
+  const [token, , user, isLoading, setIsLoading] = useOutletContext();
+  useEffect(() => {
+    setIsLoading(true);
+
+    const fetchDataForMessages = async () => {
+      try {
+        const url = `${
+          import.meta.env.VITE_BACKEND_URL
+        }/posts/${postId}/comments`;
+        const headers = {
+          Authorization: token,
+        };
+        const commentsData = await getRequestWithNativeFetch(url, headers);
+        console.log(commentsData);
+        setComments(commentsData);
+        setIsLoading(false);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchDataForMessages();
+
+    return () => {
+      setComments([]);
+    };
+  }, [setIsLoading, token, postId]);
   return (
-    <div className={styles.comment}>
-      <div><img src="https://i.pravatar.cc/45" alt="avatar" /></div>
-      <div className={styles.commentMain}>
-        <p className={styles.commentName}>James Smith</p>
-        <p className={styles.commentContent}>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laborum tempore adipisci quaerat eligendi corrupti!</p>
-        <p className={styles.commentDate}>18 January at 10:00 AM</p>
-      </div>
-    </div>
-  )
+    <>
+      {comments.map((comment) => (
+        <div className={styles.comment} key={comment.id}>
+          <div className={styles.imgDiv}>
+            <img src={comment.avatar_url} alt="avatar" />
+          </div>
+          <div className={styles.commentMain}>
+            <p className={styles.commentName}>{comment.author}</p>
+            <p className={styles.commentContent}>{comment.content}</p>
+            <p className={styles.commentDate}>{comment.date_format}</p>
+          </div>
+        </div>
+      ))}
+    </>
+  );
 }
-export default Comment
+export default Comment;

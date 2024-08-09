@@ -6,6 +6,11 @@
   margin-bottom: 0.5em;
   gap: 0.5em;
 }
+
+.imgDiv{
+  margin-top: 10px;
+}
+
 .commentName {
   font-weight: 700;
   margin-right: 0.5em;
