@@ -36,3 +36,7 @@ nav {
 .navList li.active svg {
   color: var(--icon-clr);
 }
+
+.navList .logout{
+  color: var(--cancel-clr);
+}

@@ -35,22 +35,28 @@ function Home() {
     };
   }, [setIsLoading, token, user]);
   return (
-    <div className={styles.container}>
-      <FriendsCard />
+    <>
+      {token ? (
+        <div className={styles.container}>
+          <FriendsCard />
 
-      <div className={styles.posts}>
-        {homePosts.map((post) => (
-          <PostCard
-            id={post.post_id}
-            date={post.post_date}
-            author={post.author_name}
-            content={post.post_content}
-            avatarURL={post.avatar_url}
-            key={post.post_id}
-          />
-        ))}
-      </div>
-    </div>
+          <div className={styles.posts}>
+            {homePosts.map((post) => (
+              <PostCard
+                id={post.post_id}
+                date={post.post_date}
+                author={post.author_name}
+                content={post.post_content}
+                avatarURL={post.avatar_url}
+                key={post.post_id}
+              />
+            ))}
+          </div>
+        </div>
+      ) : (
+        <p>Log in first</p>
+      )}
+    </>
   );
 }
 export default Home;
