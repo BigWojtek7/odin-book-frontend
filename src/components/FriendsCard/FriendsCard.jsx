@@ -6,12 +6,10 @@ import getRequestWithNativeFetch from '../../utils/fetchApiGet';
 function FriendsCard() {
   const [friends, setFriends] = useState([]);
   // const [deleteRes, setDeleteRes] = useState({});
-  const [token, , user, isLoading, setIsLoading] = useOutletContext();
-  console.log(user);
+  const [token, , user, ,] = useOutletContext();
+
   useEffect(() => {
     if (user?.user_id) {
-      setIsLoading(true);
-
       const fetchDataForMessages = async () => {
         try {
           const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
@@ -22,7 +20,6 @@ function FriendsCard() {
           };
           const friendsData = await getRequestWithNativeFetch(url, headers);
           setFriends(friendsData);
-          setIsLoading(false);
         } catch (err) {
           console.log(err);
         }
@@ -32,7 +29,7 @@ function FriendsCard() {
     return () => {
       setFriends([]);
     };
-  }, [setIsLoading, token, user]);
+  }, [token, user]);
 
   return (
     <div className={styles.container}>

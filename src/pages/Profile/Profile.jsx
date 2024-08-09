@@ -4,6 +4,7 @@ import UserCard from '../../components/UserCard/UserCard';
 import styles from './Profile.module.css';
 import { useEffect, useState } from 'react';
 import getRequestWithNativeFetch from '../../utils/fetchApiGet';
+import Loader from '../../components/Loader/Loader';
 function Profile() {
   const [profilePosts, setProfilePosts] = useState([]);
   const [token, , user, isLoading, setIsLoading] = useOutletContext();
@@ -22,9 +23,10 @@ function Profile() {
           const postsData = await getRequestWithNativeFetch(url, headers);
           console.log(postsData);
           setProfilePosts(postsData);
-          setIsLoading(false);
         } catch (err) {
           console.log(err);
+        } finally {
+          setIsLoading(false);
         }
       };
       fetchDataForMessages();
@@ -35,14 +37,27 @@ function Profile() {
   }, [setIsLoading, token, user]);
   console.log(profilePosts);
   return (
-    <div className={styles.profile}>
-      <UserCard />
-      <div className={styles.posts}>
-        {profilePosts.map(post => (
-          <PostCard key={post.post_id} id={post.post_id} date={post.date_format} author={post.full_name} content={post.content} avatarURL={user.avatar_url} />
-        ))}
-      </div>
-    </div>
+    <>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <div className={styles.profile}>
+          <UserCard />
+          <div className={styles.posts}>
+            {profilePosts.map((post) => (
+              <PostCard
+                key={post.post_id}
+                id={post.post_id}
+                date={post.date_format}
+                author={post.full_name}
+                content={post.content}
+                avatarURL={user.avatar_url}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 export default Profile;

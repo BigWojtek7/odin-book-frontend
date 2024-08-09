@@ -35,7 +35,7 @@ function SignUp() {
           data
         );
         setFetchData(createUserData);
-        setIsLoading(false);
+        
         if (createUserData.success) {
           const dataToken = createUserData.token;
           localStorage.setItem('token', dataToken);
@@ -44,6 +44,8 @@ function SignUp() {
         }
       } catch (err) {
         console.log(err);
+      }finally{
+        setIsLoading(false);
       }
     };
     fetchDataForCreateUser();

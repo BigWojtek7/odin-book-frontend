@@ -49,9 +49,11 @@ function Requests() {
           };
           const friendsData = await getRequestWithNativeFetch(url, headers);
           setFriendsSuggest(friendsData);
-          setIsLoading(false);
+          
         } catch (err) {
           console.log(err);
+        }finally{
+          setIsLoading(false);
         }
       };
       fetchDataForMessages();

@@ -2,7 +2,6 @@ import styles from './Post.module.css';
 import Icon from '@mdi/react';
 import { mdiThumbUp, mdiMessage } from '@mdi/js';
 function Post({date,  author, content, avatarURL}) {
-  console.log(date, avatarURL)
   return (
     <div className={styles.post}>
       <div className={styles.postInfo}>

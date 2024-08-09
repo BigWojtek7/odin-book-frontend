@@ -4,10 +4,8 @@ import styles from './Comment.module.css';
 import { useEffect, useState } from 'react';
 function Comment({ postId }) {
   const [comments, setComments] = useState([]);
-  const [token, , user, isLoading, setIsLoading] = useOutletContext();
+  const [token, , , ,] = useOutletContext();
   useEffect(() => {
-    setIsLoading(true);
-
     const fetchDataForMessages = async () => {
       try {
         const url = `${
@@ -18,7 +16,6 @@ function Comment({ postId }) {
         };
         const commentsData = await getRequestWithNativeFetch(url, headers);
         setComments(commentsData);
-        setIsLoading(false);
       } catch (err) {
         console.log(err);
       }
@@ -28,7 +25,7 @@ function Comment({ postId }) {
     return () => {
       setComments([]);
     };
-  }, [setIsLoading, token, postId]);
+  }, [token, postId]);
   return (
     <>
       {comments.map((comment) => (

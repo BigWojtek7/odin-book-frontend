@@ -5,3 +5,7 @@
 .posts {
   flex: 1;
 }
+
+.welcomeMessage svg {
+  margin-right: 30px;
+}

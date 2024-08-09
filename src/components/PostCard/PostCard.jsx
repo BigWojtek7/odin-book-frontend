@@ -7,7 +7,6 @@ import AddComment from '../AddComment/AddComment';
 // import getRequestWithNativeFetch from '../../utils/fetchApiGet';
 
 function PostCard({id, date, author, content, avatarURL}) {
-  console.log(id)
   return (
     <>
       <div className={styles.postCard}>

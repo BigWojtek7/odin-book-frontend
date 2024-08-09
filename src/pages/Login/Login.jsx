@@ -32,7 +32,7 @@ function Login() {
           data
         );
         setFetchData(messagesData);
-        setIsLoading(false);
+        
         if (messagesData.success) {
           const dataToken = messagesData.token;
           localStorage.setItem('token', dataToken);
@@ -41,6 +41,8 @@ function Login() {
         }
       } catch (err) {
         console.log(err);
+      }finally{
+        setIsLoading(false);
       }
     };
     fetchDataForLogin();
