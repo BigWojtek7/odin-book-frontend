@@ -23,9 +23,10 @@ function Home() {
           const postsData = await getRequestWithNativeFetch(url, headers);
           console.log(postsData);
           setHomePosts(postsData);
-          setIsLoading(false);
         } catch (err) {
           console.log(err);
+        } finally {
+          setIsLoading(false);
         }
       };
       fetchDataForMessages();

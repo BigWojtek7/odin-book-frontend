@@ -17,7 +17,6 @@ function Comment({ postId }) {
           Authorization: token,
         };
         const commentsData = await getRequestWithNativeFetch(url, headers);
-        console.log(commentsData);
         setComments(commentsData);
         setIsLoading(false);
       } catch (err) {

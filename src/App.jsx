@@ -9,7 +9,7 @@ function App() {
   const currentToken = localStorage.getItem('token');
   const [token, setToken] = useState(currentToken);
   const [isLoading, setIsLoading] = useState(false);
-
+  console.log(isLoading)
   useEffect(() => {
     if (token) {
       const fetchDataForUsers = async () => {

@@ -55,7 +55,7 @@ function Login() {
           <form className={styles.form} onSubmit={handleSubmit}>
             <Input type="text" name="username" labelName="Username / E-mail" />
             <Input type="password" name="password" labelName="Password" />
-            <SubmitButton type="submit" name="Submit" />
+            <SubmitButton type="submit" name="Log In" />
             {fetchData && <p>{fetchData.msg}</p>}
           </form>
           <form className={styles.form}>
