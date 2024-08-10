@@ -6,13 +6,13 @@ import { useOutletContext } from 'react-router-dom';
 import requestWithNativeFetch from '../../utils/fetchApi';
 function AddPost({ avatarURL, isSent, setIsSent }) {
   const [token, , , , setIsLoading] = useOutletContext();
-  console.log(isSent)
+  console.log(isSent);
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
-    const fetchDataForCreateMessage = async () => {
+    const fetchDataForCreatePost = async () => {
       try {
-        const url = `${import.meta.env.VITE_BACKEND_URL}/posts/create`;
+        const url = `${import.meta.env.VITE_BACKEND_URL}/posts`;
         const headers = {
           'Content-Type': 'application/json',
           Authorization: token,
@@ -20,22 +20,23 @@ function AddPost({ avatarURL, isSent, setIsSent }) {
         const data = {
           content: e.target.content.value,
         };
-        const createMessageData = await requestWithNativeFetch(
+        const createPostData = await requestWithNativeFetch(
           url,
           'POST',
           headers,
           data
         );
-        setIsLoading(false);
-        console.log(createMessageData)
-        if (createMessageData.success) {
+        console.log(createPostData);
+        if (createPostData.success) {
           setIsSent(true);
         }
       } catch (err) {
         console.log(err);
+      } finally {
+        setIsLoading(false);
       }
     };
-    fetchDataForCreateMessage();
+    fetchDataForCreatePost();
   };
   return (
     <div className={styles.addPost}>

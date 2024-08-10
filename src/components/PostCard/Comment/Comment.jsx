@@ -2,11 +2,12 @@ import { useOutletContext } from 'react-router-dom';
 import getRequestWithNativeFetch from '../../../utils/fetchApiGet';
 import styles from './Comment.module.css';
 import { useEffect, useState } from 'react';
-function Comment({ postId }) {
+function Comment({ postId, isSentComment }) {
   const [comments, setComments] = useState([]);
   const [token, , , ,] = useOutletContext();
+
   useEffect(() => {
-    const fetchDataForMessages = async () => {
+    const fetchDataForComments = async () => {
       try {
         const url = `${
           import.meta.env.VITE_BACKEND_URL
@@ -20,12 +21,12 @@ function Comment({ postId }) {
         console.log(err);
       }
     };
-    fetchDataForMessages();
+    fetchDataForComments();
 
     return () => {
       setComments([]);
     };
-  }, [token, postId]);
+  }, [token, postId, isSentComment]);
   return (
     <>
       {comments.map((comment) => (

@@ -51,7 +51,7 @@ function Home() {
               <div className={styles.posts}>
                 {homePosts.map((post) => (
                   <PostCard
-                    id={post.post_id}
+                    postId={post.post_id}
                     date={post.post_date}
                     author={post.author_name}
                     content={post.post_content}

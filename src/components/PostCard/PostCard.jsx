@@ -2,11 +2,10 @@ import styles from './PostCard.module.css';
 import Post from './Post/Post';
 import Comment from './Comment/Comment';
 import AddComment from './AddComment/AddComment'
-// import { useEffect, useState } from 'react';
-// import { useOutletContext } from 'react-router-dom';
-// import getRequestWithNativeFetch from '../../utils/fetchApiGet';
+import { useState } from 'react';
 
-function PostCard({ id, date, author, content, avatarURL, postLikes }) {
+function PostCard({ postId, date, author, content, avatarURL, postLikes }) {
+  const [isSentComment, setIsSentComment] = useState(false);
   return (
     <>
       <div className={styles.postCard}>
@@ -17,8 +16,8 @@ function PostCard({ id, date, author, content, avatarURL, postLikes }) {
           avatarURL={avatarURL}
           postLikes={postLikes}
         />
-        <AddComment />
-        <Comment postId={id} />
+        <AddComment setIsSentComment={setIsSentComment} postId={postId} />
+        <Comment postId={postId} isSentComment={isSentComment}/>
       </div>
     </>
   );

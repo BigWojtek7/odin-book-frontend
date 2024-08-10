@@ -46,16 +46,20 @@ function Profile() {
         <div className={styles.profile}>
           <UserCard />
           <div className={styles.posts}>
-            <AddPost avatarURL={user.avatar_url} isSent={isSent} setIsSent={setIsSent}/>
+            <AddPost
+              avatarURL={user.avatar_url}
+              isSent={isSent}
+              setIsSent={setIsSent}
+            />
             {profilePosts.map((post) => (
               <PostCard
-                key={post.post_id}
-                id={post.post_id}
-                date={post.date_format}
-                author={post.full_name}
-                content={post.content}
-                avatarURL={user.avatar_url}
+                postId={post.post_id}
+                date={post.post_date}
+                author={post.author_name}
+                content={post.post_content}
+                avatarURL={post.avatar_url}
                 postLikes={post.post_likes}
+                key={post.post_id}
               />
             ))}
           </div>

@@ -1,17 +1,51 @@
 import SubmitButton from '../../Form/Buttons/SubmitButton';
 import styles from './AddComment.module.css';
 import Textarea from '../../Form/Textarea/Textarea';
-function AddComment() {
+import { useOutletContext } from 'react-router-dom';
+import requestWithNativeFetch from '../../../utils/fetchApi';
+
+function AddComment({ setIsSentComment, postId }) {
+  const [token, , user, , setIsLoading] = useOutletContext();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const fetchDataForCreateComment = async () => {
+      try {
+        const url = `${
+          import.meta.env.VITE_BACKEND_URL
+        }/posts/${postId}/comments`;
+        const headers = {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        };
+        const data = {
+          content: e.target.content.value,
+        };
+        const createCommentData = await requestWithNativeFetch(
+          url,
+          'POST',
+          headers,
+          data
+        );
+        console.log(createCommentData);
+        if (createCommentData.success) {
+          setIsSentComment(true);
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchDataForCreateComment();
+  };
   return (
     <div className={styles.addComment}>
       <div>
-        <img src="https://i.pravatar.cc/45" alt="avatar" />
+        <img src={user.avatar_url} alt="avatar" />
       </div>
-      <form className={styles.commentForm}>
-        <Textarea
-          name="comment"
-          placeholder="Write a comment..."
-        ></Textarea>
+      <form className={styles.commentForm} onSubmit={handleSubmit}>
+        <Textarea name="content" placeholder="Write a comment..."></Textarea>
         <SubmitButton
           type="submit"
           name="Post"
