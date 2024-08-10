@@ -1,5 +1,6 @@
-import SubmitButton from '../Form/Buttons/SubmitButton';
+import SubmitButton from '../../Form/Buttons/SubmitButton';
 import styles from './AddComment.module.css';
+import Textarea from '../../Form/Textarea/Textarea';
 function AddComment() {
   return (
     <div className={styles.addComment}>
@@ -7,11 +8,10 @@ function AddComment() {
         <img src="https://i.pravatar.cc/45" alt="avatar" />
       </div>
       <form className={styles.commentForm}>
-        <textarea
-          className={styles.commentTextarea}
+        <Textarea
           name="comment"
           placeholder="Write a comment..."
-        ></textarea>
+        ></Textarea>
         <SubmitButton
           type="submit"
           name="Post"

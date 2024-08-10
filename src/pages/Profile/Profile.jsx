@@ -4,6 +4,7 @@ import UserCard from '../../components/UserCard/UserCard';
 import styles from './Profile.module.css';
 import { useEffect, useState } from 'react';
 import getRequestWithNativeFetch from '../../utils/fetchApiGet';
+import AddPost from '../../components/AddPost/AddPost';
 import Loader from '../../components/Loader/Loader';
 function Profile() {
   const [profilePosts, setProfilePosts] = useState([]);
@@ -12,7 +13,7 @@ function Profile() {
     if (user?.user_id) {
       setIsLoading(true);
 
-      const fetchDataForMessages = async () => {
+      const fetchDataForPosts = async () => {
         try {
           const url = `${import.meta.env.VITE_BACKEND_URL}/posts/user/${
             user.user_id
@@ -29,7 +30,7 @@ function Profile() {
           setIsLoading(false);
         }
       };
-      fetchDataForMessages();
+      fetchDataForPosts();
     }
     return () => {
       setProfilePosts([]);
@@ -44,6 +45,7 @@ function Profile() {
         <div className={styles.profile}>
           <UserCard />
           <div className={styles.posts}>
+            <AddPost avatarURL={user.avatar_url}/>
             {profilePosts.map((post) => (
               <PostCard
                 key={post.post_id}
@@ -52,6 +54,7 @@ function Profile() {
                 author={post.full_name}
                 content={post.content}
                 avatarURL={user.avatar_url}
+                postLikes={post.post_likes}
               />
             ))}
           </div>

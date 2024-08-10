@@ -56,6 +56,7 @@ function Home() {
                     author={post.author_name}
                     content={post.post_content}
                     avatarURL={post.avatar_url}
+                    postLikes={post.post_likes}
                     key={post.post_id}
                   />
                 ))}

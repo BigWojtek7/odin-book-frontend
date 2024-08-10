@@ -1,7 +1,7 @@
 import styles from './Post.module.css';
 import Icon from '@mdi/react';
 import { mdiThumbUp, mdiMessage } from '@mdi/js';
-function Post({date,  author, content, avatarURL}) {
+function Post({date,  author, content, avatarURL, postLikes}) {
   return (
     <div className={styles.post}>
       <div className={styles.postInfo}>
@@ -16,7 +16,7 @@ function Post({date,  author, content, avatarURL}) {
       <ul className={styles.listIcons}>
         <li className={styles.listItem}>
           <Icon path={mdiThumbUp} size={1} />
-          Like
+          {`Like (${postLikes})`}
         </li>
         <li className={styles.listItem}>
           <Icon path={mdiMessage} size={1} />

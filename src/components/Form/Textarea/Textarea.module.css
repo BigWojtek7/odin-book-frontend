@@ -2,16 +2,19 @@
   display: grid;
   align-items: center;
   gap: 0.5rem;
+  width: 100%;
 }
 
 .textarea {
-  height: 6em;
+  height: 3em;
   width: 100%;
   padding: 0.5em;
   resize: none;
-  background-color: var(--nav-bg);
+  background-color: var(--input-bd);
+  border-radius: 15px;
   color: var(--font-clr);
-  border: var(--input-bd) solid 1px;
+  border: none;
+
 }
 
 .textarea::placeholder {
