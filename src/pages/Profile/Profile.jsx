@@ -8,6 +8,7 @@ import AddPost from '../../components/AddPost/AddPost';
 import Loader from '../../components/Loader/Loader';
 function Profile() {
   const [profilePosts, setProfilePosts] = useState([]);
+  const [isSent, setIsSent] = useState(false);
   const [token, , user, isLoading, setIsLoading] = useOutletContext();
   useEffect(() => {
     if (user?.user_id) {
@@ -35,7 +36,7 @@ function Profile() {
     return () => {
       setProfilePosts([]);
     };
-  }, [setIsLoading, token, user]);
+  }, [setIsLoading, token, user, isSent]);
   console.log(profilePosts);
   return (
     <>
@@ -45,7 +46,7 @@ function Profile() {
         <div className={styles.profile}>
           <UserCard />
           <div className={styles.posts}>
-            <AddPost avatarURL={user.avatar_url}/>
+            <AddPost avatarURL={user.avatar_url} isSent={isSent} setIsSent={setIsSent}/>
             {profilePosts.map((post) => (
               <PostCard
                 key={post.post_id}
