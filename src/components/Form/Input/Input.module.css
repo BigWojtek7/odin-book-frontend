@@ -3,6 +3,7 @@
   align-items: center;
   gap: 0.5rem;
 }
+
 .formGroup input {
   background-color: var(--nav-bg);
   border: solid 1px var(--input-bd);
