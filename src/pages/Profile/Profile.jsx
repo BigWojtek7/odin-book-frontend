@@ -38,9 +38,9 @@ function Profile() {
     return () => {
       setProfilePosts([]);
     };
-  }, [setIsLoading, token, user, isSent]);
+  }, [setIsLoading, token, user, isSent, deleteRes]);
 
-  const handleDelete = (e, postId) => {
+  const handleDeletePost = (e, postId) => {
     e.preventDefault();
     setIsLoading(true);
     const fetchDataForDelete = async () => {
@@ -83,7 +83,7 @@ function Profile() {
                 content={post.post_content}
                 avatarURL={post.avatar_url}
                 postLikes={post.post_likes}
-                
+                handleDeletePost={handleDeletePost}
                 key={post.post_id}
               />
             ))}

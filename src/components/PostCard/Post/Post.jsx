@@ -1,34 +1,16 @@
 import styles from './Post.module.css';
 import Icon from '@mdi/react';
 import { mdiThumbUp, mdiMessage, mdiTrashCan } from '@mdi/js';
-import { useState } from 'react';
-import { useOutletContext } from 'react-router-dom';
-import requestWithNativeFetch from '../../../utils/fetchApi';
-function Post({ postId, date, author, content, avatarURL, postLikes }) {
-  const [deleteRes, setDeleteRes] = useState({});
-  const [token, , user, isLoading, setIsLoading] = useOutletContext();
 
-  const handleDelete = (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    const fetchDataForDelete = async () => {
-      try {
-        const url = `${import.meta.env.VITE_BACKEND_URL}/posts/${postId}`;
-        const headers = { Authorization: token };
-        const deleteData = await requestWithNativeFetch(url, 'DELETE', headers);
-        setDeleteRes(deleteData);
-
-        if (deleteData.success) {
-          setDeleteRes(deleteData);
-        }
-      } catch (err) {
-        console.log(err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchDataForDelete();
-  };
+function Post({
+  postId,
+  date,
+  author,
+  content,
+  avatarURL,
+  postLikes,
+  handleDeletePost,
+}) {
   return (
     <div className={styles.post}>
       <div className={styles.postInfo}>
@@ -49,10 +31,15 @@ function Post({ postId, date, author, content, avatarURL, postLikes }) {
           <Icon path={mdiMessage} size={1} />
           Comment
         </li>
-        <li className={`${styles.listItem} ${styles.deleteItem}`} onClick={handleDelete}>
-          <Icon path={mdiTrashCan} size={1} />
-          Delete
-        </li>
+        {handleDeletePost && (
+          <li
+            className={`${styles.listItem} ${styles.deleteItem}`}
+            onClick={(e) => handleDeletePost(e, postId)}
+          >
+            <Icon path={mdiTrashCan} size={1} />
+            Delete
+          </li>
+        )}
       </ul>
       <hr />
     </div>

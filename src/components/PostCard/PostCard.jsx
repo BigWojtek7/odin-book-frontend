@@ -4,7 +4,7 @@ import Comment from './Comment/Comment';
 import AddComment from './AddComment/AddComment'
 import { useState } from 'react';
 
-function PostCard({ postId, date, author, content, avatarURL, postLikes }) {
+function PostCard({ postId, date, author, content, avatarURL, postLikes, handleDeletePost }) {
   const [isSentComment, setIsSentComment] = useState(false);
   return (
     <>
@@ -16,6 +16,7 @@ function PostCard({ postId, date, author, content, avatarURL, postLikes }) {
           content={content}
           avatarURL={avatarURL}
           postLikes={postLikes}
+          handleDeletePost={handleDeletePost}
         />
         <AddComment setIsSentComment={setIsSentComment} postId={postId} />
         <Comment postId={postId} isSentComment={isSentComment}/>
