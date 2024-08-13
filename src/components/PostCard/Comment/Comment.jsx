@@ -69,13 +69,15 @@ function Comment({ postId, isSentComment }) {
             <p className={styles.commentContent}>{comment.content}</p>
             <div>
               <p className={styles.commentDate}>{comment.date_format}</p>
-              <button
-                className={styles.trashIcon}
-                value={comment.comment_id}
-                onClick={handleDelete}
-              >
-                <Icon path={mdiTrashCan} size={1} />
-              </button>
+              {comment.author_id === user.user_id && (
+                <button
+                  className={styles.trashIcon}
+                  value={comment.comment_id}
+                  onClick={handleDelete}
+                >
+                  <Icon path={mdiTrashCan} size={1} />
+                </button>
+              )}
             </div>
           </div>
         </div>
