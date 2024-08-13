@@ -31,7 +31,7 @@ function App() {
   }, [token]);
   return (
     <>
-      <Navbar token={token} setToken={setToken}/>
+      <Navbar token={token} setToken={setToken} />
       <main>
         <Outlet context={[token, setToken, user, isLoading, setIsLoading]} />
       </main>

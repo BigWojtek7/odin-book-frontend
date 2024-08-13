@@ -6,9 +6,11 @@ import { useEffect, useState } from 'react';
 import getRequestWithNativeFetch from '../../utils/fetchApiGet';
 import AddPost from '../../components/AddPost/AddPost';
 import Loader from '../../components/Loader/Loader';
+import requestWithNativeFetch from '../../utils/fetchApi';
 function Profile() {
   const [profilePosts, setProfilePosts] = useState([]);
   const [isSent, setIsSent] = useState(false);
+  const [deleteRes, setDeleteRes] = useState({});
   const [token, , user, isLoading, setIsLoading] = useOutletContext();
   useEffect(() => {
     if (user?.user_id) {
@@ -37,6 +39,28 @@ function Profile() {
       setProfilePosts([]);
     };
   }, [setIsLoading, token, user, isSent]);
+
+  const handleDelete = (e, postId) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const fetchDataForDelete = async () => {
+      try {
+        const url = `${import.meta.env.VITE_BACKEND_URL}/posts/${postId}`;
+        const headers = { Authorization: token };
+        const deleteData = await requestWithNativeFetch(url, 'DELETE', headers);
+        setDeleteRes(deleteData);
+
+        if (deleteData.success) {
+          setDeleteRes(deleteData);
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchDataForDelete();
+  };
   console.log(profilePosts);
   return (
     <>
@@ -59,6 +83,7 @@ function Profile() {
                 content={post.post_content}
                 avatarURL={post.avatar_url}
                 postLikes={post.post_likes}
+                
                 key={post.post_id}
               />
             ))}

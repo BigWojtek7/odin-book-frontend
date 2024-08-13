@@ -2,9 +2,14 @@ import { useOutletContext } from 'react-router-dom';
 import getRequestWithNativeFetch from '../../../utils/fetchApiGet';
 import styles from './Comment.module.css';
 import { useEffect, useState } from 'react';
+
+import Icon from '@mdi/react';
+import { mdiTrashCan } from '@mdi/js';
+import requestWithNativeFetch from '../../../utils/fetchApi';
 function Comment({ postId, isSentComment }) {
   const [comments, setComments] = useState([]);
-  const [token, , , ,] = useOutletContext();
+  const [token, , user, isLoading, setIsLoading] = useOutletContext();
+  const [deleteRes, setDeleteRes] = useState({});
 
   useEffect(() => {
     const fetchDataForComments = async () => {
@@ -27,6 +32,31 @@ function Comment({ postId, isSentComment }) {
       setComments([]);
     };
   }, [token, postId, isSentComment]);
+
+  const handleDelete = (e) => {
+    e.preventDefault();
+    const commentId = e.currentTarget.value;
+    setIsLoading(true);
+    const fetchDataForDelete = async () => {
+      try {
+        const url = `${
+          import.meta.env.VITE_BACKEND_URL
+        }/posts/comments/${commentId}`;
+        const headers = { Authorization: token };
+        const deleteData = await requestWithNativeFetch(url, 'DELETE', headers);
+        setDeleteRes(deleteData);
+
+        if (deleteData.success) {
+          setDeleteRes(deleteData);
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchDataForDelete();
+  };
   return (
     <>
       {comments.map((comment) => (
@@ -37,7 +67,16 @@ function Comment({ postId, isSentComment }) {
           <div className={styles.commentMain}>
             <p className={styles.commentName}>{comment.author}</p>
             <p className={styles.commentContent}>{comment.content}</p>
-            <p className={styles.commentDate}>{comment.date_format}</p>
+            <div>
+              <p className={styles.commentDate}>{comment.date_format}</p>
+              <button
+                className={styles.trashIcon}
+                value={comment.comment_id}
+                onClick={handleDelete}
+              >
+                <Icon path={mdiTrashCan} size={1} />
+              </button>
+            </div>
           </div>
         </div>
       ))}

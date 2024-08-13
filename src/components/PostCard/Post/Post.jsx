@@ -49,7 +49,7 @@ function Post({ postId, date, author, content, avatarURL, postLikes }) {
           <Icon path={mdiMessage} size={1} />
           Comment
         </li>
-        <li className={styles.listItem} onClick={handleDelete}>
+        <li className={`${styles.listItem} ${styles.deleteItem}`} onClick={handleDelete}>
           <Icon path={mdiTrashCan} size={1} />
           Delete
         </li>
