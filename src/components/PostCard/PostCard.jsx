@@ -11,6 +11,7 @@ function PostCard({ postId, date, author, content, avatarURL, postLikes }) {
       <div className={styles.postCard}>
         <Post
           date={date}
+          postId={postId}
           author={author}
           content={content}
           avatarURL={avatarURL}
