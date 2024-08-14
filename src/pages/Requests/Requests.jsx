@@ -10,6 +10,7 @@ function Requests() {
   const [requests, setRequests] = useState([]);
   const [friendsSuggest, setFriendsSuggest] = useState([]);
   const [addFollower, setAddFollower] = useState({});
+  const [deleteRequestRes, setDeleteRequestRes] = useState({});
   const [token, , user, isLoading, setIsLoading] = useOutletContext();
   console.log(user);
   useEffect(() => {
@@ -44,7 +45,9 @@ function Requests() {
 
       const fetchDataForFriendsSuggestion = async () => {
         try {
-          const url = `${import.meta.env.VITE_BACKEND_URL}/users/all`;
+          const url = `${import.meta.env.VITE_BACKEND_URL}/users/suggestion/${
+            user.user_id
+          }`;
           const headers = {
             Authorization: token,
           };
@@ -67,7 +70,7 @@ function Requests() {
   const handleAddFollower = (e) => {
     e.preventDefault();
     const followerId = e.target.follower_id.value;
-    console.log(followerId)
+    console.log(followerId);
     setIsLoading(true);
     const fetchDataForAddFollower = async () => {
       try {
@@ -92,6 +95,31 @@ function Requests() {
       }
     };
     fetchDataForAddFollower();
+  };
+
+  const handleDeleteRequest = (e) => {
+    e.preventDefault();
+    const requestId = e.target.request_id.value;
+    setIsLoading(true);
+    const fetchDataForDelete = async () => {
+      try {
+        const url = `${
+          import.meta.env.VITE_BACKEND_URL
+        }/posts/comments/${requestId}`;
+        const headers = { Authorization: token };
+        const deleteData = await requestWithNativeFetch(url, 'DELETE', headers);
+        setDeleteRequestRes(deleteData);
+
+        if (deleteData.success) {
+          setDeleteRequestRes(deleteData);
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchDataForDelete();
   };
   return (
     <div className={styles.container}>
@@ -120,8 +148,8 @@ function Requests() {
                 }}
               />
             </form>
-            <form className={styles.form}>
-              <input type="hidden" name="delete_request" value="34657" />
+            <form className={styles.form} onSubmit={handleDeleteRequest}>
+              <input type="hidden" name="request_id" value={request.id} />
               <CancelButton
                 type="submit"
                 name="Delete"
@@ -144,24 +172,18 @@ function Requests() {
               friendsNumber={friend.user_followers_count}
               avatarURL={friend.avatar_url}
             />
-            <SubmitButton
-              type="submit"
-              name="Confirm"
-              style={{
-                fontSize: '1rem',
-                marginLeft: '0.5em',
-                borderRadius: '10px',
-              }}
-            />
-            <CancelButton
-              type="submit"
-              name="Delete"
-              style={{
-                fontSize: '1rem',
-                marginLeft: '0.5em',
-                borderRadius: '10px',
-              }}
-            />
+            <form className={styles.form} onSubmit={handleAddFollower}>
+              <input type="hidden" name="follower_id" value={friend.user_id} />
+              <SubmitButton
+                type="submit"
+                name="Confirm"
+                style={{
+                  width: '100%',
+                  fontSize: '1rem',
+                  borderRadius: '10px',
+                }}
+              />
+            </form>
           </div>
         ))}
       </div>
