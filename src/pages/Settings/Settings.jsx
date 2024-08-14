@@ -3,9 +3,11 @@ import Input from '../../components/Form/Input/Input';
 import SubmitButton from '../../components/Form/Buttons/SubmitButton';
 import Textarea from '../../components/Form/Textarea/Textarea';
 import { useState } from 'react';
-import { useOutletContext } from 'react-router-dom';
+import { Link, useOutletContext } from 'react-router-dom';
 import requestWithNativeFetch from '../../utils/fetchApi';
 import Loader from '../../components/Loader/Loader';
+import Icon from '@mdi/react';
+import { mdiLogin } from '@mdi/js';
 
 function Settings() {
   const [token, setToken, user, isLoading, setIsLoading] = useOutletContext();
@@ -18,7 +20,9 @@ function Settings() {
     setIsLoading(true);
     const fetchDataForChangePassword = async () => {
       try {
-        const url = `${import.meta.env.VITE_BACKEND_URL}/${user._id}/password`;
+        const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
+          user.user_id
+        }/password`;
         const headers = {
           'Content-Type': 'application/json',
           Authorization: token,
@@ -53,7 +57,7 @@ function Settings() {
     <>
       {isLoading ? (
         <Loader />
-      ) : (
+      ) : !isUpdated ? (
         <div className={styles.container}>
           <div className={styles.profilAvatar}>
             <h2 className={styles.cardHeading}>Edit Avatar:</h2>
@@ -88,8 +92,19 @@ function Settings() {
                 labelName="Reenter Password"
               />
               <SubmitButton type="submit" name="Submit" />
+              {passwordFetch &&
+                passwordFetch.msg.map((err, index) => (
+                  <p key={index}>{err.msg}</p>
+                ))}
             </form>
           </div>
+        </div>
+      ) : (
+        <div className={styles.profileEdited}>
+          <p>{passwordFetch?.msg}</p>
+          <Link className={styles.login} to="/login">
+            <Icon path={mdiLogin} size={5} color="#84cc16"></Icon>
+          </Link>
         </div>
       )}
     </>
