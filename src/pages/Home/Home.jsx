@@ -15,7 +15,7 @@ function Home() {
     if (token && user?.user_id) {
       setIsLoading(true);
 
-      const fetchDataForMessages = async () => {
+      const fetchDataForPosts = async () => {
         try {
           const url = `${import.meta.env.VITE_BACKEND_URL}/posts/${
             user.user_id
@@ -32,7 +32,7 @@ function Home() {
           setIsLoading(false);
         }
       };
-      fetchDataForMessages();
+      fetchDataForPosts();
     }
     return () => {
       setHomePosts([]);

@@ -42,7 +42,7 @@ function UserCard() {
       <div className={styles.profileFriends}>
         {friendsMiniatures.map((friend) => (
           <FriendsMiniature
-            key={friend.id}
+            key={friend.follower_id}
             name={friend.follower_name}
             avatarURL={friend.avatar_url}
           />

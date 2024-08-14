@@ -10,7 +10,7 @@ function FriendsCard() {
 
   useEffect(() => {
     if (user?.user_id) {
-      const fetchDataForMessages = async () => {
+      const fetchDataForFriend = async () => {
         try {
           const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
             user.user_id
@@ -24,7 +24,7 @@ function FriendsCard() {
           console.log(err);
         }
       };
-      fetchDataForMessages();
+      fetchDataForFriend();
     }
     return () => {
       setFriends([]);
@@ -36,7 +36,7 @@ function FriendsCard() {
       <h2>Friends:</h2>
       {friends.map((follower) => (
         <Friend
-          key={follower.id}
+          key={follower.follower_id}
           name={follower.follower_name}
           friendsNumber={follower.user_followers_count}
           avatarURL={follower.avatar_url}

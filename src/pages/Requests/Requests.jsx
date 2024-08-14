@@ -5,17 +5,18 @@ import CancelButton from '../../components/Form/Buttons/cancelButton';
 import { useEffect, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import getRequestWithNativeFetch from '../../utils/fetchApiGet';
+import requestWithNativeFetch from '../../utils/fetchApi';
 function Requests() {
   const [requests, setRequests] = useState([]);
   const [friendsSuggest, setFriendsSuggest] = useState([]);
-  // const [deleteRes, setDeleteRes] = useState({});
+  const [addFollower, setAddFollower] = useState({});
   const [token, , user, isLoading, setIsLoading] = useOutletContext();
   console.log(user);
   useEffect(() => {
     if (user?.user_id) {
       setIsLoading(true);
 
-      const fetchDataForMessages = async () => {
+      const fetchDataForRequests = async () => {
         try {
           const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
             user.user_id
@@ -30,18 +31,18 @@ function Requests() {
           console.log(err);
         }
       };
-      fetchDataForMessages();
+      fetchDataForRequests();
     }
     return () => {
       setRequests([]);
     };
-  }, [setIsLoading, token, user]);
+  }, [setIsLoading, token, user, addFollower]);
 
   useEffect(() => {
     if (user?.user_id) {
       setIsLoading(true);
 
-      const fetchDataForMessages = async () => {
+      const fetchDataForFriendsSuggestion = async () => {
         try {
           const url = `${import.meta.env.VITE_BACKEND_URL}/users/all`;
           const headers = {
@@ -49,33 +50,66 @@ function Requests() {
           };
           const friendsData = await getRequestWithNativeFetch(url, headers);
           setFriendsSuggest(friendsData);
-          
         } catch (err) {
           console.log(err);
-        }finally{
+        } finally {
           setIsLoading(false);
         }
       };
-      fetchDataForMessages();
+      fetchDataForFriendsSuggestion();
     }
     return () => {
-      setRequests([]);
+      setFriendsSuggest([]);
     };
   }, [setIsLoading, token, user]);
   console.log(friendsSuggest);
+
+  const handleAddFollower = (e) => {
+    e.preventDefault();
+    const followerId = e.target.follower_id.value;
+    console.log(followerId)
+    setIsLoading(true);
+    const fetchDataForAddFollower = async () => {
+      try {
+        const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
+          user.user_id
+        }/followers/${followerId}`;
+        const headers = { Authorization: token };
+        const addFollowerData = await requestWithNativeFetch(
+          url,
+          'POST',
+          headers
+        );
+        setAddFollower(addFollowerData);
+
+        if (addFollowerData.success) {
+          setAddFollower(addFollowerData);
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchDataForAddFollower();
+  };
   return (
     <div className={styles.container}>
       <div className={styles.sideCard}>
         <h2 className={styles.sideHeading}>Following Requests:</h2>
         {requests.map((request) => (
-          <div className={styles.usersCard} key={request.id}>
+          <div className={styles.usersCard} key={request.follower_id}>
             <Friend
               name={request.follower_name}
               friendsNumber={request.user_followers_count}
               avatarURL={request.avatar_url}
             />
-            <form className={styles.form}>
-              <input type="hidden" name="confirm_friend" value={'34657'} />
+            <form className={styles.form} onSubmit={handleAddFollower}>
+              <input
+                type="hidden"
+                name="follower_id"
+                value={request.follower_id}
+              />
               <SubmitButton
                 type="submit"
                 name="Confirm"

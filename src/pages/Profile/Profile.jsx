@@ -43,7 +43,7 @@ function Profile() {
   const handleDeletePost = (e, postId) => {
     e.preventDefault();
     setIsLoading(true);
-    const fetchDataForDelete = async () => {
+    const fetchDataForDeletePost = async () => {
       try {
         const url = `${import.meta.env.VITE_BACKEND_URL}/posts/${postId}`;
         const headers = { Authorization: token };
@@ -59,7 +59,7 @@ function Profile() {
         setIsLoading(false);
       }
     };
-    fetchDataForDelete();
+    fetchDataForDeletePost();
   };
   console.log(profilePosts);
   return (
