@@ -13,9 +13,39 @@ function Profile() {
   const [deleteRes, setDeleteRes] = useState({});
   const [token, , user, isLoading, setIsLoading] = useOutletContext();
 
-  const { userid } = useParams();
+  const [followerProfile, setFollowerProfile] = useState();
 
-  
+  const { followerid } = useParams();
+
+  const isFollowerProfile = followerid !== 'profile';
+
+  const profileUser = isFollowerProfile ? followerProfile : user;
+
+  console.log(profileUser);
+  useEffect(() => {
+    if (token && isFollowerProfile) {
+      console.log('fetchingData...');
+      const fetchDataForUsers = async () => {
+        try {
+          const url = `${
+            import.meta.env.VITE_BACKEND_URL
+          }/users/${followerid}/profile`;
+          const headers = {
+            Authorization: token,
+          };
+          const userData = await getRequestWithNativeFetch(url, headers);
+          setFollowerProfile(userData);
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      fetchDataForUsers();
+    }
+    return () => {
+      setFollowerProfile([]);
+    };
+  }, [token, isFollowerProfile, followerid]);
+
   useEffect(() => {
     if (user?.user_id) {
       setIsLoading(true);
