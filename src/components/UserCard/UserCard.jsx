@@ -43,6 +43,7 @@ function UserCard({user}) {
         {friendsMiniatures.map((friend) => (
           <FriendsMiniature
             key={friend.follower_id}
+            followerId={friend.follower_id}
             name={friend.follower_name}
             avatarURL={friend.avatar_url}
           />
