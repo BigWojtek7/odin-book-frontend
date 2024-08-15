@@ -1,4 +1,4 @@
-import { useOutletContext } from 'react-router-dom';
+import { useOutletContext, useParams } from 'react-router-dom';
 import PostCard from '../../components/PostCard/PostCard';
 import UserCard from '../../components/UserCard/UserCard';
 import styles from './Profile.module.css';
@@ -12,6 +12,10 @@ function Profile() {
   const [isSent, setIsSent] = useState(false);
   const [deleteRes, setDeleteRes] = useState({});
   const [token, , user, isLoading, setIsLoading] = useOutletContext();
+
+  const { userid } = useParams();
+
+  
   useEffect(() => {
     if (user?.user_id) {
       setIsLoading(true);

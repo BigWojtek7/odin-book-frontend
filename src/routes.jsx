@@ -14,7 +14,7 @@ const routes = [
       { index: true, element: <Home /> },
       { path: 'login', element: <Login /> },
       { path: 'sign-up', element: <SignUp /> },
-      { path: 'profile', element: <Profile /> },
+      { path: 'profile?/:followerid', element: <Profile /> },
       { path: 'requests', element: <Requests /> },
       { path: 'settings', element: <Settings /> },
     ],
