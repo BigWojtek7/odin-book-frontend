@@ -8,7 +8,7 @@ import { mdiTrashCan } from '@mdi/js';
 import requestWithNativeFetch from '../../../utils/fetchApi';
 function Comment({ postId, isSentComment }) {
   const [comments, setComments] = useState([]);
-  const [token, , user, isLoading, setIsLoading] = useOutletContext();
+  const [token, , user, , setIsLoading] = useOutletContext();
   const [deleteRes, setDeleteRes] = useState({});
 
   useEffect(() => {

@@ -75,8 +75,8 @@ function Settings() {
         setProfileFetch(profileChangeData);
 
         if (profileChangeData.success) {
-          setUpdateUser(true)
-          setIsUpdated(true)
+          setUpdateUser(true);
+          setIsUpdated(true);
           // localStorage.removeItem('token');
           // setToken(null);
         }
