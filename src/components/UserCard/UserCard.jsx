@@ -32,13 +32,13 @@ function UserCard({user}) {
   
   return (
     <div className={styles.card}>
-      <img className={styles.profileImage} src={user.avatar_url} alt="avatar" />
+      <img className={styles.profileImage} src={user?.avatar_url} alt="avatar" />
       <div className={styles.profileMain}>
-        <h2 className={styles.profileName}>{user.full_name}</h2>
-        <p className={styles.profilePosition}>{user.profession}</p>
-        <p className={styles.profileBody}>{user.about}</p>
+        <h2 className={styles.profileName}>{user?.full_name}</h2>
+        <p className={styles.profilePosition}>{user?.profession}</p>
+        <p className={styles.profileBody}>{user?.about}</p>
       </div>
-      <h2>{`${user.user_followers_count} friends:`}</h2>
+      <h2>{`${user?.user_followers_count} friends:`}</h2>
       <div className={styles.profileFriends}>
         {friendsMiniatures.map((friend) => (
           <FriendsMiniature

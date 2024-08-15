@@ -11,20 +11,22 @@ function Profile() {
   const [profilePosts, setProfilePosts] = useState([]);
   const [isSent, setIsSent] = useState(false);
   const [deleteRes, setDeleteRes] = useState({});
+
   const [token, , user, isLoading, setIsLoading] = useOutletContext();
 
   const [followerProfile, setFollowerProfile] = useState();
+  const [profileUser, setProfileUser] = useState({});
 
   const { followerid } = useParams();
 
   const isFollowerProfile = followerid !== 'profile';
 
-  const profileUser = isFollowerProfile ? followerProfile : user;
+  useEffect(() => {
+    setProfileUser(isFollowerProfile ? followerProfile : user);
+  }, [followerProfile, isFollowerProfile, user]);
 
-  console.log(profileUser);
   useEffect(() => {
     if (token && isFollowerProfile) {
-      console.log('fetchingData...');
       const fetchDataForUsers = async () => {
         try {
           const url = `${
@@ -47,9 +49,9 @@ function Profile() {
   }, [token, isFollowerProfile, followerid]);
 
   useEffect(() => {
-    if (user?.user_id) {
+    if (profileUser?.user_id) {
       setIsLoading(true);
-
+      console.log('woltix');
       const fetchDataForPosts = async () => {
         try {
           const url = `${import.meta.env.VITE_BACKEND_URL}/posts/user/${
@@ -72,7 +74,7 @@ function Profile() {
     return () => {
       setProfilePosts([]);
     };
-  }, [setIsLoading, token, user, isSent, deleteRes]);
+  }, [setIsLoading, token, profileUser, isSent, deleteRes]);
 
   const handleDeletePost = (e, postId) => {
     e.preventDefault();
@@ -102,7 +104,7 @@ function Profile() {
         <Loader />
       ) : (
         <div className={styles.profile}>
-          <UserCard user={profileUser}/>
+          <UserCard user={profileUser} />
           <div className={styles.posts}>
             <AddPost
               avatarURL={user.avatar_url}

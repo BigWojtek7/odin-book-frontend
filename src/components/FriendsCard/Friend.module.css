@@ -9,6 +9,10 @@
 .friendInfo {
   padding: 0 0.5em;
 }
+.name{
+  text-decoration: none;
+  color: inherit;
+}
 
 .friendsNumber {
   font-size: 0.8em;

@@ -37,6 +37,7 @@ function FriendsCard() {
       {friends.map((follower) => (
         <Friend
           key={follower.follower_id}
+          followerId={follower.follower_id}
           name={follower.follower_name}
           friendsNumber={follower.user_followers_count}
           avatarURL={follower.avatar_url}

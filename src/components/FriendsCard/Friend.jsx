@@ -1,12 +1,14 @@
+import { Link } from 'react-router-dom';
 import styles from './Friend.module.css';
 
-function Friend({name, friendsNumber, avatarURL, style}) {
-
+function Friend({ followerId, name, friendsNumber, avatarURL, style }) {
   return (
     <div className={styles.container} style={style}>
       <img src={avatarURL} alt="Friend's Avatar" />
       <div className={styles.friendInfo}>
-        <p className={styles.name}>{name}</p>
+        <Link to={`profile/${followerId}`} className={styles.name}>
+          {name}
+        </Link>
         <p className={styles.friendsNumber}>{`${friendsNumber} friends`}</p>
       </div>
     </div>
