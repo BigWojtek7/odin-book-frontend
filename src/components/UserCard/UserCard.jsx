@@ -3,16 +3,16 @@ import FriendsMiniature from './FriendsMiniature';
 import { useOutletContext } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import getRequestWithNativeFetch from '../../utils/fetchApiGet';
-function UserCard({user}) {
-  const [token, , , ,] = useOutletContext();
+function UserCard({ profileUser }) {
+  const [token, ,user , ,] = useOutletContext();
   const [friendsMiniatures, setFriendsMiniatures] = useState([]);
 
   useEffect(() => {
-    if (user?.user_id) {
+    if (profileUser?.user_id) {
       const fetchDataForMiniatures = async () => {
         try {
           const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
-            user.user_id
+            profileUser.user_id
           }/followers`;
           const headers = {
             Authorization: token,
@@ -28,22 +28,28 @@ function UserCard({user}) {
     return () => {
       setFriendsMiniatures([]);
     };
-  }, [token, user]);
-  
+  }, [token, profileUser]);
+
   return (
     <div className={styles.card}>
-      <img className={styles.profileImage} src={user?.avatar_url} alt="avatar" />
+      <img
+        className={styles.profileImage}
+        src={profileUser?.avatar_url}
+        alt="avatar"
+      />
       <div className={styles.profileMain}>
-        <h2 className={styles.profileName}>{user?.full_name}</h2>
-        <p className={styles.profilePosition}>{user?.profession}</p>
-        <p className={styles.profileBody}>{user?.about}</p>
+        <h2 className={styles.profileName}>{profileUser?.full_name}</h2>
+        <p className={styles.profilePosition}>{profileUser?.profession}</p>
+        <p className={styles.profileBody}>{profileUser?.about}</p>
       </div>
-      <h2>{`${user?.user_followers_count} friends:`}</h2>
+      <h2>{`${profileUser?.user_followers_count} friends:`}</h2>
       <div className={styles.profileFriends}>
         {friendsMiniatures.map((friend) => (
           <FriendsMiniature
             key={friend.follower_id}
-            followerId={friend.follower_id}
+            followerId={
+              user.user_id === friend.follower_id ? '#' : friend.follower_id
+            }
             name={friend.follower_name}
             avatarURL={friend.avatar_url}
           />

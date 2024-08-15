@@ -34,7 +34,13 @@ function Navbar({ token, setToken }) {
                 Home
               </Link>
             </li>
-            <li className={pathname === '/profile' ? styles.active : undefined}>
+            <li
+              className={
+                pathname === '/profile' || pathname === '/profile/'
+                  ? styles.active
+                  : undefined
+              }
+            >
               <Link to="profile">
                 <Icon path={mdiAccount} size={1.4} />
                 Profile

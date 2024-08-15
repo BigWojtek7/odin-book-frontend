@@ -66,7 +66,9 @@ function Comment({ postId, isSentComment }) {
           </div>
           <div className={styles.commentMain}>
             <Link
-              to={`/profile/${comment.author_id}`}
+              to={`/profile/${
+                user.user_id === comment.author_id ? '#' : comment.author_id
+              }`}
               className={styles.commentName}
             >
               {comment.author_name}

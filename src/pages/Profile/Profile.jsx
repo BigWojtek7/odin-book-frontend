@@ -98,13 +98,14 @@ function Profile() {
     fetchDataForDeletePost();
   };
 
+
   return (
     <>
       {isLoading ? (
         <Loader />
       ) : (
         <div className={styles.profile}>
-          <UserCard user={profileUser} />
+          <UserCard profileUser={profileUser} />
           <div className={styles.posts}>
             <AddPost
               avatarURL={user.avatar_url}
@@ -116,6 +117,7 @@ function Profile() {
                 postId={post.post_id}
                 date={post.post_date}
                 author={post.author_name}
+                authorId={isFollowerProfile ? post.author_id : '#'}
                 content={post.post_content}
                 avatarURL={post.avatar_url}
                 postLikes={post.post_likes}
