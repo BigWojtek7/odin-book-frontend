@@ -20,6 +20,10 @@
 .deleteItem {
   cursor: pointer;
 }
+.name {
+  text-decoration: none;
+  color: inherit;
+}
 
 hr {
   opacity: 0.3;

@@ -54,6 +54,7 @@ function Home() {
                     postId={post.post_id}
                     date={post.post_date}
                     author={post.author_name}
+                    authorId={post.author_id}
                     content={post.post_content}
                     avatarURL={post.avatar_url}
                     postLikes={post.post_likes}

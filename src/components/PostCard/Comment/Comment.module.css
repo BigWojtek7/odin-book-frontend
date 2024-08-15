@@ -13,6 +13,8 @@
 .commentName {
   font-weight: 700;
   margin-right: 0.5em;
+  text-decoration: none;
+  color: inherit;
 }
 
 .commentContent,

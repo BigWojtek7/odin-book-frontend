@@ -1,4 +1,4 @@
-import { useOutletContext } from 'react-router-dom';
+import { Link, useOutletContext } from 'react-router-dom';
 import getRequestWithNativeFetch from '../../../utils/fetchApiGet';
 import styles from './Comment.module.css';
 import { useEffect, useState } from 'react';
@@ -65,7 +65,12 @@ function Comment({ postId, isSentComment }) {
             <img src={comment.avatar_url} alt="avatar" />
           </div>
           <div className={styles.commentMain}>
-            <p className={styles.commentName}>{comment.author}</p>
+            <Link
+              to={`/profile/${comment.author_id}`}
+              className={styles.commentName}
+            >
+              {comment.author_name}
+            </Link>
             <p className={styles.commentContent}>{comment.content}</p>
             <div>
               <p className={styles.commentDate}>{comment.date_format}</p>

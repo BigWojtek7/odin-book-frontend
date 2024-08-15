@@ -1,11 +1,12 @@
 import styles from './Post.module.css';
 import Icon from '@mdi/react';
 import { mdiThumbUp, mdiMessage, mdiTrashCan } from '@mdi/js';
-
+import { Link } from 'react-router-dom';
 function Post({
   postId,
   date,
   author,
+  authorId,
   content,
   avatarURL,
   postLikes,
@@ -16,7 +17,9 @@ function Post({
       <div className={styles.postInfo}>
         <img src={avatarURL} alt="avatar" />
         <div>
-          <p className={styles.name}>{author}</p>
+          <Link className={styles.name} to={`/profile/${authorId}`}>
+            <p>{author}</p>
+          </Link>
           <p className={styles.date}>{date}</p>
         </div>
       </div>
