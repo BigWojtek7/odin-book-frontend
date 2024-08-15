@@ -6,7 +6,7 @@ function Friend({ followerId, name, friendsNumber, avatarURL, style }) {
     <div className={styles.container} style={style}>
       <img src={avatarURL} alt="Friend's Avatar" />
       <div className={styles.friendInfo}>
-        <Link to={`profile/${followerId}`} className={styles.name}>
+        <Link to={`../profile/${followerId}`} className={styles.name}>
           {name}
         </Link>
         <p className={styles.friendsNumber}>{`${friendsNumber} friends`}</p>

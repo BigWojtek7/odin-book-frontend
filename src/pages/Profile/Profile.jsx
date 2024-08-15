@@ -27,7 +27,7 @@ function Profile() {
 
   useEffect(() => {
     if (token && isFollowerProfile) {
-      const fetchDataForUsers = async () => {
+      const fetchDataForProfile = async () => {
         try {
           const url = `${
             import.meta.env.VITE_BACKEND_URL
@@ -41,7 +41,7 @@ function Profile() {
           console.log(err);
         }
       };
-      fetchDataForUsers();
+      fetchDataForProfile();
     }
     return () => {
       setFollowerProfile([]);

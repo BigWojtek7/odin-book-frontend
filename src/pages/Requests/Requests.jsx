@@ -45,9 +45,9 @@ function Requests() {
 
       const fetchDataForFriendsSuggestion = async () => {
         try {
-          const url = `${import.meta.env.VITE_BACKEND_URL}/users/suggestion/${
+          const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
             user.user_id
-          }`;
+          }/suggestions`;
           const headers = {
             Authorization: token,
           };
@@ -128,6 +128,7 @@ function Requests() {
         {requests.map((request) => (
           <div className={styles.usersCard} key={request.follower_id}>
             <Friend
+              followerId={request.follower_id}
               name={request.follower_name}
               friendsNumber={request.user_followers_count}
               avatarURL={request.avatar_url}
@@ -168,6 +169,7 @@ function Requests() {
         {friendsSuggest.map((friend) => (
           <div className={styles.usersCard} key={friend.user_id}>
             <Friend
+              followerId={friend.user_id}
               name={friend.full_name}
               friendsNumber={friend.user_followers_count}
               avatarURL={friend.avatar_url}
