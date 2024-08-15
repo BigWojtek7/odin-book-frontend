@@ -24,7 +24,7 @@ function Home() {
             Authorization: token,
           };
           const postsData = await getRequestWithNativeFetch(url, headers);
-          console.log(postsData);
+
           setHomePosts(postsData);
         } catch (err) {
           console.log(err);

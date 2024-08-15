@@ -27,7 +27,6 @@ function AddComment({ setIsSentComment, postId }) {
           headers,
           data
         );
-        console.log(createCommentData);
         if (createCommentData.success) {
           setIsSentComment(true);
         }

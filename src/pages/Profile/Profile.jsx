@@ -25,7 +25,7 @@ function Profile() {
             Authorization: token,
           };
           const postsData = await getRequestWithNativeFetch(url, headers);
-          console.log(postsData);
+
           setProfilePosts(postsData);
         } catch (err) {
           console.log(err);
@@ -61,7 +61,7 @@ function Profile() {
     };
     fetchDataForDeletePost();
   };
-  console.log(profilePosts);
+
   return (
     <>
       {isLoading ? (

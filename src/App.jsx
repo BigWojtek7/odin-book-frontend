@@ -8,9 +8,11 @@ function App() {
 
   const currentToken = localStorage.getItem('token');
   const [token, setToken] = useState(currentToken);
+  const [updateUser, setUpdateUser] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     if (token) {
+      console.log('fetchingData...');
       const fetchDataForUsers = async () => {
         try {
           const url = `${import.meta.env.VITE_BACKEND_URL}/users/user`;
@@ -21,6 +23,8 @@ function App() {
           setUser(userData);
         } catch (err) {
           console.log(err);
+        } finally {
+          setUpdateUser(false);
         }
       };
       fetchDataForUsers();
@@ -28,12 +32,21 @@ function App() {
     return () => {
       setUser([]);
     };
-  }, [token]);
+  }, [token, updateUser]);
   return (
     <>
       <Navbar token={token} setToken={setToken} />
       <main>
-        <Outlet context={[token, setToken, user, isLoading, setIsLoading]} />
+        <Outlet
+          context={[
+            token,
+            setToken,
+            user,
+            isLoading,
+            setIsLoading,
+            setUpdateUser,
+          ]}
+        />
       </main>
     </>
   );

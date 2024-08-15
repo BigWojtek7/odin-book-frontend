@@ -7,10 +7,10 @@ import { Link, useOutletContext } from 'react-router-dom';
 import requestWithNativeFetch from '../../utils/fetchApi';
 import Loader from '../../components/Loader/Loader';
 import Icon from '@mdi/react';
-import { mdiLogin } from '@mdi/js';
+import { mdiAccount } from '@mdi/js';
 
 function Settings() {
-  const [token, setToken, user, isLoading, setIsLoading] =
+  const [token, setToken, user, isLoading, setIsLoading, setUpdateUser] =
     useOutletContext();
   const [passwordFetch, setPasswordFetch] = useState(null);
   const [profileFetch, setProfileFetch] = useState(null);
@@ -75,9 +75,10 @@ function Settings() {
         setProfileFetch(profileChangeData);
 
         if (profileChangeData.success) {
+          setUpdateUser(true)
           setIsUpdated(true)
-          localStorage.removeItem('token');
-          setToken(null);
+          // localStorage.removeItem('token');
+          // setToken(null);
         }
       } catch (err) {
         console.log(err);
@@ -218,8 +219,8 @@ function Settings() {
       ) : (
         <div className={styles.profileEdited}>
           <p>{passwordFetch?.msg || profileFetch?.msg}</p>
-          <Link className={styles.login} to="/login">
-            <Icon path={mdiLogin} size={5} color="var(--icon-clr"></Icon>
+          <Link className={styles.login} to="/profile">
+            <Icon path={mdiAccount} size={5} color="var(--icon-clr"></Icon>
           </Link>
         </div>
       )}

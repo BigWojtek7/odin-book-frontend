@@ -6,7 +6,7 @@ import { useOutletContext } from 'react-router-dom';
 import requestWithNativeFetch from '../../utils/fetchApi';
 function AddPost({ avatarURL, isSent, setIsSent }) {
   const [token, , , , setIsLoading] = useOutletContext();
-  console.log(isSent);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
