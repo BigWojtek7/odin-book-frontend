@@ -53,7 +53,7 @@ function Profile() {
       const fetchDataForPosts = async () => {
         try {
           const url = `${import.meta.env.VITE_BACKEND_URL}/posts/user/${
-            user.user_id
+            profileUser.user_id
           }`;
           const headers = {
             Authorization: token,
@@ -102,7 +102,7 @@ function Profile() {
         <Loader />
       ) : (
         <div className={styles.profile}>
-          <UserCard />
+          <UserCard user={profileUser}/>
           <div className={styles.posts}>
             <AddPost
               avatarURL={user.avatar_url}

@@ -3,8 +3,8 @@ import FriendsMiniature from './FriendsMiniature';
 import { useOutletContext } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import getRequestWithNativeFetch from '../../utils/fetchApiGet';
-function UserCard() {
-  const [token, , user, ,] = useOutletContext();
+function UserCard({user}) {
+  const [token, , , ,] = useOutletContext();
   const [friendsMiniatures, setFriendsMiniatures] = useState([]);
 
   useEffect(() => {
