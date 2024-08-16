@@ -15,7 +15,8 @@ function Requests() {
 
   const [deleteRequestRes, setDeleteRequestRes] = useState({});
 
-  const [token, , user, isLoading, setIsLoading] = useOutletContext();
+  const [token, , user, isLoading, setIsLoading, setUpdateUser] =
+    useOutletContext();
   console.log(user);
 
   useEffect(() => {
@@ -118,6 +119,7 @@ function Requests() {
 
         if (addFollowerData.success) {
           setAddFollower(addFollowerData);
+          setUpdateUser(true);
         }
       } catch (err) {
         console.log(err);

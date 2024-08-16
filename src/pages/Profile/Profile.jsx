@@ -98,7 +98,6 @@ function Profile() {
     fetchDataForDeletePost();
   };
 
-
   return (
     <>
       {isLoading ? (
@@ -107,11 +106,14 @@ function Profile() {
         <div className={styles.profile}>
           <UserCard profileUser={profileUser} />
           <div className={styles.posts}>
-            <AddPost
-              avatarURL={user.avatar_url}
-              isSent={isSent}
-              setIsSent={setIsSent}
-            />
+            {!isFollowerProfile && (
+              <AddPost
+                avatarURL={user.avatar_url}
+                isSent={isSent}
+                setIsSent={setIsSent}
+              />
+            )}
+
             {profilePosts.map((post) => (
               <PostCard
                 postId={post.post_id}
