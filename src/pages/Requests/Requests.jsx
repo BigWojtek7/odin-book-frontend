@@ -24,9 +24,9 @@ function Requests() {
 
       const fetchDataForRequests = async () => {
         try {
-          const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
+          const url = `${import.meta.env.VITE_BACKEND_URL}/requests/${
             user.user_id
-          }/requests/sent`;
+          }/sent`;
           const headers = {
             Authorization: token,
           };
@@ -42,7 +42,7 @@ function Requests() {
     return () => {
       setRequestsSent([]);
     };
-  }, [setIsLoading, token, user, addFollower]);
+  }, [setIsLoading, token, user, addFollower, deleteRequestRes]);
 
   useEffect(() => {
     if (user?.user_id) {
@@ -50,9 +50,9 @@ function Requests() {
 
       const fetchDataForRequests = async () => {
         try {
-          const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
+          const url = `${import.meta.env.VITE_BACKEND_URL}/requests/${
             user.user_id
-          }/requests/received`;
+          }/received`;
           const headers = {
             Authorization: token,
           };
@@ -76,7 +76,7 @@ function Requests() {
 
       const fetchDataForFriendsSuggestion = async () => {
         try {
-          const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
+          const url = `${import.meta.env.VITE_BACKEND_URL}/followers/${
             user.user_id
           }/suggestions`;
           const headers = {
@@ -105,9 +105,38 @@ function Requests() {
     setIsLoading(true);
     const fetchDataForAddFollower = async () => {
       try {
-        const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
+        const url = `${import.meta.env.VITE_BACKEND_URL}/followers/${
           user.user_id
-        }/followers/${followerId}`;
+        }/${followerId}`;
+        const headers = { Authorization: token };
+        const addFollowerData = await requestWithNativeFetch(
+          url,
+          'POST',
+          headers
+        );
+        setAddFollower(addFollowerData);
+
+        if (addFollowerData.success) {
+          setAddFollower(addFollowerData);
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchDataForAddFollower();
+  };
+
+  const handleSentRequest = (e) => {
+    e.preventDefault();
+    const requestReceiverId = e.target.request_receiver_id.value;
+    setIsLoading(true);
+    const fetchDataForAddFollower = async () => {
+      try {
+        const url = `${
+          import.meta.env.VITE_BACKEND_URL
+        }/requests/${requestReceiverId}/${user.user_id}`;
         const headers = { Authorization: token };
         const addFollowerData = await requestWithNativeFetch(
           url,
@@ -130,13 +159,13 @@ function Requests() {
 
   const handleDeleteRequest = (e) => {
     e.preventDefault();
-    const requestId = e.target.request_id.value;
+    const requestReceiverId = e.target.request_receiver_id.value;
     setIsLoading(true);
     const fetchDataForDelete = async () => {
       try {
         const url = `${
           import.meta.env.VITE_BACKEND_URL
-        }/posts/comments/${requestId}`;
+        }/requests/${requestReceiverId}/${user.user_id}`;
         const headers = { Authorization: token };
         const deleteData = await requestWithNativeFetch(url, 'DELETE', headers);
         setDeleteRequestRes(deleteData);
@@ -167,8 +196,12 @@ function Requests() {
                 padding: '0.5em 0.5em 0 0.5em',
               }}
             />
-            <form className={styles.form} onSubmit={handleAddFollower}>
-              <input type="hidden" name="follower_id" value={request.follower_id} />
+            <form className={styles.form} onSubmit={handleDeleteRequest}>
+              <input
+                type="hidden"
+                name="request_receiver_id"
+                value={request.follower_id}
+              />
               <CancelButton
                 type="submit"
                 name="Cancel follow request"
@@ -239,8 +272,12 @@ function Requests() {
                 padding: '0.5em 0.5em 0 0.5em',
               }}
             />
-            <form className={styles.form} onSubmit={handleAddFollower}>
-              <input type="hidden" name="follower_id" value={friend.user_id} />
+            <form className={styles.form} onSubmit={handleSentRequest}>
+              <input
+                type="hidden"
+                name="request_receiver_id"
+                value={friend.user_id}
+              />
               <SubmitButton
                 type="submit"
                 name="Send follow request"

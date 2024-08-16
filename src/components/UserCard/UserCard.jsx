@@ -11,9 +11,9 @@ function UserCard({ profileUser }) {
     if (profileUser?.user_id) {
       const fetchDataForMiniatures = async () => {
         try {
-          const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
+          const url = `${import.meta.env.VITE_BACKEND_URL}/followers/${
             profileUser.user_id
-          }/followers`;
+          }`;
           const headers = {
             Authorization: token,
           };

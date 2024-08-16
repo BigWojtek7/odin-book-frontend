@@ -5,18 +5,18 @@ import { useOutletContext } from 'react-router-dom';
 import getRequestWithNativeFetch from '../../utils/fetchApiGet';
 import CancelButton from '../Form/Buttons/cancelButton';
 import requestWithNativeFetch from '../../utils/fetchApi';
-function FriendsCard({unFollowReq, setUnFollowReq}) {
+function FriendsCard({ unFollowReq, setUnFollowReq }) {
   const [friends, setFriends] = useState([]);
   // const [deleteRes, setDeleteRes] = useState({});
-  const [token, , user, ,setIsLoading] = useOutletContext();
+  const [token, , user, , setIsLoading] = useOutletContext();
 
   useEffect(() => {
     if (user?.user_id) {
       const fetchDataForFriend = async () => {
         try {
-          const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
+          const url = `${import.meta.env.VITE_BACKEND_URL}/followers/${
             user.user_id
-          }/followers`;
+          }`;
           const headers = {
             Authorization: token,
           };
@@ -39,9 +39,9 @@ function FriendsCard({unFollowReq, setUnFollowReq}) {
     setIsLoading(true);
     const fetchDataForUnfollow = async () => {
       try {
-        const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
+        const url = `${import.meta.env.VITE_BACKEND_URL}/followers/${
           user.user_id
-        }/followers/${followerid}`;
+        }/${followerid}`;
         const headers = { Authorization: token };
         const deleteData = await requestWithNativeFetch(url, 'DELETE', headers);
         setUnFollowReq(deleteData);
