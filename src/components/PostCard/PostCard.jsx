@@ -27,7 +27,6 @@ function PostCard({
           authorId={authorId}
           content={content}
           avatarURL={avatarURL}
-          postLikes={postLikes}
           handleDeletePost={handleDeletePost}
           inputRef={commentTextarea}
         />

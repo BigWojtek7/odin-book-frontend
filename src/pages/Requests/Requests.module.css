@@ -1,6 +1,6 @@
 .container {
   display: flex;
-  gap: 30px;
+  gap: 15px;
 }
 .sideCard {
   width: 280px;

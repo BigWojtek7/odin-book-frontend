@@ -1,7 +1,10 @@
 import styles from './Post.module.css';
 import Icon from '@mdi/react';
 import { mdiThumbUp, mdiMessage, mdiTrashCan } from '@mdi/js';
-import { Link } from 'react-router-dom';
+import { Link, useOutletContext } from 'react-router-dom';
+import requestWithNativeFetch from '../../../utils/fetchApi';
+import { useEffect, useState } from 'react';
+import getRequestWithNativeFetch from '../../../utils/fetchApiGet';
 
 function Post({
   postId,
@@ -10,13 +13,66 @@ function Post({
   authorId,
   content,
   avatarURL,
-  postLikes,
   handleDeletePost,
   inputRef,
 }) {
+  const [token, , user, , setIsLoading] = useOutletContext();
+  const [postLikes, setPostLikes] = useState([]);
+  const [isLikeAdded, setIsLikeAdded] = useState(false);
   const handleCommentClick = () => {
     inputRef.current.focus();
   };
+
+  useEffect(() => {
+    const fetchDataForLikes = async () => {
+      try {
+        const url = `${import.meta.env.VITE_BACKEND_URL}/posts/${postId}/likes`;
+        const headers = {
+          Authorization: token,
+        };
+        const postLikesData = await getRequestWithNativeFetch(url, headers);
+        setPostLikes(postLikesData);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setIsLikeAdded(false);
+      }
+    };
+    fetchDataForLikes();
+
+    return () => {
+      setPostLikes([]);
+    };
+  }, [postId, token, isLikeAdded]);
+
+  console.log(postLikes);
+  const handleLikeClick = (e) => {
+    e.preventDefault();
+    // setIsLoading(true);
+    const fetchDataForAddLike = async () => {
+      try {
+        const url = `${import.meta.env.VITE_BACKEND_URL}/posts/${postId}/likes`;
+        const headers = {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        };
+        const addLikeData = await requestWithNativeFetch(
+          url,
+          'POST',
+          headers
+        );
+        console.log(addLikeData);
+        if (addLikeData.success) {
+          setIsLikeAdded(true);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchDataForAddLike();
+  };
+
+  console
 
   return (
     <div className={styles.post}>
@@ -32,9 +88,9 @@ function Post({
       <p className={styles.postContent}>{content}</p>
       <hr />
       <ul className={styles.listIcons}>
-        <li className={styles.listItem}>
+        <li className={styles.listItem} onClick={handleLikeClick}>
           <Icon path={mdiThumbUp} size={1} />
-          {`Like (${postLikes})`}
+          {`Like (${postLikes.post_likes})`}
         </li>
         <li className={styles.listItem} onClick={handleCommentClick}>
           <Icon path={mdiMessage} size={1} />
