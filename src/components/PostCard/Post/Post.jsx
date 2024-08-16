@@ -2,6 +2,7 @@ import styles from './Post.module.css';
 import Icon from '@mdi/react';
 import { mdiThumbUp, mdiMessage, mdiTrashCan } from '@mdi/js';
 import { Link } from 'react-router-dom';
+
 function Post({
   postId,
   date,
@@ -11,7 +12,12 @@ function Post({
   avatarURL,
   postLikes,
   handleDeletePost,
+  inputRef,
 }) {
+  const handleCommentClick = () => {
+    inputRef.current.focus();
+  };
+
   return (
     <div className={styles.post}>
       <div className={styles.postInfo}>
@@ -30,7 +36,7 @@ function Post({
           <Icon path={mdiThumbUp} size={1} />
           {`Like (${postLikes})`}
         </li>
-        <li className={styles.listItem}>
+        <li className={styles.listItem} onClick={handleCommentClick}>
           <Icon path={mdiMessage} size={1} />
           Comment
         </li>

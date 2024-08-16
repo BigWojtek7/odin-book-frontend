@@ -16,8 +16,6 @@
 .listItem {
   display: flex;
   gap: 0.5em;
-}
-.deleteItem {
   cursor: pointer;
 }
 .name {

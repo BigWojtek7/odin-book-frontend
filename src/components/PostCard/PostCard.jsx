@@ -2,7 +2,7 @@ import styles from './PostCard.module.css';
 import Post from './Post/Post';
 import Comment from './Comment/Comment';
 import AddComment from './AddComment/AddComment';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 function PostCard({
   postId,
@@ -15,6 +15,8 @@ function PostCard({
   handleDeletePost,
 }) {
   const [isSentComment, setIsSentComment] = useState(false);
+  const commentTextarea = useRef(null);
+  console.log(commentTextarea);
   return (
     <>
       <div className={styles.postCard}>
@@ -27,8 +29,13 @@ function PostCard({
           avatarURL={avatarURL}
           postLikes={postLikes}
           handleDeletePost={handleDeletePost}
+          inputRef={commentTextarea}
         />
-        <AddComment setIsSentComment={setIsSentComment} postId={postId} />
+        <AddComment
+          setIsSentComment={setIsSentComment}
+          postId={postId}
+          textareaRef={commentTextarea}
+        />
         <Comment postId={postId} isSentComment={isSentComment} />
       </div>
     </>

@@ -3,9 +3,11 @@ import styles from './AddComment.module.css';
 import Textarea from '../../Form/Textarea/Textarea';
 import { useOutletContext } from 'react-router-dom';
 import requestWithNativeFetch from '../../../utils/fetchApi';
+import { useRef } from 'react';
 
-function AddComment({ setIsSentComment, postId }) {
+function AddComment({ setIsSentComment, postId, textareaRef }) {
   const [token, , user, , setIsLoading] = useOutletContext();
+  console.log(textareaRef);
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -44,7 +46,11 @@ function AddComment({ setIsSentComment, postId }) {
         <img src={user.avatar_url} alt="avatar" />
       </div>
       <form className={styles.commentForm} onSubmit={handleSubmit}>
-        <Textarea name="content" placeholder="Write a comment..."></Textarea>
+        <Textarea
+          name="content"
+          placeholder="Write a comment..."
+          ref={textareaRef}
+        ></Textarea>
         <SubmitButton
           type="submit"
           name="Post"
