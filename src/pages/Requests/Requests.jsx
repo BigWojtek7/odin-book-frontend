@@ -228,34 +228,36 @@ function Requests() {
                 padding: '0.5em 0.5em 0 0.5em',
               }}
             />
-            <form className={styles.form} onSubmit={handleAddFollower}>
-              <input
-                type="hidden"
-                name="follower_id"
-                value={request.follower_id}
-              />
-              <SubmitButton
-                type="submit"
-                name="Confirm"
-                style={{
-                  fontSize: '1rem',
-                  marginLeft: '0.5em',
-                  borderRadius: '10px',
-                }}
-              />
-            </form>
-            <form className={styles.form} onSubmit={handleDeleteRequest}>
-              <input type="hidden" name="request_id" value={request.id} />
-              <CancelButton
-                type="submit"
-                name="Delete"
-                style={{
-                  fontSize: '1rem',
-                  marginLeft: '0.5em',
-                  borderRadius: '10px',
-                }}
-              />
-            </form>
+            <div className={styles.buttons}>
+              <form className={styles.form} onSubmit={handleAddFollower}>
+                <input
+                  type="hidden"
+                  name="follower_id"
+                  value={request.follower_id}
+                />
+                <SubmitButton
+                  type="submit"
+                  name="Confirm"
+                  style={{
+                    width: '100%',
+                    fontSize: '0.6rem',
+                    borderRadius: '0 0 0 10px',
+                  }}
+                />
+              </form>
+              <form className={styles.form} onSubmit={handleDeleteRequest}>
+                <input type="hidden" name="request_id" value={request.id} />
+                <CancelButton
+                  type="submit"
+                  name="Delete"
+                  style={{
+                    width: '100%',
+                    fontSize: '0.6rem',
+                    borderRadius: '0 0 10px 0',
+                  }}
+                />
+              </form>
+            </div>
           </div>
         ))}
       </div>
