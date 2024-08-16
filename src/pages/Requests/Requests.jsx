@@ -7,12 +7,17 @@ import { useOutletContext } from 'react-router-dom';
 import getRequestWithNativeFetch from '../../utils/fetchApiGet';
 import requestWithNativeFetch from '../../utils/fetchApi';
 function Requests() {
-  const [requests, setRequests] = useState([]);
+  const [requestsReceived, setRequestsReceived] = useState([]);
+  const [requestsSent, setRequestsSent] = useState([]);
+
   const [friendsSuggest, setFriendsSuggest] = useState([]);
   const [addFollower, setAddFollower] = useState({});
+
   const [deleteRequestRes, setDeleteRequestRes] = useState({});
+
   const [token, , user, isLoading, setIsLoading] = useOutletContext();
   console.log(user);
+
   useEffect(() => {
     if (user?.user_id) {
       setIsLoading(true);
@@ -21,12 +26,12 @@ function Requests() {
         try {
           const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
             user.user_id
-          }/requests`;
+          }/requests/sent`;
           const headers = {
             Authorization: token,
           };
           const friendsData = await getRequestWithNativeFetch(url, headers);
-          setRequests(friendsData);
+          setRequestsSent(friendsData);
           setIsLoading(false);
         } catch (err) {
           console.log(err);
@@ -35,7 +40,33 @@ function Requests() {
       fetchDataForRequests();
     }
     return () => {
-      setRequests([]);
+      setRequestsSent([]);
+    };
+  }, [setIsLoading, token, user, addFollower]);
+
+  useEffect(() => {
+    if (user?.user_id) {
+      setIsLoading(true);
+
+      const fetchDataForRequests = async () => {
+        try {
+          const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
+            user.user_id
+          }/requests/received`;
+          const headers = {
+            Authorization: token,
+          };
+          const friendsData = await getRequestWithNativeFetch(url, headers);
+          setRequestsReceived(friendsData);
+          setIsLoading(false);
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      fetchDataForRequests();
+    }
+    return () => {
+      setRequestsReceived([]);
     };
   }, [setIsLoading, token, user, addFollower]);
 
@@ -124,8 +155,36 @@ function Requests() {
   return (
     <div className={styles.container}>
       <div className={styles.sideCard}>
-        <h2 className={styles.sideHeading}>Following Requests:</h2>
-        {requests.map((request) => (
+        <h2 className={styles.sideHeading}>Sent Requests:</h2>
+        {requestsSent.map((request) => (
+          <div className={styles.usersCard} key={request.follower_id}>
+            <Friend
+              followerId={request.follower_id}
+              name={request.follower_name}
+              friendsNumber={request.user_followers_count}
+              avatarURL={request.avatar_url}
+              style={{
+                padding: '0.5em 0.5em 0 0.5em',
+              }}
+            />
+            <form className={styles.form} onSubmit={handleAddFollower}>
+              <input type="hidden" name="follower_id" value={request.follower_id} />
+              <CancelButton
+                type="submit"
+                name="Cancel follow request"
+                style={{
+                  width: '100%',
+                  fontSize: '0.6rem',
+                  borderRadius: '0 0 10px 10px',
+                }}
+              />
+            </form>
+          </div>
+        ))}
+      </div>
+      <div className={styles.sideCard}>
+        <h2 className={styles.sideHeading}>Received Requests:</h2>
+        {requestsReceived.map((request) => (
           <div className={styles.usersCard} key={request.follower_id}>
             <Friend
               followerId={request.follower_id}
