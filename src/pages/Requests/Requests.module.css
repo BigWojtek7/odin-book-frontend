@@ -15,9 +15,8 @@
   background-color: var(--body-bg);
   border-radius: 10px;
   margin-bottom: 0.5em;
-  padding: 0.5em;
 }
 
-.form {
+/* .form {
   display: inline;
-}
+} */

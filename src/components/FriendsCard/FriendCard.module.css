@@ -3,3 +3,10 @@
   border-radius: 10px;
   padding: 0.5em;
 }
+
+.friendBar {
+  background-color: var(--body-bg);
+  margin-bottom: 0.5em;
+  border-radius: 10px;
+
+}

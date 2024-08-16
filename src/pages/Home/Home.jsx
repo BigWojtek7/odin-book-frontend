@@ -10,6 +10,7 @@ import Loader from '../../components/Loader/Loader';
 
 function Home() {
   const [homePosts, setHomePosts] = useState([]);
+  const [unFollowReq, setUnFollowReq] = useState({});
   const [token, , user, isLoading, setIsLoading] = useOutletContext();
   useEffect(() => {
     if (token && user?.user_id) {
@@ -37,7 +38,7 @@ function Home() {
     return () => {
       setHomePosts([]);
     };
-  }, [setIsLoading, token, user]);
+  }, [setIsLoading, token, user, unFollowReq]);
   return (
     <>
       {isLoading ? (
@@ -46,7 +47,10 @@ function Home() {
         <>
           {token ? (
             <div className={styles.container}>
-              <FriendsCard />
+              <FriendsCard
+                unFollowReq={unFollowReq}
+                setUnFollowReq={setUnFollowReq}
+              />
               <div className={styles.posts}>
                 {homePosts.map((post) => (
                   <PostCard

@@ -132,6 +132,9 @@ function Requests() {
               name={request.follower_name}
               friendsNumber={request.user_followers_count}
               avatarURL={request.avatar_url}
+              style={{
+                padding: '0.5em 0.5em 0 0.5em',
+              }}
             />
             <form className={styles.form} onSubmit={handleAddFollower}>
               <input
@@ -173,16 +176,19 @@ function Requests() {
               name={friend.full_name}
               friendsNumber={friend.user_followers_count}
               avatarURL={friend.avatar_url}
+              style={{
+                padding: '0.5em 0.5em 0 0.5em',
+              }}
             />
             <form className={styles.form} onSubmit={handleAddFollower}>
               <input type="hidden" name="follower_id" value={friend.user_id} />
               <SubmitButton
                 type="submit"
-                name="Confirm"
+                name="Send follow request"
                 style={{
                   width: '100%',
-                  fontSize: '1rem',
-                  borderRadius: '10px',
+                  fontSize: '0.6rem',
+                  borderRadius: '0 0 10px 10px',
                 }}
               />
             </form>
