@@ -43,7 +43,7 @@ function AddComment({ setIsSentComment, postId, textareaRef }) {
   return (
     <div className={styles.addComment}>
       <div>
-        <img src={user.avatar_url} alt="avatar" />
+        <img className={styles.avatar} src={user.avatar_url} alt="avatar" />
       </div>
       <form className={styles.commentForm} onSubmit={handleSubmit}>
         <Textarea

@@ -41,7 +41,7 @@ function AddPost({ avatarURL, isSent, setIsSent }) {
   return (
     <div className={styles.addPost}>
       <div>
-        <img src={avatarURL} alt="avatar" />
+        <img className={styles.avatar} src={avatarURL} alt="avatar" />
       </div>
       <form className={styles.postForm} onSubmit={handleSubmit}>
         <Textarea

@@ -2,6 +2,7 @@
   display: flex;
   margin-bottom: 0.5em;
   gap: 0.5em;
+  align-items: center;
 }
 .postContent {
   margin-bottom: 0.5em;
@@ -25,4 +26,8 @@
 
 hr {
   opacity: 0.3;
+}
+
+.avatar {
+  width: 50px
 }

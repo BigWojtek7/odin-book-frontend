@@ -10,6 +10,9 @@
   margin-top: 10px;
 }
 
+.avatar {
+  width: 50px;
+}
 .commentName {
   font-weight: 700;
   margin-right: 0.5em;

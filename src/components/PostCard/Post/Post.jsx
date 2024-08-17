@@ -77,7 +77,7 @@ function Post({
   return (
     <div className={styles.post}>
       <div className={styles.postInfo}>
-        <img src={avatarURL} alt="avatar" />
+        <img className={styles.avatar} src={avatarURL} alt="avatar" />
         <div>
           <Link className={styles.name} to={`/profile/${authorId}`}>
             <p>{author}</p>

@@ -62,7 +62,7 @@ function Comment({ postId, isSentComment }) {
       {comments.map((comment) => (
         <div className={styles.comment} key={comment.comment_id}>
           <div className={styles.imgDiv}>
-            <img src={comment.avatar_url} alt="avatar" />
+            <img className={styles.avatar} src={comment.avatar_url} alt="avatar" />
           </div>
           <div className={styles.commentMain}>
             <Link

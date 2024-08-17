@@ -2,8 +2,12 @@
   max-width: 50px;
 }
 
-.name{
+.name {
   font-size: 0.8rem;
   text-decoration: none;
   color: inherit;
+}
+
+.avatar {
+  width: 50px;
 }

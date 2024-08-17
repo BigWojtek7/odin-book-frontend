@@ -4,7 +4,7 @@ import styles from './Friend.module.css';
 function Friend({ followerId, name, friendsNumber, avatarURL, style }) {
   return (
     <div className={styles.container} style={style}>
-      <img src={avatarURL} alt="Friend's Avatar" />
+      <img className={styles.img} src={avatarURL} alt="Friend's Avatar" />
       <div className={styles.friendInfo}>
         <Link to={`../profile/${followerId}`} className={styles.name}>
           {name}

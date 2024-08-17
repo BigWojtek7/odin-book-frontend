@@ -12,6 +12,10 @@
   margin: 0.5em 0;
 }
 
+.avatar {
+  width: 50px;
+}
+
 .commentTextarea {
   height: 3em;
   width: 100%;
