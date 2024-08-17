@@ -12,6 +12,7 @@
   border: var(--input-bd) 4px solid;
   margin-bottom: 0.5em;
   width: 125px;
+  aspect-ratio: 1/1;
 }
 
 .profileMain > * {

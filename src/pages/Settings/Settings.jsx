@@ -15,6 +15,8 @@ function Settings() {
   const [passwordFetch, setPasswordFetch] = useState(null);
   const [profileFetch, setProfileFetch] = useState(null);
 
+  const [uploadAvatar, setUploadAvatar] = useState();
+
   const [isUpdated, setIsUpdated] = useState(false);
 
   const [firstNameInput, setFirstNameInput] = useState('');
@@ -52,25 +54,23 @@ function Settings() {
     const fetchDataForUploadAvatar = async () => {
       try {
         const data = new FormData();
-        const file = e.target.files[0]
-        data.set("sample_file", file);
+        const file = e.target.avatar.files[0];
+        data.set('file', file);
         const url = `${import.meta.env.VITE_BACKEND_URL}/users/avatar`;
         const headers = {
-          'Content-Type': 'multipart/form-data',
+          // 'Content-Type': 'multipart/form-data',
           Authorization: token,
         };
-        const uploadAvatarData = await requestWithNativeFetch(
-          url,
-          'POST',
-          headers,
-          data
-        );
-        setPasswordFetch(uploadAvatarData);
-
-        if (uploadAvatarData.success) {
-          setIsUpdated(true);
-          localStorage.removeItem('token');
-          setToken(null);
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: headers,
+          body: data,
+        });
+        const responseData = await response.json();
+        console.log(responseData)
+        setUploadAvatar(responseData);
+        if (responseData.success) {
+          setUpdateUser(true)
         }
       } catch (err) {
         console.log(err);
@@ -170,9 +170,21 @@ function Settings() {
         <div className={styles.container}>
           <div className={styles.profilAvatar}>
             <h2 className={styles.cardHeading}>Edit Avatar:</h2>
-            <form className={styles.form} onSubmit={handleAvatarUpload}>
+            <div className={styles.imgDiv}>
+              <img
+                className={styles.avatar}
+                src={user.avatar_url}
+                alt="avatar"
+              />
+            </div>
+            <form
+              className={styles.form}
+              onSubmit={handleAvatarUpload}
+              encType="multipart/form-data"
+            >
               <input type="file" className={styles.inputFile} name="avatar" />
               <SubmitButton type="submit" name="Submit"></SubmitButton>
+              {uploadAvatar && <p className={styles.uploadRes}>{uploadAvatar.msg}</p>}
             </form>
           </div>
           <div className={styles.editProfile}>

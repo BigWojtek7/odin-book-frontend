@@ -20,3 +20,18 @@
   cursor: pointer;
   margin-right: 1em;
 }
+
+.avatar{
+  border-radius: 50%;
+  border: var(--input-bd) 4px solid;
+  margin-bottom: 0.5em;
+  width: 150px;
+  aspect-ratio: 1/1;
+}
+.imgDiv{
+  text-align: center;
+}
+
+.uploadRes{
+  font-size: 0.8rem;
+}

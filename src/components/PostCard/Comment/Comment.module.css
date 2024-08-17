@@ -12,6 +12,7 @@
 
 .avatar {
   width: 50px;
+  aspect-ratio: 1/1;
 }
 .commentName {
   font-weight: 700;
