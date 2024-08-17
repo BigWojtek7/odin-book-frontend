@@ -46,6 +46,41 @@ function Settings() {
     setAboutInput(initialAboutValue);
   }, [user]);
 
+  const handleAvatarUpload = (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const fetchDataForUploadAvatar = async () => {
+      try {
+        const data = new FormData();
+        const file = e.target.files[0]
+        data.set("sample_file", file);
+        const url = `${import.meta.env.VITE_BACKEND_URL}/users/avatar`;
+        const headers = {
+          'Content-Type': 'multipart/form-data',
+          Authorization: token,
+        };
+        const uploadAvatarData = await requestWithNativeFetch(
+          url,
+          'POST',
+          headers,
+          data
+        );
+        setPasswordFetch(uploadAvatarData);
+
+        if (uploadAvatarData.success) {
+          setIsUpdated(true);
+          localStorage.removeItem('token');
+          setToken(null);
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchDataForUploadAvatar();
+  };
+
   const handleEditProfile = (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -135,6 +170,10 @@ function Settings() {
         <div className={styles.container}>
           <div className={styles.profilAvatar}>
             <h2 className={styles.cardHeading}>Edit Avatar:</h2>
+            <form className={styles.form} onSubmit={handleAvatarUpload}>
+              <input type="file" className={styles.inputFile} name="avatar" />
+              <SubmitButton type="submit" name="Submit"></SubmitButton>
+            </form>
           </div>
           <div className={styles.editProfile}>
             <h2 className={styles.cardHeading}>Edit your Profile:</h2>
