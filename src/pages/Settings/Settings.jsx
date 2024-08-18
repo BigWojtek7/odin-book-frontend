@@ -14,6 +14,7 @@ function Settings() {
     useOutletContext();
   const [passwordFetch, setPasswordFetch] = useState(null);
   const [profileFetch, setProfileFetch] = useState(null);
+  const [aboutFetch, setAboutFetch] = useState(null);
 
   const [uploadAvatar, setUploadAvatar] = useState();
 
@@ -67,10 +68,10 @@ function Settings() {
           body: data,
         });
         const responseData = await response.json();
-        console.log(responseData)
+        console.log(responseData);
         setUploadAvatar(responseData);
         if (responseData.success) {
-          setUpdateUser(true)
+          setUpdateUser(true);
         }
       } catch (err) {
         console.log(err);
@@ -98,7 +99,6 @@ function Settings() {
           last_name: e.target.last_name.value,
           email: e.target.email.value,
           profession: e.target.profession.value,
-          about: e.target.about.value,
           username: e.target.username.value,
         };
         const profileChangeData = await requestWithNativeFetch(
@@ -107,6 +107,7 @@ function Settings() {
           headers,
           data
         );
+        console.log(profileChangeData)
         setProfileFetch(profileChangeData);
 
         if (profileChangeData.success) {
@@ -122,6 +123,44 @@ function Settings() {
       }
     };
     fetchDataForChangeProfile();
+  };
+
+  const handleEditAbout = (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const fetchDataForChangeAbout = async () => {
+      try {
+        const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
+          user.user_id
+        }/about`;
+        const headers = {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        };
+        const data = {
+          about: e.target.about.value,
+        };
+        const aboutChangeData = await requestWithNativeFetch(
+          url,
+          'PATCH',
+          headers,
+          data
+        );
+        setAboutFetch(aboutChangeData);
+
+        if (aboutChangeData.success) {
+          setUpdateUser(true);
+          setIsUpdated(true);
+          // localStorage.removeItem('token');
+          // setToken(null);
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchDataForChangeAbout();
   };
 
   const handleEditPassword = (e) => {
@@ -183,9 +222,29 @@ function Settings() {
               encType="multipart/form-data"
             >
               <input type="file" className={styles.inputFile} name="avatar" />
-              <SubmitButton type="submit" name="Submit"></SubmitButton>
-              {uploadAvatar && <p className={styles.uploadRes}>{uploadAvatar.msg}</p>}
+              <SubmitButton type="submit" name="Submit" />
+              {uploadAvatar && (
+                <p className={styles.uploadRes}>{uploadAvatar.msg}</p>
+              )}
             </form>
+            <div className={styles.editAbout}>
+              <h2>Edit About:</h2>
+              <form className={styles.form} onSubmit={handleEditAbout}>
+                <Textarea
+                  placeholder="A few words about you"
+                  name="about"
+                  isControlled={true}
+                  style={{ height: '6em', backgroundColor: 'var(--nav-bg)' }}
+                  inputValue={aboutInput}
+                  setInputValue={setAboutInput}
+                />
+                <SubmitButton type="submit" name="Submit" />
+                {profileFetch &&
+                  profileFetch.msg.map((err, index) => (
+                    <p key={index}>{err.msg}</p>
+                  ))}
+              </form>
+            </div>
           </div>
           <div className={styles.editProfile}>
             <h2 className={styles.cardHeading}>Edit your Profile:</h2>
@@ -230,14 +289,6 @@ function Settings() {
                 inputValue={professionInput}
                 setInputValue={setProfessionInput}
               />
-              <Textarea
-                placeholder="A few words about you"
-                name="about"
-                isLabel="true"
-                isControlled={true}
-                inputValue={aboutInput}
-                setInputValue={setAboutInput}
-              />
               <SubmitButton type="submit" name="Submit" />
               {profileFetch &&
                 profileFetch.msg.map((err, index) => (
@@ -270,7 +321,7 @@ function Settings() {
       ) : (
         <div className={styles.profileEdited}>
           <p>{passwordFetch?.msg || profileFetch?.msg}</p>
-          <Link className={styles.login} to="/profile">
+          <Link to="/profile">
             <Icon path={mdiAccount} size={5} color="var(--icon-clr"></Icon>
           </Link>
         </div>
