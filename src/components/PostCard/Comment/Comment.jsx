@@ -2,7 +2,6 @@ import { Link, useOutletContext } from 'react-router-dom';
 import getRequestWithNativeFetch from '../../../utils/fetchApiGet';
 import styles from './Comment.module.css';
 import { useEffect, useState } from 'react';
-
 import Icon from '@mdi/react';
 import { mdiTrashCan } from '@mdi/js';
 import requestWithNativeFetch from '../../../utils/fetchApi';

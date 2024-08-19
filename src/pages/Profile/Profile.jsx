@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import getRequestWithNativeFetch from '../../utils/fetchApiGet';
 import AddPost from '../../components/AddPost/AddPost';
 import Loader from '../../components/Loader/Loader';
+import Modal from '../../components/Modal/Modal';
 import requestWithNativeFetch from '../../utils/fetchApi';
 function Profile() {
   const [profilePosts, setProfilePosts] = useState([]);
@@ -105,6 +106,7 @@ function Profile() {
       {isLoading ? (
         <Loader />
       ) : (
+        <>
         <div className={styles.profile}>
           <UserCard profileUser={profileUser} />
           <div className={styles.posts}>
@@ -133,6 +135,8 @@ function Profile() {
             ))}
           </div>
         </div>
+        <Modal>Are you sure to delete comment ?</Modal>
+        </>
       )}
     </>
   );
