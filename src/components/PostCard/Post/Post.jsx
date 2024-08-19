@@ -16,8 +16,8 @@ function Post({
   handleDeletePost,
   inputRef,
 }) {
-  const [token, , user, , setIsLoading] = useOutletContext();
-  const [postLikes, setPostLikes] = useState([]);
+  const [token, , , , ,] = useOutletContext();
+  const [postLikes, setPostLikes] = useState({post_likes: '?'});
   const [isLikeAdded, setIsLikeAdded] = useState(false);
   const handleCommentClick = () => {
     inputRef.current.focus();
@@ -31,7 +31,9 @@ function Post({
           Authorization: token,
         };
         const postLikesData = await getRequestWithNativeFetch(url, headers);
-        setPostLikes(postLikesData);
+        if(typeof postLikesData !== 'undefined'){
+          setPostLikes(postLikesData);
+        }
       } catch (err) {
         console.log(err);
       } finally {
@@ -41,11 +43,10 @@ function Post({
     fetchDataForLikes();
 
     return () => {
-      setPostLikes([]);
+      setPostLikes({post_likes: '?'});
     };
   }, [postId, token, isLikeAdded]);
 
-  console.log(postLikes);
   const handleLikeClick = (e) => {
     e.preventDefault();
     // setIsLoading(true);
@@ -71,8 +72,6 @@ function Post({
     };
     fetchDataForAddLike();
   };
-
-  console
 
   return (
     <div className={styles.post}>

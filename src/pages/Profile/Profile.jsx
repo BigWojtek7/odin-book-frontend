@@ -12,6 +12,8 @@ function Profile() {
   const [isSent, setIsSent] = useState(false);
   const [deleteRes, setDeleteRes] = useState({});
 
+  const [addPostFetch, setAddPostFetch] = useState();
+
   const [token, , user, isLoading, setIsLoading] = useOutletContext();
 
   const [followerProfile, setFollowerProfile] = useState();
@@ -111,6 +113,8 @@ function Profile() {
                 avatarURL={user.avatar_url}
                 isSent={isSent}
                 setIsSent={setIsSent}
+                addPostFetch={addPostFetch}
+                setAddPostFetch={setAddPostFetch}
               />
             )}
 

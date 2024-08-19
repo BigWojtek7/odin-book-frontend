@@ -11,12 +11,11 @@ function PostCard({
   authorId,
   content,
   avatarURL,
-  postLikes,
   handleDeletePost,
 }) {
   const [isSentComment, setIsSentComment] = useState(false);
   const commentTextarea = useRef(null);
-  console.log(commentTextarea);
+  const [addCommentFetch, setAddCommentFetch] = useState(null);
   return (
     <>
       <div className={styles.postCard}>
@@ -34,6 +33,8 @@ function PostCard({
           setIsSentComment={setIsSentComment}
           postId={postId}
           textareaRef={commentTextarea}
+          addCommentFetch={addCommentFetch}
+          setAddCommentFetch={setAddCommentFetch}
         />
         <Comment postId={postId} isSentComment={isSentComment} />
       </div>

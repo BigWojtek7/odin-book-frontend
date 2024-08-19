@@ -3,14 +3,17 @@ import styles from './AddComment.module.css';
 import Textarea from '../../Form/Textarea/Textarea';
 import { useOutletContext } from 'react-router-dom';
 import requestWithNativeFetch from '../../../utils/fetchApi';
-import { useRef } from 'react';
 
-function AddComment({ setIsSentComment, postId, textareaRef }) {
-  const [token, , user, , setIsLoading] = useOutletContext();
-  console.log(textareaRef);
+function AddComment({
+  setIsSentComment,
+  postId,
+  textareaRef,
+  addCommentFetch,
+  setAddCommentFetch,
+}) {
+  const [token, , user, , ,] = useOutletContext();
   const handleSubmit = (e) => {
     e.preventDefault();
-    setIsLoading(true);
     const fetchDataForCreateComment = async () => {
       try {
         const url = `${
@@ -29,17 +32,17 @@ function AddComment({ setIsSentComment, postId, textareaRef }) {
           headers,
           data
         );
+        setAddCommentFetch(createCommentData);
         if (createCommentData.success) {
           setIsSentComment(true);
         }
       } catch (err) {
         console.log(err);
-      } finally {
-        setIsLoading(false);
       }
     };
     fetchDataForCreateComment();
   };
+
   return (
     <div className={styles.addComment}>
       <div>
@@ -57,6 +60,8 @@ function AddComment({ setIsSentComment, postId, textareaRef }) {
           style={{ borderRadius: '10px' }}
         />
       </form>
+      {addCommentFetch &&
+        addCommentFetch.msg.map((err, index) => <p key={index}>{err.msg}</p>)}
     </div>
   );
 }

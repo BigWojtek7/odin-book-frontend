@@ -4,7 +4,8 @@ import Textarea from '../Form/Textarea/Textarea';
 import { useOutletContext } from 'react-router-dom';
 // import { useState } from 'react';
 import requestWithNativeFetch from '../../utils/fetchApi';
-function AddPost({ avatarURL, isSent, setIsSent }) {
+
+function AddPost({ avatarURL, setIsSent, addPostFetch, setAddPostFetch }) {
   const [token, , , , setIsLoading] = useOutletContext();
 
   const handleSubmit = (e) => {
@@ -26,7 +27,9 @@ function AddPost({ avatarURL, isSent, setIsSent }) {
           headers,
           data
         );
-        console.log(createPostData);
+ 
+        setAddPostFetch(createPostData);
+
         if (createPostData.success) {
           setIsSent(true);
         }
@@ -39,7 +42,8 @@ function AddPost({ avatarURL, isSent, setIsSent }) {
     fetchDataForCreatePost();
   };
   return (
-    <div className={styles.addPost}>
+    <div className={styles.container}>
+      <div className={styles.addPost}>
       <div>
         <img className={styles.avatar} src={avatarURL} alt="avatar" />
       </div>
@@ -55,7 +59,11 @@ function AddPost({ avatarURL, isSent, setIsSent }) {
           name="Post"
           style={{ borderRadius: '10px' }}
         />
-      </form>
+      </form></div>
+      <div>
+        {addPostFetch &&
+          addPostFetch.msg.map((err, index) => <p key={index}>{err.msg}</p>)}
+      </div>
     </div>
   );
 }

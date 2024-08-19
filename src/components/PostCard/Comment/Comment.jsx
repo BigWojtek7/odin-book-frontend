@@ -8,9 +8,10 @@ import { mdiTrashCan } from '@mdi/js';
 import requestWithNativeFetch from '../../../utils/fetchApi';
 function Comment({ postId, isSentComment }) {
   const [comments, setComments] = useState([]);
-  const [token, , user, , setIsLoading] = useOutletContext();
+  const [token, , user, , ,,] = useOutletContext();
   const [deleteRes, setDeleteRes] = useState({});
 
+  
   useEffect(() => {
     const fetchDataForComments = async () => {
       try {
@@ -31,12 +32,11 @@ function Comment({ postId, isSentComment }) {
     return () => {
       setComments([]);
     };
-  }, [token, postId, isSentComment]);
+  }, [token, postId, isSentComment, deleteRes]);
 
   const handleDelete = (e) => {
     e.preventDefault();
     const commentId = e.currentTarget.value;
-    setIsLoading(true);
     const fetchDataForDelete = async () => {
       try {
         const url = `${
@@ -51,8 +51,6 @@ function Comment({ postId, isSentComment }) {
         }
       } catch (err) {
         console.log(err);
-      } finally {
-        setIsLoading(false);
       }
     };
     fetchDataForDelete();

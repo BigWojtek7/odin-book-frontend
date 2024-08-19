@@ -7,7 +7,7 @@ import { Link, useOutletContext } from 'react-router-dom';
 import requestWithNativeFetch from '../../utils/fetchApi';
 import Loader from '../../components/Loader/Loader';
 import Icon from '@mdi/react';
-import { mdiAccount } from '@mdi/js';
+import { mdiLogin } from '@mdi/js';
 
 function Settings() {
   const [token, setToken, user, isLoading, setIsLoading, setUpdateUser] =
@@ -68,8 +68,8 @@ function Settings() {
           body: data,
         });
         const responseData = await response.json();
-        console.log(responseData);
         setUploadAvatar(responseData);
+        console.log(responseData);
         if (responseData.success) {
           setUpdateUser(true);
         }
@@ -107,12 +107,12 @@ function Settings() {
           headers,
           data
         );
-        console.log(profileChangeData)
+        console.log(profileChangeData);
         setProfileFetch(profileChangeData);
 
         if (profileChangeData.success) {
           setUpdateUser(true);
-          setIsUpdated(true);
+          // setIsUpdated(true);
           // localStorage.removeItem('token');
           // setToken(null);
         }
@@ -150,7 +150,6 @@ function Settings() {
 
         if (aboutChangeData.success) {
           setUpdateUser(true);
-          setIsUpdated(true);
           // localStorage.removeItem('token');
           // setToken(null);
         }
@@ -239,8 +238,8 @@ function Settings() {
                   setInputValue={setAboutInput}
                 />
                 <SubmitButton type="submit" name="Submit" />
-                {profileFetch &&
-                  profileFetch.msg.map((err, index) => (
+                {aboutFetch &&
+                  aboutFetch.msg.map((err, index) => (
                     <p key={index}>{err.msg}</p>
                   ))}
               </form>
@@ -321,8 +320,8 @@ function Settings() {
       ) : (
         <div className={styles.profileEdited}>
           <p>{passwordFetch?.msg || profileFetch?.msg}</p>
-          <Link to="/profile">
-            <Icon path={mdiAccount} size={5} color="var(--icon-clr"></Icon>
+          <Link to="/login">
+            <Icon path={mdiLogin} size={5} color="var(--icon-clr"></Icon>
           </Link>
         </div>
       )}

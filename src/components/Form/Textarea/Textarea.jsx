@@ -2,7 +2,6 @@ import styles from './Textarea.module.css';
 import { forwardRef } from 'react';
 
 const Textarea = forwardRef(function Textarea(props, ref) {
-  console.log(props);
   const labelName = `${props.name[0].toUpperCase()}${props.name.slice(1)}`;
   return (
     <div className={styles.formGroup}>

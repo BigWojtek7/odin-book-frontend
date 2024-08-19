@@ -6,6 +6,9 @@ import { useEffect, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import getRequestWithNativeFetch from '../../utils/fetchApiGet';
 import requestWithNativeFetch from '../../utils/fetchApi';
+
+import Loader from '../../components/Loader/Loader';
+
 function Requests() {
   const [requestsReceived, setRequestsReceived] = useState([]);
   const [requestsSent, setRequestsSent] = useState([]);
@@ -184,118 +187,124 @@ function Requests() {
     fetchDataForDelete();
   };
   return (
-    <div className={styles.container}>
-      <div className={styles.sideCard}>
-        <h2 className={styles.sideHeading}>Sent Requests:</h2>
-        {requestsSent.map((request) => (
-          <div className={styles.usersCard} key={request.follower_id}>
-            <Friend
-              followerId={request.follower_id}
-              name={request.follower_name}
-              friendsNumber={request.user_followers_count}
-              avatarURL={request.avatar_url}
-              style={{
-                padding: '0.5em 0.5em 0 0.5em',
-              }}
-            />
-            <form className={styles.form} onSubmit={handleDeleteRequest}>
-              <input
-                type="hidden"
-                name="request_receiver_id"
-                value={request.follower_id}
-              />
-              <CancelButton
-                type="submit"
-                name="Cancel follow request"
-                style={{
-                  width: '100%',
-                  fontSize: '0.6rem',
-                  borderRadius: '0 0 10px 10px',
-                }}
-              />
-            </form>
-          </div>
-        ))}
-      </div>
-      <div className={styles.sideCard}>
-        <h2 className={styles.sideHeading}>Received Requests:</h2>
-        {requestsReceived.map((request) => (
-          <div className={styles.usersCard} key={request.follower_id}>
-            <Friend
-              followerId={request.follower_id}
-              name={request.follower_name}
-              friendsNumber={request.user_followers_count}
-              avatarURL={request.avatar_url}
-              style={{
-                padding: '0.5em 0.5em 0 0.5em',
-              }}
-            />
-            <div className={styles.buttons}>
-              <form className={styles.form} onSubmit={handleAddFollower}>
-                <input
-                  type="hidden"
-                  name="follower_id"
-                  value={request.follower_id}
-                />
-                <SubmitButton
-                  type="submit"
-                  name="Confirm"
+    <>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <div className={styles.container}>
+          <div className={styles.sideCard}>
+            <h2 className={styles.sideHeading}>Sent Requests:</h2>
+            {requestsSent.map((request) => (
+              <div className={styles.usersCard} key={request.follower_id}>
+                <Friend
+                  followerId={request.follower_id}
+                  name={request.follower_name}
+                  friendsNumber={request.user_followers_count}
+                  avatarURL={request.avatar_url}
                   style={{
-                    width: '100%',
-                    fontSize: '0.6rem',
-                    borderRadius: '0 0 0 10px',
+                    padding: '0.5em 0.5em 0 0.5em',
                   }}
                 />
-              </form>
-              <form className={styles.form} onSubmit={handleDeleteRequest}>
-                <input type="hidden" name="request_id" value={request.id} />
-                <CancelButton
-                  type="submit"
-                  name="Delete"
+                <form className={styles.form} onSubmit={handleDeleteRequest}>
+                  <input
+                    type="hidden"
+                    name="request_receiver_id"
+                    value={request.follower_id}
+                  />
+                  <CancelButton
+                    type="submit"
+                    name="Cancel follow request"
+                    style={{
+                      width: '100%',
+                      fontSize: '0.6rem',
+                      borderRadius: '0 0 10px 10px',
+                    }}
+                  />
+                </form>
+              </div>
+            ))}
+          </div>
+          <div className={styles.sideCard}>
+            <h2 className={styles.sideHeading}>Received Requests:</h2>
+            {requestsReceived.map((request) => (
+              <div className={styles.usersCard} key={request.follower_id}>
+                <Friend
+                  followerId={request.follower_id}
+                  name={request.follower_name}
+                  friendsNumber={request.user_followers_count}
+                  avatarURL={request.avatar_url}
                   style={{
-                    width: '100%',
-                    fontSize: '0.6rem',
-                    borderRadius: '0 0 10px 0',
+                    padding: '0.5em 0.5em 0 0.5em',
                   }}
                 />
-              </form>
-            </div>
+                <div className={styles.buttons}>
+                  <form className={styles.form} onSubmit={handleAddFollower}>
+                    <input
+                      type="hidden"
+                      name="follower_id"
+                      value={request.follower_id}
+                    />
+                    <SubmitButton
+                      type="submit"
+                      name="Confirm"
+                      style={{
+                        width: '100%',
+                        fontSize: '0.6rem',
+                        borderRadius: '0 0 0 10px',
+                      }}
+                    />
+                  </form>
+                  <form className={styles.form} onSubmit={handleDeleteRequest}>
+                    <input type="hidden" name="request_id" value={request.id} />
+                    <CancelButton
+                      type="submit"
+                      name="Delete"
+                      style={{
+                        width: '100%',
+                        fontSize: '0.6rem',
+                        borderRadius: '0 0 10px 0',
+                      }}
+                    />
+                  </form>
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-      <div className={styles.sideCard}>
-        <h2 className={styles.sideHeading}>Users you may know:</h2>
-        {friendsSuggest.map((friend) => (
-          <div className={styles.usersCard} key={friend.user_id}>
-            <Friend
-              followerId={friend.user_id}
-              name={friend.full_name}
-              friendsNumber={friend.user_followers_count}
-              avatarURL={friend.avatar_url}
-              style={{
-                padding: '0.5em 0.5em 0 0.5em',
-              }}
-            />
-            <form className={styles.form} onSubmit={handleSentRequest}>
-              <input
-                type="hidden"
-                name="request_receiver_id"
-                value={friend.user_id}
-              />
-              <SubmitButton
-                type="submit"
-                name="Send follow request"
-                style={{
-                  width: '100%',
-                  fontSize: '0.6rem',
-                  borderRadius: '0 0 10px 10px',
-                }}
-              />
-            </form>
+          <div className={styles.sideCard}>
+            <h2 className={styles.sideHeading}>Users you may know:</h2>
+            {friendsSuggest.map((friend) => (
+              <div className={styles.usersCard} key={friend.user_id}>
+                <Friend
+                  followerId={friend.user_id}
+                  name={friend.full_name}
+                  friendsNumber={friend.user_followers_count}
+                  avatarURL={friend.avatar_url}
+                  style={{
+                    padding: '0.5em 0.5em 0 0.5em',
+                  }}
+                />
+                <form className={styles.form} onSubmit={handleSentRequest}>
+                  <input
+                    type="hidden"
+                    name="request_receiver_id"
+                    value={friend.user_id}
+                  />
+                  <SubmitButton
+                    type="submit"
+                    name="Send follow request"
+                    style={{
+                      width: '100%',
+                      fontSize: '0.6rem',
+                      borderRadius: '0 0 10px 10px',
+                    }}
+                  />
+                </form>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-    </div>
+        </div>
+      )}
+    </>
   );
 }
 export default Requests;

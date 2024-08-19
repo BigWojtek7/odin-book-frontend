@@ -32,7 +32,7 @@ function Login() {
           data
         );
         setFetchData(messagesData);
-        
+
         if (messagesData.success) {
           const dataToken = messagesData.token;
           localStorage.setItem('token', dataToken);
@@ -41,7 +41,7 @@ function Login() {
         }
       } catch (err) {
         console.log(err);
-      }finally{
+      } finally {
         setIsLoading(false);
       }
     };
@@ -60,9 +60,10 @@ function Login() {
             <SubmitButton type="submit" name="Log In" />
             {fetchData && <p>{fetchData.msg}</p>}
           </form>
-          <form className={styles.form}>
-            <input type="hidden" name="guest_mode" value="true" />
-            <CancelButton type="submit" name="Guest Mode" />
+          <form className={styles.form}onSubmit={handleSubmit}>
+            <input type="hidden" name="username" value="guest" />
+            <input type="hidden" name="password" value="guest" />
+            <CancelButton type="submit" name="Guest Mode"  />
           </form>
         </>
       ) : (
