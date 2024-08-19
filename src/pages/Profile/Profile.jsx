@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
 import getRequestWithNativeFetch from '../../utils/fetchApiGet';
 import AddPost from '../../components/AddPost/AddPost';
 import Loader from '../../components/Loader/Loader';
-import Modal from '../../components/Modal/Modal';
 import requestWithNativeFetch from '../../utils/fetchApi';
 function Profile() {
   const [profilePosts, setProfilePosts] = useState([]);
@@ -23,8 +22,6 @@ function Profile() {
   const { followerid } = useParams();
 
   const isFollowerProfile = followerid !== 'profile';
-
-  const [showModal, setShowModal] = useState(true);
 
   useEffect(() => {
     setProfileUser(isFollowerProfile ? followerProfile : user);
@@ -137,12 +134,6 @@ function Profile() {
               ))}
             </div>
           </div>
-          <Modal
-            isShow={showModal}
-            onRequestClose={() => setShowModal((prev) => !prev)}
-          >
-            Are you sure to delete comment ?
-          </Modal>
         </>
       )}
     </>
