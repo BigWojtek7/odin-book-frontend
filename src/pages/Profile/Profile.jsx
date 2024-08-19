@@ -24,6 +24,8 @@ function Profile() {
 
   const isFollowerProfile = followerid !== 'profile';
 
+  const [showModal, setShowModal] = useState(true);
+
   useEffect(() => {
     setProfileUser(isFollowerProfile ? followerProfile : user);
   }, [followerProfile, isFollowerProfile, user]);
@@ -107,35 +109,40 @@ function Profile() {
         <Loader />
       ) : (
         <>
-        <div className={styles.profile}>
-          <UserCard profileUser={profileUser} />
-          <div className={styles.posts}>
-            {!isFollowerProfile && (
-              <AddPost
-                avatarURL={user.avatar_url}
-                isSent={isSent}
-                setIsSent={setIsSent}
-                addPostFetch={addPostFetch}
-                setAddPostFetch={setAddPostFetch}
-              />
-            )}
+          <div className={styles.profile}>
+            <UserCard profileUser={profileUser} />
+            <div className={styles.posts}>
+              {!isFollowerProfile && (
+                <AddPost
+                  avatarURL={user.avatar_url}
+                  isSent={isSent}
+                  setIsSent={setIsSent}
+                  addPostFetch={addPostFetch}
+                  setAddPostFetch={setAddPostFetch}
+                />
+              )}
 
-            {profilePosts.map((post) => (
-              <PostCard
-                postId={post.post_id}
-                date={post.post_date}
-                author={post.author_name}
-                authorId={isFollowerProfile ? post.author_id : '#'}
-                content={post.post_content}
-                avatarURL={post.avatar_url}
-                postLikes={post.post_likes}
-                handleDeletePost={handleDeletePost}
-                key={post.post_id}
-              />
-            ))}
+              {profilePosts.map((post) => (
+                <PostCard
+                  postId={post.post_id}
+                  date={post.post_date}
+                  author={post.author_name}
+                  authorId={isFollowerProfile ? post.author_id : '#'}
+                  content={post.post_content}
+                  avatarURL={post.avatar_url}
+                  postLikes={post.post_likes}
+                  handleDeletePost={handleDeletePost}
+                  key={post.post_id}
+                />
+              ))}
+            </div>
           </div>
-        </div>
-        <Modal>Are you sure to delete comment ?</Modal>
+          <Modal
+            isShow={showModal}
+            onRequestClose={() => setShowModal((prev) => !prev)}
+          >
+            Are you sure to delete comment ?
+          </Modal>
         </>
       )}
     </>

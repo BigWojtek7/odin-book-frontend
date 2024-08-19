@@ -1,3 +1,15 @@
+.modal{
+  margin: 100px auto;
+  padding: 2em;;
+  background-color: var(--nav-bg);
+  color: var(--font-clr);
+  border: var(--btn-clr) 5px solid
+}
+
 .modal::backdrop {
-  background: hsl(0 0% 0% / 50%);
+  background: hsl(0 0% 0% / 70%);
+}
+
+.children {
+  margin-bottom: 0.5em;
 }
