@@ -1,17 +1,23 @@
-.btnToggle{
+.btnToggle {
   display: none;
 }
-.navHeader{
+
+.navLink svg {
+  width: 2.1rem;
+  height: 2.1rem;
+}
+
+.navHeader {
   background-color: var(--nav-bg);
   position: fixed;
   top: 0;
   bottom: 0;
-  left: 0;  
+  left: 0;
   padding-block: 2rem;
   font-size: 1.25rem;
 }
 
-.logo{
+.logo {
   text-align: center;
   margin-bottom: 2em;
 }
@@ -21,7 +27,7 @@
   gap: 1rem;
 }
 
-.navLink  {
+.navLink {
   padding-block: 1rem;
   padding-inline: 3rem 5rem;
   text-decoration: none;
@@ -49,20 +55,21 @@
 }
 
 @media (max-width: 1000px) {
-  .btnToggle{
+  .btnToggle {
     display: inline-block;
   }
-  .logo{
+  .logo {
     margin-bottom: 0;
+    /* margin-right: 20px;; */
   }
-  .navHeader{
+  .navHeader {
     position: static;
-    padding: 0.5em 0;
+    padding-block: 0.85em ;
     background-color: var(--nav-bg);
     text-align: center;
-    font-size: 1.3rem;
+    font-size: 1rem;
     margin-bottom: 0.5em;
-    border-radius: 0 0 10px 10px ;
+    border-radius: 0 0 10px 10px;
   }
   .nav {
     position: absolute;
@@ -78,19 +85,24 @@
     height: auto;
     visibility: visible;
   }
-  .navList{
+  .navList {
     display: block;
   }
-  .navLink{
+  .navLink {
     justify-content: center;
   }
 
-  .btnToggle{
+  .btnToggle {
     border: none;
     background-color: inherit;
     color: white;
     position: absolute;
     left: 15%;
+    top: 0.65em
   }
 
+  .navLink svg {
+    width: 1.4rem;
+    height: 1.4rem;
+  }
 }

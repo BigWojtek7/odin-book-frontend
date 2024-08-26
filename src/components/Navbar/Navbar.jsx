@@ -30,7 +30,7 @@ function Navbar({ token, setToken }) {
 
   return (
     <div className={styles.navHeader}>
-      <button className={styles.btnToggle} ><Icon path={mdiMenu} size={1.4} onClick={() => setIsOpen(!isOpen)} /></button>
+      <button className={styles.btnToggle} ><Icon size={1.4} path={mdiMenu}  onClick={() => setIsOpen(!isOpen)} /></button>
       <p className={styles.logo}>FriendsBook</p>
       <nav className={`${styles.nav} ${isOpen ? styles.navVisible : ''}`}>
         <ul className={styles.navList}>
@@ -38,7 +38,7 @@ function Navbar({ token, setToken }) {
             <>
               <li className={pathname === '/' ? styles.active : undefined}>
                 <Link className={styles.navLink} to="/">
-                  <Icon path={mdiHome} size={1.4} />
+                  <Icon path={mdiHome} />
                   Home
                 </Link>
               </li>
@@ -50,7 +50,7 @@ function Navbar({ token, setToken }) {
                 }
               >
                 <Link className={styles.navLink} to="profile">
-                  <Icon path={mdiAccount} size={1.4} />
+                  <Icon path={mdiAccount}  />
                   Profile
                 </Link>
               </li>
@@ -58,7 +58,7 @@ function Navbar({ token, setToken }) {
                 className={pathname === '/requests' ? styles.active : undefined}
               >
                 <Link className={styles.navLink} to="/requests">
-                  <Icon path={mdiAccountGroup} size={1.4} />
+                  <Icon path={mdiAccountGroup}  />
                   Requests
                 </Link>
               </li>
@@ -66,13 +66,13 @@ function Navbar({ token, setToken }) {
                 className={pathname === '/settings' ? styles.active : undefined}
               >
                 <Link className={styles.navLink} to="/settings">
-                  <Icon path={mdiCogs} size={1.4} />
+                  <Icon path={mdiCogs}  />
                   Settings
                 </Link>
               </li>
               <li>
                 <a href="#" className={`${styles.logout} ${styles.navLink}`} onClick={handleLogout}>
-                  <Icon path={mdiLogout} size={1.4} />
+                  <Icon path={mdiLogout}  />
                   Log Out
                 </a>
               </li>
@@ -83,13 +83,13 @@ function Navbar({ token, setToken }) {
                 className={pathname === '/sign-up' ? styles.active : undefined}
               >
                 <Link className={styles.navLink} to="sign-up">
-                  <Icon path={mdiAccountPlus} size={1.4} />
+                  <Icon path={mdiAccountPlus}  />
                   SignUp
                 </Link>
               </li>
               <li className={pathname === '/login' ? styles.active : undefined}>
                 <Link className={styles.navLink} to="login">
-                  <Icon path={mdiLogin} size={1.4} />
+                  <Icon path={mdiLogin}  />
                   Login
                 </Link>
               </li>
