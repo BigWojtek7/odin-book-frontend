@@ -191,7 +191,7 @@ function Requests() {
       {isLoading ? (
         <Loader />
       ) : (
-        <div className={styles.container}>
+        <div className={styles.requests}>
           <div className={styles.sideCard}>
             <h2 className={styles.sideHeading}>Sent Requests:</h2>
             {requestsSent.map((request) => (

@@ -205,7 +205,7 @@ function Settings() {
       {isLoading ? (
         <Loader />
       ) : !isUpdated ? (
-        <div className={styles.container}>
+        <div className={styles.settings}>
           <div className={styles.profilAvatar}>
             <h2 className={styles.cardHeading}>Edit Avatar:</h2>
             <div className={styles.imgDiv}>

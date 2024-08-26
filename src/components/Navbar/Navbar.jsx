@@ -31,7 +31,7 @@ function Navbar({ token, setToken }) {
   return (
     <div className={styles.navHeader}>
       <button className={styles.btnToggle} ><Icon path={mdiMenu} size={1.4} onClick={() => setIsOpen(!isOpen)} /></button>
-      <p>FriendsBook</p>
+      <p className={styles.logo}>FriendsBook</p>
       <nav className={`${styles.nav} ${isOpen ? styles.navVisible : ''}`}>
         <ul className={styles.navList}>
           {token ? (

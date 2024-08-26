@@ -28,7 +28,7 @@ body {
 @media(max-width:1000px){
   body{
     padding-inline: 8%;
-    padding-block: 0;
+    padding-block: 0 5%;
   }
 
 

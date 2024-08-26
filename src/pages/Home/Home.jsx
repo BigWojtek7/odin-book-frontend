@@ -46,7 +46,7 @@ function Home() {
       ) : (
         <>
           {token ? (
-            <div className={styles.container}>
+            <div className={styles.home}>
               <FriendsCard
                 unFollowReq={unFollowReq}
                 setUnFollowReq={setUnFollowReq}
