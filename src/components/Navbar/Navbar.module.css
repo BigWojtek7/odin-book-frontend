@@ -1,13 +1,28 @@
-.nav {
-  background-color: var(--nav-bg);
+/* .nav {
+  
   position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
+
+} */
+.btnToggle{
+  display: none;
+}
+.navHeader{
+  background-color: var(--nav-bg);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;  
   padding-block: 2rem;
   font-size: 1.25rem;
 }
 
+.logo{
+  text-align: center;
+  margin-bottom: 2em;
+}
 .navList {
   list-style: none;
   display: grid;
@@ -42,7 +57,14 @@
 }
 
 @media (max-width: 1000px) {
+  .btnToggle{
+    display: inline-block;
+  }
+  .logo{
+    margin-bottom: 0;
+  }
   .navHeader{
+    position: static;
     padding: 0.5em 0;
     background-color: var(--nav-bg);
     text-align: center;
