@@ -1,4 +1,4 @@
-nav {
+.nav {
   background-color: var(--nav-bg);
   position: fixed;
   top: 0;
@@ -14,7 +14,7 @@ nav {
   gap: 1rem;
 }
 
-.navList a {
+.navLink  {
   padding-block: 1rem;
   padding-inline: 3rem 5rem;
   text-decoration: none;
@@ -37,6 +37,46 @@ nav {
   color: var(--icon-clr);
 }
 
-.navList .logout{
+.navList .logout {
   color: var(--cancel-clr);
+}
+
+@media (max-width: 1000px) {
+  .navHeader{
+    padding: 0.5em 0;
+    background-color: var(--nav-bg);
+    text-align: center;
+    font-size: 1.3rem;
+    margin-bottom: 0.5em;
+    border-radius: 0 0 10px 10px ;
+  }
+  .nav {
+    position: absolute;
+    /* height: 0; */
+    visibility: hidden;
+    top: auto;
+    bottom: auto;
+    left: auto;
+  }
+
+  .navVisible {
+    position: relative;
+    height: auto;
+    visibility: visible;
+  }
+  .navList{
+    display: block;
+  }
+  .navLink{
+    justify-content: center;
+  }
+
+  .btnToggle{
+    border: none;
+    background-color: inherit;
+    color: white;
+    position: absolute;
+    left: 15%;
+  }
+
 }
