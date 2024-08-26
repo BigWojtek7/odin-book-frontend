@@ -32,3 +32,14 @@
   color: var(--font-clr);
 }
 
+
+@media(max-width:500px){
+  .addComment{
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  .commentForm{
+    flex-direction: column;
+  }
+}
