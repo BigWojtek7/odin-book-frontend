@@ -2,9 +2,6 @@
   display: flex;
   gap: 15px;
 }
-.posts {
-  flex: 2;
-}
 
 .welcomeMessage svg {
   margin-right: 30px;
