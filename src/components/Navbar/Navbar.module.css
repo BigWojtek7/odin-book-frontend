@@ -20,6 +20,8 @@
 .logo {
   text-align: center;
   margin-bottom: 2em;
+  font-family: 'Norse-bold';
+  letter-spacing: 0.2em;
 }
 .navList {
   list-style: none;

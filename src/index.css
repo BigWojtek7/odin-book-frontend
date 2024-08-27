@@ -4,6 +4,26 @@
   box-sizing: border-box;
 }
 
+@font-face {
+  font-family: 'Roboto';
+  font-weight: 400;
+  src: url('./assets/fonts/roboto-v32-latin-regular.woff2');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-weight: 700;
+  src: url('./assets/fonts/roboto-v32-latin-700.woff2');
+}
+
+@font-face {
+  font-family: 'Norse-Bold';
+  font-weight: 700;
+  src: url('./assets/fonts/norse-bold.woff2');
+}
+
+
+
 :root {
   --nav-bg: #1c334b;
   --body-bg: #0a141e;
@@ -15,7 +35,8 @@
 }
 
 body {
-  font-family: sans-serif, 'Times New Roman';
+  font-family:'Roboto', sans-serif;
+  font-weight: 400;
   font-size: 1rem;
   background-color: var(--body-bg);
   padding-inline-start: 19rem;
