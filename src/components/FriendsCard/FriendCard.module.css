@@ -2,7 +2,7 @@
   background-color: var(--nav-bg);
   border-radius: 10px;
   padding: 0.5em;
-  width: 42%;
+  max-width: 280px;
 }
 
 .friendBar {
