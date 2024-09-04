@@ -23,6 +23,8 @@ function Profile() {
 
   const { followerid } = useParams();
 
+  const [showModal, setShowModal] = useState(true);
+
   const isFollowerProfile = followerid !== 'profile';
 
   useEffect(() => {
