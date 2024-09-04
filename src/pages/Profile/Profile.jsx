@@ -9,6 +9,7 @@ import Loader from '../../components/Loader/Loader';
 import requestWithNativeFetch from '../../utils/fetchApi';
 
 import Modal from '../../components/Modal/Modal';
+
 function Profile() {
   const [profilePosts, setProfilePosts] = useState([]);
   const [forceRenderPosts, setForceRenderPosts] = useState(0);
@@ -24,6 +25,7 @@ function Profile() {
   const { followerid } = useParams();
 
   const [showModal, setShowModal] = useState(true);
+  const [commentId, setCommentId] = useState()
 
   const isFollowerProfile = followerid !== 'profile';
 
