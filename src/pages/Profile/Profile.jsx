@@ -4,12 +4,12 @@ import UserCard from '../../components/UserCard/UserCard';
 import styles from './Profile.module.css';
 import { useEffect, useState } from 'react';
 import getRequestWithNativeFetch from '../../utils/fetchApiGet';
-import AddPost from '../../components/AddPost/AddPost';
+import AddPost from '../../components/PostCard/AddPost/AddPost';
 import Loader from '../../components/Loader/Loader';
 import requestWithNativeFetch from '../../utils/fetchApi';
 function Profile() {
   const [profilePosts, setProfilePosts] = useState([]);
-  const [isSent, setIsSent] = useState(false);
+  const [forceRenderPosts, setForceRenderPosts] = useState(0);
   const [deleteRes, setDeleteRes] = useState({});
 
   const [addPostFetch, setAddPostFetch] = useState();
@@ -53,7 +53,6 @@ function Profile() {
   useEffect(() => {
     if (profileUser?.user_id) {
       setIsLoading(true);
-      console.log('woltix');
       const fetchDataForPosts = async () => {
         try {
           const url = `${import.meta.env.VITE_BACKEND_URL}/posts/user/${
@@ -76,7 +75,7 @@ function Profile() {
     return () => {
       setProfilePosts([]);
     };
-  }, [setIsLoading, token, profileUser, isSent, deleteRes]);
+  }, [setIsLoading, token, profileUser, forceRenderPosts, deleteRes]);
 
   const handleDeletePost = (e, postId) => {
     e.preventDefault();
@@ -112,8 +111,7 @@ function Profile() {
               {!isFollowerProfile && (
                 <AddPost
                   avatarURL={user.avatar_url}
-                  isSent={isSent}
-                  setIsSent={setIsSent}
+                  setForceRenderPosts={setForceRenderPosts}
                   addPostFetch={addPostFetch}
                   setAddPostFetch={setAddPostFetch}
                 />

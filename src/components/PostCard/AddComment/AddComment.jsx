@@ -5,7 +5,7 @@ import { useOutletContext } from 'react-router-dom';
 import requestWithNativeFetch from '../../../utils/fetchApi';
 
 function AddComment({
-  setIsSentComment,
+  setForceRenderComments,
   postId,
   textareaRef,
   addCommentFetch,
@@ -34,10 +34,12 @@ function AddComment({
         );
         setAddCommentFetch(createCommentData);
         if (createCommentData.success) {
-          setIsSentComment(true);
+          setForceRenderComments(prev => prev + 1);
         }
       } catch (err) {
         console.log(err);
+      }finally{
+        e.target.reset();
       }
     };
     fetchDataForCreateComment();

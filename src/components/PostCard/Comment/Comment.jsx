@@ -5,12 +5,11 @@ import { useEffect, useState } from 'react';
 import Icon from '@mdi/react';
 import { mdiTrashCan } from '@mdi/js';
 import requestWithNativeFetch from '../../../utils/fetchApi';
-function Comment({ postId, isSentComment }) {
+function Comment({ postId, forceRenderComments }) {
   const [comments, setComments] = useState([]);
-  const [token, , user, , ,,] = useOutletContext();
+  const [token, , user, , , ,] = useOutletContext();
   const [deleteRes, setDeleteRes] = useState({});
 
-  
   useEffect(() => {
     const fetchDataForComments = async () => {
       try {
@@ -31,7 +30,7 @@ function Comment({ postId, isSentComment }) {
     return () => {
       setComments([]);
     };
-  }, [token, postId, isSentComment, deleteRes]);
+  }, [token, postId, forceRenderComments, deleteRes]);
 
   const handleDelete = (e) => {
     e.preventDefault();
@@ -59,7 +58,11 @@ function Comment({ postId, isSentComment }) {
       {comments.map((comment) => (
         <div className={styles.comment} key={comment.comment_id}>
           <div className={styles.imgDiv}>
-            <img className={styles.avatar} src={comment.avatar_url} alt="avatar" />
+            <img
+              className={styles.avatar}
+              src={comment.avatar_url}
+              alt="avatar"
+            />
           </div>
           <div className={styles.commentMain}>
             <Link

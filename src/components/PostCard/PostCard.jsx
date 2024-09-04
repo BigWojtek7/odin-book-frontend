@@ -13,7 +13,7 @@ function PostCard({
   avatarURL,
   handleDeletePost,
 }) {
-  const [isSentComment, setIsSentComment] = useState(false);
+  const [forceRenderComments, setForceRenderComments] = useState(0);
   const commentTextarea = useRef(null);
   const [addCommentFetch, setAddCommentFetch] = useState(null);
   return (
@@ -30,13 +30,13 @@ function PostCard({
           inputRef={commentTextarea}
         />
         <AddComment
-          setIsSentComment={setIsSentComment}
+          setForceRenderComments={setForceRenderComments}
           postId={postId}
           textareaRef={commentTextarea}
           addCommentFetch={addCommentFetch}
           setAddCommentFetch={setAddCommentFetch}
         />
-        <Comment postId={postId} isSentComment={isSentComment} />
+        <Comment postId={postId} forceRenderComments={forceRenderComments} />
       </div>
     </>
   );
