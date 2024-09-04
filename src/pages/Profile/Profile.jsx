@@ -7,6 +7,8 @@ import getRequestWithNativeFetch from '../../utils/fetchApiGet';
 import AddPost from '../../components/PostCard/AddPost/AddPost';
 import Loader from '../../components/Loader/Loader';
 import requestWithNativeFetch from '../../utils/fetchApi';
+
+import Modal from '../../components/Modal/Modal';
 function Profile() {
   const [profilePosts, setProfilePosts] = useState([]);
   const [forceRenderPosts, setForceRenderPosts] = useState(0);
@@ -132,6 +134,12 @@ function Profile() {
               ))}
             </div>
           </div>
+          <Modal
+            isShow={showModal}
+            onRequestClose={() => setShowModal((prev) => !prev)}
+          >
+            Are you sure to delete comment ?
+          </Modal>
         </>
       )}
     </>
