@@ -9,14 +9,16 @@ import Modal from '../Modal/Modal';
 import requestWithNativeFetch from '../../utils/fetchApi';
 
 function PostCard({
-  postId,
   authorId,
   forceRenderPosts,
   profileUser,
   fetchUrl,
 }) {
+  const [deleteCommentRes, setDeleteCommentRes] = useState({});
 
-  const [showModal, setShowModal] = useState(false);
+  const [showCommentModal, setShowCommentModal] = useState(false);
+  const [showPostModal, setShowPostModal] = useState(false);
+
 
   const [forceRenderComments, setForceRenderComments] = useState(0);
   const [deletePostRes, setDeletePostRes] = useState({});
@@ -27,33 +29,35 @@ function PostCard({
   const [token, , user, isLoading, setIsLoading] = useOutletContext();
 
   const [profilePosts, setProfilePosts] = useState([]);
+  const [commentId, setCommentId] = useState();
+  const [deletePostId, setDeletePostId] = useState();
+
 
   useEffect(() => {
     if (profileUser?.user_id) {
       const fetchDataForPosts = async () => {
         try {
-          const url = `${import.meta.env.VITE_BACKEND_URL}/posts/user/${
-            profileUser.user_id
-          }`;
+          // const url = `${import.meta.env.VITE_BACKEND_URL}/posts/user/${
+          //   profileUser.user_id
+          // }`;
           const headers = {
             Authorization: token,
           };
-          const postsData = await getRequestWithNativeFetch(url, headers);
+          const postsData = await getRequestWithNativeFetch(fetchUrl, headers);
 
           setProfilePosts(postsData);
         } catch (err) {
           console.log(err);
-        } 
+        }
       };
       fetchDataForPosts();
     }
     return () => {
       setProfilePosts([]);
     };
-  }, [setIsLoading, token, profileUser, forceRenderPosts, deletePostRes]);
+  }, [setIsLoading, token, profileUser, forceRenderPosts, deletePostRes, fetchUrl]);
 
-  const handleDeletePost = (e, postId) => {
-    e.preventDefault();
+  const handleDeletePost = (postId) => {
     setIsLoading(true);
     const fetchDataForDeletePost = async () => {
       try {
@@ -74,6 +78,30 @@ function PostCard({
     fetchDataForDeletePost();
   };
 
+  const handleDeleteComment = (commentId) => {
+    // e.preventDefault();
+    // const commentId = e.currentTarget.value;
+    const fetchDataForDelete = async () => {
+      try {
+        const url = `${
+          import.meta.env.VITE_BACKEND_URL
+        }/posts/comments/${commentId}`;
+        const headers = { Authorization: token };
+        const deleteData = await requestWithNativeFetch(url, 'DELETE', headers);
+        setDeleteCommentRes(deleteData);
+
+        if (deleteData.success) {
+          setDeleteCommentRes(deleteData);
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setShowCommentModal(false);
+      }
+    };
+    fetchDataForDelete();
+  };
+
   return (
     <>
       {profilePosts.map((post) => (
@@ -85,8 +113,9 @@ function PostCard({
             authorId={authorId}
             content={post.post_content}
             avatarURL={post.avatar_url}
-            handleDeletePost={handleDeletePost}
             inputRef={commentTextarea}
+            setShowPostModal={setShowPostModal}
+            setDeletePostId={setDeletePostId}
           />
           <AddComment
             setForceRenderComments={setForceRenderComments}
@@ -95,15 +124,28 @@ function PostCard({
             addCommentFetch={addCommentFetch}
             setAddCommentFetch={setAddCommentFetch}
           />
-          <Comment postId={post.post_id} forceRenderComments={forceRenderComments} />
+          <Comment
+            postId={post.post_id}
+            forceRenderComments={forceRenderComments}
+            setShowModal={setShowCommentModal}
+            setCommentId={setCommentId}
+            deleteCommentRes={deleteCommentRes}
+          />
         </div>
       ))}
       <Modal
-        isShow={showModal}
-        onRequestSubmit={() => handleDelete(commentId)}
-        onRequestClose={() => setShowModal((prev) => !prev)}
+        isShow={showCommentModal}
+        onRequestSubmit={() => handleDeleteComment(commentId)}
+        onRequestClose={() => setShowCommentModal((prev) => !prev)}
       >
         Are you sure to delete comment ?
+      </Modal>
+      <Modal
+        isShow={showPostModal}
+        onRequestSubmit={() => handleDeletePost(deletePostId)}
+        onRequestClose={() => setShowPostModal((prev) => !prev)}
+      >
+        Are you sure to delete post ?
       </Modal>
     </>
   );

@@ -25,8 +25,8 @@ function Profile() {
 
   const { followerid } = useParams();
 
-  const [showModal, setShowModal] = useState(false);
-  const [commentId, setCommentId] = useState();
+  // const [showModal, setShowModal] = useState(false);
+  // const [commentId, setCommentId] = useState();
 
   const isFollowerProfile = followerid !== 'profile';
 
@@ -106,31 +106,30 @@ function Profile() {
   //   fetchDataForDeletePost();
   // };
 
-  const [deleteCommentRes, setDeleteCommentRes] = useState({});
 
-  const handleDelete = (commentId) => {
-    // e.preventDefault();
-    // const commentId = e.currentTarget.value;
-    const fetchDataForDelete = async () => {
-      try {
-        const url = `${
-          import.meta.env.VITE_BACKEND_URL
-        }/posts/comments/${commentId}`;
-        const headers = { Authorization: token };
-        const deleteData = await requestWithNativeFetch(url, 'DELETE', headers);
-        setDeleteCommentRes(deleteData);
+  // const handleDelete = (commentId) => {
+  //   // e.preventDefault();
+  //   // const commentId = e.currentTarget.value;
+  //   const fetchDataForDelete = async () => {
+  //     try {
+  //       const url = `${
+  //         import.meta.env.VITE_BACKEND_URL
+  //       }/posts/comments/${commentId}`;
+  //       const headers = { Authorization: token };
+  //       const deleteData = await requestWithNativeFetch(url, 'DELETE', headers);
+  //       setDeleteCommentRes(deleteData);
 
-        if (deleteData.success) {
-          setDeleteCommentRes(deleteData);
-        }
-      } catch (err) {
-        console.log(err);
-      } finally {
-        setShowModal(false);
-      }
-    };
-    fetchDataForDelete();
-  };
+  //       if (deleteData.success) {
+  //         setDeleteCommentRes(deleteData);
+  //       }
+  //     } catch (err) {
+  //       console.log(err);
+  //     } finally {
+  //       setShowModal(false);
+  //     }
+  //   };
+  //   fetchDataForDelete();
+  // };
 
   return (
     <>
@@ -149,15 +148,13 @@ function Profile() {
                   setAddPostFetch={setAddPostFetch}
                 />
               )}
-              <ModalContext.Provider
-                value={{ setShowModal, setCommentId, deleteCommentRes }}
-              >
                 <PostCard
                   forceRenderPosts={forceRenderPosts}
-                  fetchUrl={''}
+                  fetchUrl={`${import.meta.env.VITE_BACKEND_URL}/posts/user/${
+            profileUser.user_id
+          }`}
                   profileUser={profileUser}
                 />
-              </ModalContext.Provider>
             </div>
           </div>
         </>

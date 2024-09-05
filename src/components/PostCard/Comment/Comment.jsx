@@ -5,14 +5,15 @@ import { useEffect, useState } from 'react';
 import Icon from '@mdi/react';
 import { mdiTrashCan } from '@mdi/js';
 
-import { useContext } from 'react';
-import { ModalContext } from '../../../pages/Profile/ModalContext';
-
-function Comment({ postId, forceRenderComments }) {
+function Comment({
+  postId,
+  forceRenderComments,
+  setShowModal,
+  setCommentId,
+  deleteCommentRes,
+}) {
   const [comments, setComments] = useState([]);
   const [token, , user, , , ,] = useOutletContext();
-
-  const {setShowModal, setCommentId, deleteCommentRes} = useContext(ModalContext)
 
   useEffect(() => {
     const fetchDataForComments = async () => {
@@ -37,9 +38,9 @@ function Comment({ postId, forceRenderComments }) {
   }, [token, postId, forceRenderComments, deleteCommentRes]);
 
   const handleDelete = (e) => {
-    setShowModal(true)
-    setCommentId(e.currentTarget.value)
-  }
+    setShowModal(true);
+    setCommentId(e.currentTarget.value);
+  };
 
   return (
     <>
