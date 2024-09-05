@@ -13,9 +13,9 @@ import { ModalContext } from './ModalContext';
 import Modal from '../../components/Modal/Modal';
 
 function Profile() {
-  const [profilePosts, setProfilePosts] = useState([]);
+  // const [deletePostRes, setDeletePostRes] = useState({});
+
   const [forceRenderPosts, setForceRenderPosts] = useState(0);
-  const [deletePostRes, setDeletePostRes] = useState({});
 
   const [addPostFetch, setAddPostFetch] = useState();
 
@@ -155,19 +155,17 @@ function Profile() {
                 />
               )}
               <ModalContext.Provider value={{ setShowModal, setCommentId, deleteCommentRes }}>
-                {profilePosts.map((post) => (
+                
                   <PostCard
-                    postId={post.post_id}
-                    date={post.post_date}
-                    author={post.author_name}
+                    // postId={post.post_id}
+                    // date={post.post_date}
+                    // author={post.author_name}
+                    forceRenderPosts={forceRenderPosts}
                     authorId={isFollowerProfile ? post.author_id : '#'}
-                    content={post.post_content}
-                    avatarURL={post.avatar_url}
-                    postLikes={post.post_likes}
-                    handleDeletePost={handleDeletePost}
-                    key={post.post_id}
+                    // content={post.post_content}
+                    // avatarURL={post.avatar_url}
+                    // postLikes={post.post_likes}
                   />
-                ))}
               </ModalContext.Provider>
             </div>
           </div>

@@ -2,20 +2,27 @@ import styles from './PostCard.module.css';
 import Post from './Post/Post';
 import Comment from './Comment/Comment';
 import AddComment from './AddComment/AddComment';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import getRequestWithNativeFetch from '../../utils/fetchApiGet';
+import { useOutletContext, useParams } from 'react-router-dom';
 
 function PostCard({
   postId,
-  date,
-  author,
   authorId,
   content,
   avatarURL,
-  handleDeletePost,
+  forceRenderPosts,
+  profileUser,
 }) {
   const [forceRenderComments, setForceRenderComments] = useState(0);
+  const [deletePostRes, setDeletePostRes] = useState({});
+
   const commentTextarea = useRef(null);
   const [addCommentFetch, setAddCommentFetch] = useState(null);
+
+  const [token, , user, isLoading, setIsLoading] = useOutletContext();
+
+  const [profilePosts, setProfilePosts] = useState([]);
 
   useEffect(() => {
     if (profileUser?.user_id) {
@@ -68,26 +75,28 @@ function PostCard({
 
   return (
     <>
-      <div className={styles.postCard}>
-        <Post
-          date={date}
-          postId={postId}
-          author={author}
-          authorId={authorId}
-          content={content}
-          avatarURL={avatarURL}
-          handleDeletePost={handleDeletePost}
-          inputRef={commentTextarea}
-        />
-        <AddComment
-          setForceRenderComments={setForceRenderComments}
-          postId={postId}
-          textareaRef={commentTextarea}
-          addCommentFetch={addCommentFetch}
-          setAddCommentFetch={setAddCommentFetch}
-        />
-        <Comment postId={postId} forceRenderComments={forceRenderComments} />
-      </div>
+      {profilePosts.map((post) => (
+        <div className={styles.postCard} key={post.post_id}>
+          <Post
+            date={post.post_date}
+            postId={post.post_id}
+            author={post.author_name}
+            authorId={authorId}
+            content={post.post_content}
+            avatarURL={post.avatar_url}
+            handleDeletePost={handleDeletePost}
+            inputRef={commentTextarea}
+          />
+          <AddComment
+            setForceRenderComments={setForceRenderComments}
+            postId={post.post_id}
+            textareaRef={commentTextarea}
+            addCommentFetch={addCommentFetch}
+            setAddCommentFetch={setAddCommentFetch}
+          />
+          <Comment postId={postId} forceRenderComments={forceRenderComments} />
+        </div>
+      ))}
     </>
   );
 }
