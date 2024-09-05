@@ -17,7 +17,7 @@ function Post({
   setDeletePostId,
   setShowPostModal,
 }) {
-  const [token, , , , ,] = useOutletContext();
+  const [token, ,user , , ,] = useOutletContext();
   const [postLikes, setPostLikes] = useState({ post_likes: '?' });
   const [isLikeAdded, setIsLikeAdded] = useState(false);
   const handleCommentClick = () => {
@@ -74,13 +74,17 @@ function Post({
     setShowPostModal(true);
     setDeletePostId(postId);
   };
+  console.log(user.user_id, authorId)
 
   return (
     <div className={styles.post}>
       <div className={styles.postInfo}>
         <img className={styles.avatar} src={avatarURL} alt="avatar" />
         <div>
-          <Link className={styles.name} to={`/profile/${authorId}`}>
+          <Link
+            className={styles.name}
+            to={`/profile/${user.user_id === authorId ? '#' : authorId}`}
+          >
             <p>{author}</p>
           </Link>
           <p className={styles.date}>{date}</p>
@@ -97,14 +101,15 @@ function Post({
           <Icon path={mdiMessage} size={1} />
           Comment
         </li>
-
-        <li
-          className={`${styles.listItem} ${styles.deleteItem}`}
-          onClick={handleDelete}
-        >
-          <Icon path={mdiTrashCan} size={1} />
-          Delete
-        </li>
+        {authorId === user.user_id && (
+          <li
+            className={`${styles.listItem} ${styles.deleteItem}`}
+            onClick={handleDelete}
+          >
+            <Icon path={mdiTrashCan} size={1} />
+            Delete
+          </li>
+        )}
       </ul>
       <hr />
     </div>

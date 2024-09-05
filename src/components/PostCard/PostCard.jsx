@@ -9,9 +9,7 @@ import Modal from '../Modal/Modal';
 import requestWithNativeFetch from '../../utils/fetchApi';
 
 function PostCard({
-  authorId,
   forceRenderPosts,
-  profileUser,
   fetchUrl,
 }) {
   const [deleteCommentRes, setDeleteCommentRes] = useState({});
@@ -34,7 +32,7 @@ function PostCard({
 
 
   useEffect(() => {
-    if (profileUser?.user_id) {
+    if (user.user_id) {
       const fetchDataForPosts = async () => {
         try {
           // const url = `${import.meta.env.VITE_BACKEND_URL}/posts/user/${
@@ -44,7 +42,7 @@ function PostCard({
             Authorization: token,
           };
           const postsData = await getRequestWithNativeFetch(fetchUrl, headers);
-
+          console.log(postsData)
           setProfilePosts(postsData);
         } catch (err) {
           console.log(err);
@@ -55,7 +53,7 @@ function PostCard({
     return () => {
       setProfilePosts([]);
     };
-  }, [setIsLoading, token, profileUser, forceRenderPosts, deletePostRes, fetchUrl]);
+  }, [setIsLoading, token, forceRenderPosts, deletePostRes, fetchUrl, user.user_id]);
 
   const handleDeletePost = (postId) => {
     setIsLoading(true);
@@ -77,7 +75,7 @@ function PostCard({
     };
     fetchDataForDeletePost();
   };
-
+  console.log(profilePosts);
   const handleDeleteComment = (commentId) => {
     // e.preventDefault();
     // const commentId = e.currentTarget.value;
@@ -110,7 +108,7 @@ function PostCard({
             date={post.post_date}
             postId={post.post_id}
             author={post.author_name}
-            authorId={authorId}
+            authorId={post.author_id}
             content={post.post_content}
             avatarURL={post.avatar_url}
             inputRef={commentTextarea}

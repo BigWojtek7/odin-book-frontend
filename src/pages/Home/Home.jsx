@@ -12,33 +12,34 @@ function Home() {
   const [homePosts, setHomePosts] = useState([]);
   const [unFollowReq, setUnFollowReq] = useState({});
   const [token, , user, isLoading, setIsLoading] = useOutletContext();
-  useEffect(() => {
-    if (token && user?.user_id) {
-      setIsLoading(true);
+  // useEffect(() => {
+  //   if (token && user?.user_id) {
+  //     setIsLoading(true);
 
-      const fetchDataForPosts = async () => {
-        try {
-          const url = `${import.meta.env.VITE_BACKEND_URL}/posts/${
-            user.user_id
-          }/followers`;
-          const headers = {
-            Authorization: token,
-          };
-          const postsData = await getRequestWithNativeFetch(url, headers);
+  //     const fetchDataForPosts = async () => {
+  //       try {
+  //         const url = `${import.meta.env.VITE_BACKEND_URL}/posts/${
+  //           user.user_id
+  //         }/followers`;
+  //         const headers = {
+  //           Authorization: token,
+  //         };
+  //         const postsData = await getRequestWithNativeFetch(url, headers);
 
-          setHomePosts(postsData);
-        } catch (err) {
-          console.log(err);
-        } finally {
-          setIsLoading(false);
-        }
-      };
-      fetchDataForPosts();
-    }
-    return () => {
-      setHomePosts([]);
-    };
-  }, [setIsLoading, token, user, unFollowReq]);
+  //         setHomePosts(postsData);
+  //       } catch (err) {
+  //         console.log(err);
+  //       } finally {
+  //         setIsLoading(false);
+  //       }
+  //     };
+  //     fetchDataForPosts();
+  //   }
+  //   return () => {
+  //     setHomePosts([]);
+  //   };
+  // }, [setIsLoading, token, user, unFollowReq]);
+  console.log(user.user_id)
   return (
     <>
       {isLoading ? (
@@ -53,10 +54,10 @@ function Home() {
               />
               <div className={styles.posts}>
                 <PostCard
+                  forceRenderPosts={unFollowReq}
                   fetchUrl={`${import.meta.env.VITE_BACKEND_URL}/posts/${
                     user.user_id
                   }/followers`}
-                  profileUser={user.user_id}
                 />
               </div>
             </div>

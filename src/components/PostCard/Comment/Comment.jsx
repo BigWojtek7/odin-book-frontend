@@ -42,6 +42,7 @@ function Comment({
     setCommentId(e.currentTarget.value);
   };
 
+  console.log(user.user_id)
   return (
     <>
       {comments.map((comment) => (

@@ -17,7 +17,7 @@ function Modal({ isShow, onRequestClose, onRequestSubmit, children }) {
     <dialog ref={dialogRef} className={styles.modal}>
       <h1>Confirmation</h1>
       <p className={styles.children}>{children}</p>
-      <CancelButton type="button" name="Cancel" clickHandler={onRequestClose} />
+      <CancelButton type="button" name="Close" clickHandler={onRequestClose} />
       <SubmitButton
         type="button"
         name="Submit"

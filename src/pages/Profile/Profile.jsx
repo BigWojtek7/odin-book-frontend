@@ -10,7 +10,6 @@ import requestWithNativeFetch from '../../utils/fetchApi';
 
 import { ModalContext } from './ModalContext';
 
-
 function Profile() {
   // const [deletePostRes, setDeletePostRes] = useState({});
 
@@ -106,7 +105,6 @@ function Profile() {
   //   fetchDataForDeletePost();
   // };
 
-
   // const handleDelete = (commentId) => {
   //   // e.preventDefault();
   //   // const commentId = e.currentTarget.value;
@@ -148,13 +146,13 @@ function Profile() {
                   setAddPostFetch={setAddPostFetch}
                 />
               )}
-                <PostCard
-                  forceRenderPosts={forceRenderPosts}
-                  fetchUrl={`${import.meta.env.VITE_BACKEND_URL}/posts/user/${
-            profileUser.user_id
-          }`}
-                  profileUser={profileUser}
-                />
+              <PostCard
+                forceRenderPosts={forceRenderPosts}
+                fetchUrl={`${import.meta.env.VITE_BACKEND_URL}/posts/user/${
+                  user.user_id
+                }`}
+                profileUser={profileUser}
+              />
             </div>
           </div>
         </>
