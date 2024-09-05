@@ -1,5 +1,5 @@
 import styles from './Buttons.module.css';
-function CancelButton({ type, name, style, clickHandler }) {
+function CancelButton({ type, name, clickHandler, style }) {
   return (
     <button
       className={styles.cancelButton}

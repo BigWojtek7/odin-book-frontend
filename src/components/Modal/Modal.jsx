@@ -18,7 +18,12 @@ function Modal({ isShow, onRequestClose, onRequestSubmit, children }) {
       <h1>Confirmation</h1>
       <p className={styles.children}>{children}</p>
       <CancelButton type="button" name="Cancel" clickHandler={onRequestClose} />
-      <SubmitButton type="button" name="Submit" onClick={onRequestSubmit} style={{'margin-left': '10px'}}/>
+      <SubmitButton
+        type="button"
+        name="Submit"
+        clickHandler={onRequestSubmit}
+        style={{ marginLeft: '10px' }}
+      />
     </dialog>
   );
 }

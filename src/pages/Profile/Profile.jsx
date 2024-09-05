@@ -8,12 +8,14 @@ import AddPost from '../../components/PostCard/AddPost/AddPost';
 import Loader from '../../components/Loader/Loader';
 import requestWithNativeFetch from '../../utils/fetchApi';
 
+import { ModalContext } from './ModalContext';
+
 import Modal from '../../components/Modal/Modal';
 
 function Profile() {
   const [profilePosts, setProfilePosts] = useState([]);
   const [forceRenderPosts, setForceRenderPosts] = useState(0);
-  const [deleteRes, setDeleteRes] = useState({});
+  const [deletePostRes, setDeletePostRes] = useState({});
 
   const [addPostFetch, setAddPostFetch] = useState();
 
@@ -24,8 +26,8 @@ function Profile() {
 
   const { followerid } = useParams();
 
-  const [showModal, setShowModal] = useState(true);
-  const [commentId, setCommentId] = useState()
+  const [showModal, setShowModal] = useState(false);
+  const [commentId, setCommentId] = useState();
 
   const isFollowerProfile = followerid !== 'profile';
 
@@ -56,54 +58,84 @@ function Profile() {
     };
   }, [token, isFollowerProfile, followerid]);
 
-  useEffect(() => {
-    if (profileUser?.user_id) {
-      setIsLoading(true);
-      const fetchDataForPosts = async () => {
-        try {
-          const url = `${import.meta.env.VITE_BACKEND_URL}/posts/user/${
-            profileUser.user_id
-          }`;
-          const headers = {
-            Authorization: token,
-          };
-          const postsData = await getRequestWithNativeFetch(url, headers);
+  // useEffect(() => {
+  //   if (profileUser?.user_id) {
+  //     setIsLoading(true);
+  //     const fetchDataForPosts = async () => {
+  //       try {
+  //         const url = `${import.meta.env.VITE_BACKEND_URL}/posts/user/${
+  //           profileUser.user_id
+  //         }`;
+  //         const headers = {
+  //           Authorization: token,
+  //         };
+  //         const postsData = await getRequestWithNativeFetch(url, headers);
 
-          setProfilePosts(postsData);
-        } catch (err) {
-          console.log(err);
-        } finally {
-          setIsLoading(false);
-        }
-      };
-      fetchDataForPosts();
-    }
-    return () => {
-      setProfilePosts([]);
-    };
-  }, [setIsLoading, token, profileUser, forceRenderPosts, deleteRes]);
+  //         setProfilePosts(postsData);
+  //       } catch (err) {
+  //         console.log(err);
+  //       } finally {
+  //         setIsLoading(false);
+  //       }
+  //     };
+  //     fetchDataForPosts();
+  //   }
+  //   return () => {
+  //     setProfilePosts([]);
+  //   };
+  // }, [setIsLoading, token, profileUser, forceRenderPosts, deletePostRes]);
 
-  const handleDeletePost = (e, postId) => {
-    e.preventDefault();
-    setIsLoading(true);
-    const fetchDataForDeletePost = async () => {
+  // const handleDeletePost = (e, postId) => {
+  //   e.preventDefault();
+  //   setIsLoading(true);
+  //   const fetchDataForDeletePost = async () => {
+  //     try {
+  //       const url = `${import.meta.env.VITE_BACKEND_URL}/posts/${postId}`;
+  //       const headers = { Authorization: token };
+  //       const deleteData = await requestWithNativeFetch(url, 'DELETE', headers);
+  //       setDeletePostRes(deleteData);
+
+  //       if (deleteData.success) {
+  //         setDeletePostRes(deleteData);
+  //       }
+  //     } catch (err) {
+  //       console.log(err);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
+  //   fetchDataForDeletePost();
+  // };
+
+  const [deleteCommentRes, setDeleteCommentRes] = useState({});
+
+  const handleDelete = (commentId) => {
+    // e.preventDefault();
+    // const commentId = e.currentTarget.value;
+    const fetchDataForDelete = async () => {
       try {
-        const url = `${import.meta.env.VITE_BACKEND_URL}/posts/${postId}`;
+        const url = `${
+          import.meta.env.VITE_BACKEND_URL
+        }/posts/comments/${commentId}`;
         const headers = { Authorization: token };
         const deleteData = await requestWithNativeFetch(url, 'DELETE', headers);
-        setDeleteRes(deleteData);
+        setDeleteCommentRes(deleteData);
 
         if (deleteData.success) {
-          setDeleteRes(deleteData);
+          setDeleteCommentRes(deleteData);
         }
       } catch (err) {
         console.log(err);
-      } finally {
-        setIsLoading(false);
+      }finally{
+        setShowModal(false)
       }
     };
-    fetchDataForDeletePost();
+    fetchDataForDelete();
   };
+
+
+
+
 
   return (
     <>
@@ -122,24 +154,26 @@ function Profile() {
                   setAddPostFetch={setAddPostFetch}
                 />
               )}
-
-              {profilePosts.map((post) => (
-                <PostCard
-                  postId={post.post_id}
-                  date={post.post_date}
-                  author={post.author_name}
-                  authorId={isFollowerProfile ? post.author_id : '#'}
-                  content={post.post_content}
-                  avatarURL={post.avatar_url}
-                  postLikes={post.post_likes}
-                  handleDeletePost={handleDeletePost}
-                  key={post.post_id}
-                />
-              ))}
+              <ModalContext.Provider value={{ setShowModal, setCommentId, deleteCommentRes }}>
+                {profilePosts.map((post) => (
+                  <PostCard
+                    postId={post.post_id}
+                    date={post.post_date}
+                    author={post.author_name}
+                    authorId={isFollowerProfile ? post.author_id : '#'}
+                    content={post.post_content}
+                    avatarURL={post.avatar_url}
+                    postLikes={post.post_likes}
+                    handleDeletePost={handleDeletePost}
+                    key={post.post_id}
+                  />
+                ))}
+              </ModalContext.Provider>
             </div>
           </div>
           <Modal
             isShow={showModal}
+            onRequestSubmit={() => handleDelete(commentId)}
             onRequestClose={() => setShowModal((prev) => !prev)}
           >
             Are you sure to delete comment ?

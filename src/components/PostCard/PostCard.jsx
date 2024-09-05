@@ -16,6 +16,56 @@ function PostCard({
   const [forceRenderComments, setForceRenderComments] = useState(0);
   const commentTextarea = useRef(null);
   const [addCommentFetch, setAddCommentFetch] = useState(null);
+
+  useEffect(() => {
+    if (profileUser?.user_id) {
+      setIsLoading(true);
+      const fetchDataForPosts = async () => {
+        try {
+          const url = `${import.meta.env.VITE_BACKEND_URL}/posts/user/${
+            profileUser.user_id
+          }`;
+          const headers = {
+            Authorization: token,
+          };
+          const postsData = await getRequestWithNativeFetch(url, headers);
+
+          setProfilePosts(postsData);
+        } catch (err) {
+          console.log(err);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      fetchDataForPosts();
+    }
+    return () => {
+      setProfilePosts([]);
+    };
+  }, [setIsLoading, token, profileUser, forceRenderPosts, deletePostRes]);
+
+  const handleDeletePost = (e, postId) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const fetchDataForDeletePost = async () => {
+      try {
+        const url = `${import.meta.env.VITE_BACKEND_URL}/posts/${postId}`;
+        const headers = { Authorization: token };
+        const deleteData = await requestWithNativeFetch(url, 'DELETE', headers);
+        setDeletePostRes(deleteData);
+
+        if (deleteData.success) {
+          setDeletePostRes(deleteData);
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchDataForDeletePost();
+  };
+
   return (
     <>
       <div className={styles.postCard}>

@@ -4,11 +4,15 @@ import styles from './Comment.module.css';
 import { useEffect, useState } from 'react';
 import Icon from '@mdi/react';
 import { mdiTrashCan } from '@mdi/js';
-import requestWithNativeFetch from '../../../utils/fetchApi';
+
+import { useContext } from 'react';
+import { ModalContext } from '../../../pages/Profile/ModalContext';
+
 function Comment({ postId, forceRenderComments }) {
   const [comments, setComments] = useState([]);
   const [token, , user, , , ,] = useOutletContext();
-  const [deleteRes, setDeleteRes] = useState({});
+
+  const {setShowModal, setCommentId, deleteCommentRes} = useContext(ModalContext)
 
   useEffect(() => {
     const fetchDataForComments = async () => {
@@ -30,29 +34,13 @@ function Comment({ postId, forceRenderComments }) {
     return () => {
       setComments([]);
     };
-  }, [token, postId, forceRenderComments, deleteRes]);
+  }, [token, postId, forceRenderComments, deleteCommentRes]);
 
   const handleDelete = (e) => {
-    e.preventDefault();
-    const commentId = e.currentTarget.value;
-    const fetchDataForDelete = async () => {
-      try {
-        const url = `${
-          import.meta.env.VITE_BACKEND_URL
-        }/posts/comments/${commentId}`;
-        const headers = { Authorization: token };
-        const deleteData = await requestWithNativeFetch(url, 'DELETE', headers);
-        setDeleteRes(deleteData);
+    setShowModal(true)
+    setCommentId(e.currentTarget.value)
+  }
 
-        if (deleteData.success) {
-          setDeleteRes(deleteData);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchDataForDelete();
-  };
   return (
     <>
       {comments.map((comment) => (
