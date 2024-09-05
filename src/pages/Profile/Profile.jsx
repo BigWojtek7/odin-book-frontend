@@ -10,7 +10,6 @@ import requestWithNativeFetch from '../../utils/fetchApi';
 
 import { ModalContext } from './ModalContext';
 
-import Modal from '../../components/Modal/Modal';
 
 function Profile() {
   // const [deletePostRes, setDeletePostRes] = useState({});
@@ -126,16 +125,12 @@ function Profile() {
         }
       } catch (err) {
         console.log(err);
-      }finally{
-        setShowModal(false)
+      } finally {
+        setShowModal(false);
       }
     };
     fetchDataForDelete();
   };
-
-
-
-
 
   return (
     <>
@@ -154,28 +149,17 @@ function Profile() {
                   setAddPostFetch={setAddPostFetch}
                 />
               )}
-              <ModalContext.Provider value={{ setShowModal, setCommentId, deleteCommentRes }}>
-                
-                  <PostCard
-                    // postId={post.post_id}
-                    // date={post.post_date}
-                    // author={post.author_name}
-                    forceRenderPosts={forceRenderPosts}
-                    authorId={isFollowerProfile ? post.author_id : '#'}
-                    // content={post.post_content}
-                    // avatarURL={post.avatar_url}
-                    // postLikes={post.post_likes}
-                  />
+              <ModalContext.Provider
+                value={{ setShowModal, setCommentId, deleteCommentRes }}
+              >
+                <PostCard
+                  forceRenderPosts={forceRenderPosts}
+                  fetchUrl={''}
+                  profileUser={profileUser}
+                />
               </ModalContext.Provider>
             </div>
           </div>
-          <Modal
-            isShow={showModal}
-            onRequestSubmit={() => handleDelete(commentId)}
-            onRequestClose={() => setShowModal((prev) => !prev)}
-          >
-            Are you sure to delete comment ?
-          </Modal>
         </>
       )}
     </>

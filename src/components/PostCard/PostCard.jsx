@@ -5,15 +5,19 @@ import AddComment from './AddComment/AddComment';
 import { useEffect, useRef, useState } from 'react';
 import getRequestWithNativeFetch from '../../utils/fetchApiGet';
 import { useOutletContext, useParams } from 'react-router-dom';
+import Modal from '../Modal/Modal';
+import requestWithNativeFetch from '../../utils/fetchApi';
 
 function PostCard({
   postId,
   authorId,
-  content,
-  avatarURL,
   forceRenderPosts,
   profileUser,
+  fetchUrl,
 }) {
+
+  const [showModal, setShowModal] = useState(false);
+
   const [forceRenderComments, setForceRenderComments] = useState(0);
   const [deletePostRes, setDeletePostRes] = useState({});
 
@@ -26,7 +30,6 @@ function PostCard({
 
   useEffect(() => {
     if (profileUser?.user_id) {
-      setIsLoading(true);
       const fetchDataForPosts = async () => {
         try {
           const url = `${import.meta.env.VITE_BACKEND_URL}/posts/user/${
@@ -40,9 +43,7 @@ function PostCard({
           setProfilePosts(postsData);
         } catch (err) {
           console.log(err);
-        } finally {
-          setIsLoading(false);
-        }
+        } 
       };
       fetchDataForPosts();
     }
@@ -94,9 +95,16 @@ function PostCard({
             addCommentFetch={addCommentFetch}
             setAddCommentFetch={setAddCommentFetch}
           />
-          <Comment postId={postId} forceRenderComments={forceRenderComments} />
+          <Comment postId={post.post_id} forceRenderComments={forceRenderComments} />
         </div>
       ))}
+      <Modal
+        isShow={showModal}
+        onRequestSubmit={() => handleDelete(commentId)}
+        onRequestClose={() => setShowModal((prev) => !prev)}
+      >
+        Are you sure to delete comment ?
+      </Modal>
     </>
   );
 }
