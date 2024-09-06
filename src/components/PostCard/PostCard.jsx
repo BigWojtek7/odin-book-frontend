@@ -26,7 +26,7 @@ function PostCard({
   const commentTextarea = useRef(null);
   const [addCommentFetch, setAddCommentFetch] = useState(null);
 
-  const [token, , user, isLoading, setIsLoading] = useOutletContext();
+  const [token, , user,, setIsLoading] = useOutletContext();
 
   const [profilePosts, setProfilePosts] = useState([]);
   const [commentId, setCommentId] = useState();
