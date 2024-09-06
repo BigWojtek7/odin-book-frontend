@@ -60,7 +60,6 @@ function Post({
           Authorization: token,
         };
         const addLikeData = await requestWithNativeFetch(url, 'POST', headers);
-        console.log(addLikeData);
         if (addLikeData.success) {
           setIsLikeAdded(true);
         }
@@ -79,7 +78,6 @@ function Post({
     setShowPostModal(true);
     setDeletePostId(postId);
   };
-  console.log(user.user_id, authorId)
 
   return (
     <div className={styles.post}>

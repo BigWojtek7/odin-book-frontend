@@ -8,17 +8,12 @@ import { useOutletContext } from 'react-router-dom';
 import Modal from '../Modal/Modal';
 import requestWithNativeFetch from '../../utils/fetchApi';
 
-function PostCard({
-  forceRenderPosts,
-  fetchUrl,
-}) {
+function PostCard({ forceRenderPosts, fetchUrl }) {
   const [deleteCommentRes, setDeleteCommentRes] = useState({});
 
   const [showCommentModal, setShowCommentModal] = useState(false);
   const [showPostModal, setShowPostModal] = useState(false);
   const [showLikeModal, setShowLikeModal] = useState(false);
-
-
 
   const [forceRenderComments, setForceRenderComments] = useState(0);
   const [deletePostRes, setDeletePostRes] = useState({});
@@ -26,15 +21,14 @@ function PostCard({
   const commentTextarea = useRef(null);
   const [addCommentFetch, setAddCommentFetch] = useState(null);
 
-  const [token, , user,, setIsLoading] = useOutletContext();
+  const [token, , user, , setIsLoading] = useOutletContext();
 
   const [profilePosts, setProfilePosts] = useState([]);
   const [commentId, setCommentId] = useState();
   const [deletePostId, setDeletePostId] = useState();
 
-
   useEffect(() => {
-    setIsLoading(false)
+    setIsLoading(false);
     if (user.user_id) {
       const fetchDataForPosts = async () => {
         try {
@@ -42,12 +36,12 @@ function PostCard({
             Authorization: token,
           };
           const postsData = await getRequestWithNativeFetch(fetchUrl, headers);
-          console.log(postsData)
+
           setProfilePosts(postsData);
         } catch (err) {
           console.log(err);
-        }finally{
-          setIsLoading
+        } finally {
+          setIsLoading;
         }
       };
       fetchDataForPosts();
@@ -55,7 +49,14 @@ function PostCard({
     return () => {
       setProfilePosts([]);
     };
-  }, [setIsLoading, token, forceRenderPosts, deletePostRes, fetchUrl, user.user_id]);
+  }, [
+    setIsLoading,
+    token,
+    forceRenderPosts,
+    deletePostRes,
+    fetchUrl,
+    user.user_id,
+  ]);
 
   const handleDeletePost = (postId) => {
     setIsLoading(true);
@@ -73,7 +74,7 @@ function PostCard({
         console.log(err);
       } finally {
         setIsLoading(false);
-        setShowPostModal(false)
+        setShowPostModal(false);
       }
     };
     fetchDataForDeletePost();
@@ -116,7 +117,6 @@ function PostCard({
             setShowPostModal={setShowPostModal}
             setShowLikeModal={setShowLikeModal}
             setDeletePostId={setDeletePostId}
-
           />
           <AddComment
             setForceRenderComments={setForceRenderComments}
@@ -151,7 +151,7 @@ function PostCard({
       <Modal
         isShow={showLikeModal}
         onRequestClose={() => setShowLikeModal((prev) => !prev)}
-        title='Warning'
+        title="Warning"
       >
         You already liked this post!
       </Modal>

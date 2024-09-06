@@ -26,7 +26,6 @@ function FriendsCard({ unFollowReq, setUnFollowReq }) {
           };
           const friendsData = await getRequestWithNativeFetch(url, headers);
           setFriends(friendsData);
-          console.log(friendsData);
         } catch (err) {
           console.log(err);
         }

@@ -6,7 +6,6 @@ function Modal({title='Confirmation', isShow, onRequestClose, onRequestSubmit, c
   const dialogRef = useRef(null);
 
   useEffect(() => {
-    console.log(isShow);
     if (isShow) {
       return dialogRef.current.showModal();
     }

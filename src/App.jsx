@@ -12,7 +12,6 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     if (token) {
-      console.log('fetchingData...');
       const fetchDataForUsers = async () => {
         try {
           const url = `${import.meta.env.VITE_BACKEND_URL}/users/user`;

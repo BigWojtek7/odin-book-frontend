@@ -20,7 +20,6 @@ function Requests() {
 
   const [token, , user, isLoading, setIsLoading, setUpdateUser] =
     useOutletContext();
-  console.log(user);
 
   useEffect(() => {
     if (user?.user_id) {
@@ -100,12 +99,10 @@ function Requests() {
       setFriendsSuggest([]);
     };
   }, [setIsLoading, token, user]);
-  console.log(friendsSuggest);
 
   const handleAddFollower = (e) => {
     e.preventDefault();
     const followerId = e.target.follower_id.value;
-    console.log(followerId);
     setIsLoading(true);
     const fetchDataForAddFollower = async () => {
       try {
