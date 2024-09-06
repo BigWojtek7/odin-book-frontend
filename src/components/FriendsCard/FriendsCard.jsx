@@ -26,6 +26,7 @@ function FriendsCard({ unFollowReq, setUnFollowReq }) {
           };
           const friendsData = await getRequestWithNativeFetch(url, headers);
           setFriends(friendsData);
+          console.log(friendsData);
         } catch (err) {
           console.log(err);
         }
@@ -71,51 +72,57 @@ function FriendsCard({ unFollowReq, setUnFollowReq }) {
   };
 
   return (
-    <div className={styles.container}>
-      <h2>Friends:</h2>
-      {friends.map((follower) => (
-        <div key={follower.follower_id} className={styles.friendBar}>
-          <Friend
-            followerId={follower.follower_id}
-            name={follower.follower_name}
-            friendsNumber={follower.user_followers_count}
-            avatarURL={follower.avatar_url}
-            style={{
-              padding: '0.5em 0.5em 0 0.5em',
-            }}
-          />
-          <form className={styles.form} onSubmit={handleDelete}>
-            <input
-              type="hidden"
-              name="follower_id"
-              value={follower.follower_id}
-            />
-            <input
-              type="hidden"
-              name="follower_name"
-              value={follower.follower_name}
-            />
-            <CancelButton
-              type="submit"
-              name="Unfollow"
-              style={{
-                // 'writing-mode': 'vertical-rl',
-                fontSize: '0.6rem',
-                borderRadius: '0 0 10px 10px',
-                width: '100%',
-              }}
-            />
-          </form>
+    <>
+      {friends.length === 0 ? (
+        <p>Add friends first to see their posts...</p>
+      ) : (
+        <div className={styles.container}>
+          <h2>Friends:</h2>
+          {friends.map((follower) => (
+            <div key={follower.follower_id} className={styles.friendBar}>
+              <Friend
+                followerId={follower.follower_id}
+                name={follower.follower_name}
+                friendsNumber={follower.user_followers_count}
+                avatarURL={follower.avatar_url}
+                style={{
+                  padding: '0.5em 0.5em 0 0.5em',
+                }}
+              />
+              <form className={styles.form} onSubmit={handleDelete}>
+                <input
+                  type="hidden"
+                  name="follower_id"
+                  value={follower.follower_id}
+                />
+                <input
+                  type="hidden"
+                  name="follower_name"
+                  value={follower.follower_name}
+                />
+                <CancelButton
+                  type="submit"
+                  name="Unfollow"
+                  style={{
+                    // 'writing-mode': 'vertical-rl',
+                    fontSize: '0.6rem',
+                    borderRadius: '0 0 10px 10px',
+                    width: '100%',
+                  }}
+                />
+              </form>
+            </div>
+          ))}
+          <Modal
+            isShow={showModal}
+            onRequestSubmit={() => handleUnFollow(follower.follower_id)}
+            onRequestClose={() => setShowModal((prev) => !prev)}
+          >
+            Are you sure to unfollow <strong>{follower?.follower_name}</strong>
+          </Modal>
         </div>
-      ))}
-      <Modal
-        isShow={showModal}
-        onRequestSubmit={() => handleUnFollow(follower.follower_id)}
-        onRequestClose={() => setShowModal((prev) => !prev)}
-      >
-        Are you sure to unfollow <strong>{follower?.follower_name}</strong> 
-      </Modal>
-    </div>
+      )}
+    </>
   );
 }
 export default FriendsCard;
