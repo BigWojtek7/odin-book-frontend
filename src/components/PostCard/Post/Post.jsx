@@ -14,15 +14,17 @@ function Post({
   content,
   avatarURL,
   inputRef,
+  inputRefIndex,
   setDeletePostId,
   setShowPostModal,
-  setShowLikeModal
+  setShowLikeModal,
 }) {
-  const [token, ,user , , ,] = useOutletContext();
+  const [token, , user, , ,] = useOutletContext();
   const [postLikes, setPostLikes] = useState({ post_likes: '?' });
   const [isLikeAdded, setIsLikeAdded] = useState(false);
+
   const handleCommentClick = () => {
-    inputRef.current.focus();
+    inputRef.current[inputRefIndex].focus();
   };
 
   useEffect(() => {
@@ -63,10 +65,9 @@ function Post({
         if (addLikeData.success) {
           setIsLikeAdded(true);
         }
-        if (!addLikeData.success){
-          setShowLikeModal(true)
+        if (!addLikeData.success) {
+          setShowLikeModal(true);
         }
-
       } catch (err) {
         console.log(err);
       }

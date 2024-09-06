@@ -18,7 +18,7 @@ function PostCard({ forceRenderPosts, fetchUrl }) {
   const [forceRenderComments, setForceRenderComments] = useState(0);
   const [deletePostRes, setDeletePostRes] = useState({});
 
-  const commentTextarea = useRef(null);
+  const inputRef = useRef([]);
   const [addCommentFetch, setAddCommentFetch] = useState(null);
 
   const [token, , user, , setIsLoading] = useOutletContext();
@@ -104,7 +104,7 @@ function PostCard({ forceRenderPosts, fetchUrl }) {
 
   return (
     <>
-      {profilePosts.map((post) => (
+      {profilePosts.map((post, index) => (
         <div className={styles.postCard} key={post.post_id}>
           <Post
             date={post.post_date}
@@ -113,7 +113,8 @@ function PostCard({ forceRenderPosts, fetchUrl }) {
             authorId={post.author_id}
             content={post.post_content}
             avatarURL={post.avatar_url}
-            inputRef={commentTextarea}
+            inputRef={inputRef}
+            inputRefIndex={index}
             setShowPostModal={setShowPostModal}
             setShowLikeModal={setShowLikeModal}
             setDeletePostId={setDeletePostId}
@@ -121,7 +122,7 @@ function PostCard({ forceRenderPosts, fetchUrl }) {
           <AddComment
             setForceRenderComments={setForceRenderComments}
             postId={post.post_id}
-            textareaRef={commentTextarea}
+            textareaRef={(el) => (inputRef.current[index] = el)}
             addCommentFetch={addCommentFetch}
             setAddCommentFetch={setAddCommentFetch}
           />
