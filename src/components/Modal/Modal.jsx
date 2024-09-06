@@ -2,7 +2,7 @@ import CancelButton from '../Form/Buttons/cancelButton';
 import SubmitButton from '../Form/Buttons/SubmitButton';
 import styles from './Modal.module.css';
 import { useEffect, useRef } from 'react';
-function Modal({ isShow, onRequestClose, onRequestSubmit, children }) {
+function Modal({title='Confirmation', isShow, onRequestClose, onRequestSubmit, children }) {
   const dialogRef = useRef(null);
 
   useEffect(() => {
@@ -15,15 +15,23 @@ function Modal({ isShow, onRequestClose, onRequestSubmit, children }) {
 
   return (
     <dialog ref={dialogRef} className={styles.modal}>
-      <h1>Confirmation</h1>
+      <h1>{title}</h1>
       <p className={styles.children}>{children}</p>
-      <CancelButton type="button" name="Close" clickHandler={onRequestClose} />
-      <SubmitButton
-        type="button"
-        name="Submit"
-        clickHandler={onRequestSubmit}
-        style={{ marginLeft: '10px' }}
-      />
+      <div className={styles.buttons}>
+        <CancelButton
+          type="button"
+          name="Close"
+          clickHandler={onRequestClose}
+        />
+        {onRequestSubmit && (
+          <SubmitButton
+            type="button"
+            name="Submit"
+            clickHandler={onRequestSubmit}
+            style={{ marginLeft: '10px' }}
+          />
+        )}
+      </div>
     </dialog>
   );
 }

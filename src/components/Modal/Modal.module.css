@@ -3,7 +3,17 @@
   padding: 2em;;
   background-color: var(--nav-bg);
   color: var(--font-clr);
-  border: var(--btn-clr) 5px solid
+  border: var(--btn-clr) 5px solid;
+}
+
+.buttons{
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5em;
+}
+
+.buttons button{
+  flex: 1
 }
 
 .modal::backdrop {

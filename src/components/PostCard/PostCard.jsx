@@ -4,7 +4,7 @@ import Comment from './Comment/Comment';
 import AddComment from './AddComment/AddComment';
 import { useEffect, useRef, useState } from 'react';
 import getRequestWithNativeFetch from '../../utils/fetchApiGet';
-import { useOutletContext, useParams } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
 import Modal from '../Modal/Modal';
 import requestWithNativeFetch from '../../utils/fetchApi';
 
@@ -16,6 +16,8 @@ function PostCard({
 
   const [showCommentModal, setShowCommentModal] = useState(false);
   const [showPostModal, setShowPostModal] = useState(false);
+  const [showLikeModal, setShowLikeModal] = useState(false);
+
 
 
   const [forceRenderComments, setForceRenderComments] = useState(0);
@@ -32,12 +34,10 @@ function PostCard({
 
 
   useEffect(() => {
+    setIsLoading(false)
     if (user.user_id) {
       const fetchDataForPosts = async () => {
         try {
-          // const url = `${import.meta.env.VITE_BACKEND_URL}/posts/user/${
-          //   profileUser.user_id
-          // }`;
           const headers = {
             Authorization: token,
           };
@@ -46,6 +46,8 @@ function PostCard({
           setProfilePosts(postsData);
         } catch (err) {
           console.log(err);
+        }finally{
+          setIsLoading
         }
       };
       fetchDataForPosts();
@@ -71,14 +73,13 @@ function PostCard({
         console.log(err);
       } finally {
         setIsLoading(false);
+        setShowPostModal(false)
       }
     };
     fetchDataForDeletePost();
   };
-  console.log(profilePosts);
+
   const handleDeleteComment = (commentId) => {
-    // e.preventDefault();
-    // const commentId = e.currentTarget.value;
     const fetchDataForDelete = async () => {
       try {
         const url = `${
@@ -113,7 +114,9 @@ function PostCard({
             avatarURL={post.avatar_url}
             inputRef={commentTextarea}
             setShowPostModal={setShowPostModal}
+            setShowLikeModal={setShowLikeModal}
             setDeletePostId={setDeletePostId}
+
           />
           <AddComment
             setForceRenderComments={setForceRenderComments}
@@ -136,14 +139,21 @@ function PostCard({
         onRequestSubmit={() => handleDeleteComment(commentId)}
         onRequestClose={() => setShowCommentModal((prev) => !prev)}
       >
-        Are you sure to delete comment ?
+        Are you sure to delete this comment ?
       </Modal>
       <Modal
         isShow={showPostModal}
         onRequestSubmit={() => handleDeletePost(deletePostId)}
         onRequestClose={() => setShowPostModal((prev) => !prev)}
       >
-        Are you sure to delete post ?
+        Are you sure to delete this post ?
+      </Modal>
+      <Modal
+        isShow={showLikeModal}
+        onRequestClose={() => setShowLikeModal((prev) => !prev)}
+        title='Warning'
+      >
+        You already liked this post!
       </Modal>
     </>
   );

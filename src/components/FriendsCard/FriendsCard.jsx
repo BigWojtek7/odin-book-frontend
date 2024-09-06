@@ -5,8 +5,12 @@ import { useOutletContext } from 'react-router-dom';
 import getRequestWithNativeFetch from '../../utils/fetchApiGet';
 import CancelButton from '../Form/Buttons/cancelButton';
 import requestWithNativeFetch from '../../utils/fetchApi';
+import Modal from '../Modal/Modal';
 function FriendsCard({ unFollowReq, setUnFollowReq }) {
   const [friends, setFriends] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [follower, setFollower] = useState();
+
   // const [deleteRes, setDeleteRes] = useState({});
   const [token, , user, , setIsLoading] = useOutletContext();
 
@@ -33,9 +37,7 @@ function FriendsCard({ unFollowReq, setUnFollowReq }) {
     };
   }, [token, user, unFollowReq]);
 
-  const handleUnFollow = (e) => {
-    e.preventDefault();
-    const followerid = e.target.follower_id.value;
+  const handleUnFollow = (followerid) => {
     setIsLoading(true);
     const fetchDataForUnfollow = async () => {
       try {
@@ -53,9 +55,19 @@ function FriendsCard({ unFollowReq, setUnFollowReq }) {
         console.log(err);
       } finally {
         setIsLoading(false);
+        setShowModal(false);
       }
     };
     fetchDataForUnfollow();
+  };
+
+  const handleDelete = (e) => {
+    e.preventDefault();
+    setShowModal(true);
+    setFollower({
+      follower_id: e.target.follower_id.value,
+      follower_name: e.target.follower_name.value,
+    });
   };
 
   return (
@@ -72,11 +84,16 @@ function FriendsCard({ unFollowReq, setUnFollowReq }) {
               padding: '0.5em 0.5em 0 0.5em',
             }}
           />
-          <form className={styles.form} onSubmit={handleUnFollow}>
+          <form className={styles.form} onSubmit={handleDelete}>
             <input
               type="hidden"
               name="follower_id"
               value={follower.follower_id}
+            />
+            <input
+              type="hidden"
+              name="follower_name"
+              value={follower.follower_name}
             />
             <CancelButton
               type="submit"
@@ -91,6 +108,13 @@ function FriendsCard({ unFollowReq, setUnFollowReq }) {
           </form>
         </div>
       ))}
+      <Modal
+        isShow={showModal}
+        onRequestSubmit={() => handleUnFollow(follower.follower_id)}
+        onRequestClose={() => setShowModal((prev) => !prev)}
+      >
+        Are you sure to unfollow <strong>{follower?.follower_name}</strong> 
+      </Modal>
     </div>
   );
 }

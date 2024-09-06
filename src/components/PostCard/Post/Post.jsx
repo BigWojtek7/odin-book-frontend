@@ -16,6 +16,7 @@ function Post({
   inputRef,
   setDeletePostId,
   setShowPostModal,
+  setShowLikeModal
 }) {
   const [token, ,user , , ,] = useOutletContext();
   const [postLikes, setPostLikes] = useState({ post_likes: '?' });
@@ -63,6 +64,10 @@ function Post({
         if (addLikeData.success) {
           setIsLikeAdded(true);
         }
+        if (!addLikeData.success){
+          setShowLikeModal(true)
+        }
+
       } catch (err) {
         console.log(err);
       }

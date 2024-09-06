@@ -2,44 +2,14 @@ import PostCard from '../../components/PostCard/PostCard';
 import FriendsCard from '../../components/FriendsCard/FriendsCard';
 import styles from './Home.module.css';
 import { Link, useOutletContext } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import getRequestWithNativeFetch from '../../utils/fetchApiGet';
+import { useState } from 'react';
 import Icon from '@mdi/react';
 import { mdiLogin, mdiAccountPlus } from '@mdi/js';
 import Loader from '../../components/Loader/Loader';
 
 function Home() {
-  const [homePosts, setHomePosts] = useState([]);
   const [unFollowReq, setUnFollowReq] = useState({});
-  const [token, , user, isLoading, setIsLoading] = useOutletContext();
-  // useEffect(() => {
-  //   if (token && user?.user_id) {
-  //     setIsLoading(true);
-
-  //     const fetchDataForPosts = async () => {
-  //       try {
-  //         const url = `${import.meta.env.VITE_BACKEND_URL}/posts/${
-  //           user.user_id
-  //         }/followers`;
-  //         const headers = {
-  //           Authorization: token,
-  //         };
-  //         const postsData = await getRequestWithNativeFetch(url, headers);
-
-  //         setHomePosts(postsData);
-  //       } catch (err) {
-  //         console.log(err);
-  //       } finally {
-  //         setIsLoading(false);
-  //       }
-  //     };
-  //     fetchDataForPosts();
-  //   }
-  //   return () => {
-  //     setHomePosts([]);
-  //   };
-  // }, [setIsLoading, token, user, unFollowReq]);
-  console.log(user.user_id)
+  const [token, , user, isLoading] = useOutletContext();
   return (
     <>
       {isLoading ? (
