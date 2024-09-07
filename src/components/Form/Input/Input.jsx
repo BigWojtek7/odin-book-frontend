@@ -1,6 +1,6 @@
 import styles from './Input.module.css';
 function Input({ type, name, labelName, inputValue, setInputValue }) {
-  console.log(setInputValue)
+  console.log(inputValue)
   return (
     <div className={styles.formGroup}>
       <label htmlFor={name}>{labelName}</label>
@@ -9,7 +9,7 @@ function Input({ type, name, labelName, inputValue, setInputValue }) {
           type={type}
           id={name}
           name={name}
-          value={inputValue}
+          value={inputValue || ''}
           onChange={setInputValue}
         />
       ) : (

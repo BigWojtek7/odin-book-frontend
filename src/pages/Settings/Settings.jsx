@@ -252,41 +252,36 @@ function Settings() {
                 type="text"
                 name="first_name"
                 labelName="First Name"
-                isControlled={true}
                 inputValue={firstNameInput}
-                setInputValue={setFirstNameInput}
+                setInputValue={(e) => setFirstNameInput(e.target.value)}
               />
               <Input
                 type="text"
                 name="last_name"
                 labelName="Last Name"
-                isControlled={true}
                 inputValue={lastNameInput}
-                setInputValue={setLastNameInput}
+                setInputValue={(e) =>setLastNameInput(e.target.value)}
               />
               <Input
                 type="email"
                 name="email"
                 labelName="Email"
-                isControlled={true}
                 inputValue={emailInput}
-                setInputValue={setLastEmailInput}
+                setInputValue={(e) =>setLastEmailInput(e.target.value)}
               />
               <Input
                 type="text"
                 name="username"
                 labelName="Username"
-                isControlled={true}
                 inputValue={usernameInput}
-                setInputValue={setUsernameInput}
+                setInputValue={(e) =>setUsernameInput(e.target.value)}
               />
               <Input
                 type="text"
                 name="profession"
                 labelName="Profession"
-                isControlled={true}
                 inputValue={professionInput}
-                setInputValue={setProfessionInput}
+                setInputValue={(e) =>setProfessionInput(e.target.value)}
               />
               <SubmitButton type="submit" name="Submit" />
               {profileFetch &&
