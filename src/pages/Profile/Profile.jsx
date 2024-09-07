@@ -8,18 +8,16 @@ import AddPost from '../../components/PostCard/AddPost/AddPost';
 import Loader from '../../components/Loader/Loader';
 
 function Profile() {
-
   const [forceRenderPosts, setForceRenderPosts] = useState(0);
 
   const [addPostFetch, setAddPostFetch] = useState();
 
-  const [token, , user, isLoading, ] = useOutletContext();
+  const [token, , user, isLoading] = useOutletContext();
 
   const [followerProfile, setFollowerProfile] = useState();
   const [profileUser, setProfileUser] = useState({});
 
   const { followerid } = useParams();
-
 
   const isFollowerProfile = followerid !== 'profile';
 
@@ -52,33 +50,26 @@ function Profile() {
 
   return (
     <>
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <>
-          <div className={styles.profile}>
-            <UserCard profileUser={profileUser} />
-            <div className={styles.posts}>
-              {!isFollowerProfile && (
-                <AddPost
-                  avatarURL={user.avatar_url}
-                  setForceRenderPosts={setForceRenderPosts}
-                  addPostFetch={addPostFetch}
-                  setAddPostFetch={setAddPostFetch}
-
-                />
-              )}
-              <PostCard
-                forceRenderPosts={forceRenderPosts}
-                fetchUrl={`${import.meta.env.VITE_BACKEND_URL}/posts/user/${
-                  profileUser?.user_id
-                }`}
-                profileUser={profileUser}
-              />
-            </div>
-          </div>
-        </>
-      )}
+      <div className={styles.profile}>
+        <UserCard profileUser={profileUser} />
+        <div className={styles.posts}>
+          {!isFollowerProfile && (
+            <AddPost
+              avatarURL={user.avatar_url}
+              setForceRenderPosts={setForceRenderPosts}
+              addPostFetch={addPostFetch}
+              setAddPostFetch={setAddPostFetch}
+            />
+          )}
+          <PostCard
+            forceRenderPosts={forceRenderPosts}
+            fetchUrl={`${import.meta.env.VITE_BACKEND_URL}/posts/user/${
+              profileUser?.user_id
+            }`}
+            profileUser={profileUser}
+          />
+        </div>
+      </div>
     </>
   );
 }

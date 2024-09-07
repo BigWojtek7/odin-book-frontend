@@ -10,6 +10,7 @@ function App() {
   const [token, setToken] = useState(currentToken);
   const [updateUser, setUpdateUser] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     if (token) {
       const fetchDataForUsers = async () => {

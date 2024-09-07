@@ -11,10 +11,6 @@ function Home() {
   const [unFollowReq, setUnFollowReq] = useState({});
   const [token, , user, isLoading] = useOutletContext();
   return (
-    <>
-      {isLoading ? (
-        <Loader />
-      ) : (
         <>
           {token ? (
             <div className={styles.home}>
@@ -48,8 +44,6 @@ function Home() {
             </div>
           )}
         </>
-      )}
-    </>
   );
 }
 export default Home;
