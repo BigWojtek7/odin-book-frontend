@@ -28,6 +28,7 @@ function Home() {
                   fetchUrl={`${import.meta.env.VITE_BACKEND_URL}/posts/${
                     user.user_id
                   }/followers`}
+                  profileUser={user}
                 />
               </div>
             </div>

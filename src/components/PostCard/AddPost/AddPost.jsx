@@ -4,6 +4,7 @@ import Textarea from '../../Form/Textarea/Textarea';
 import { useOutletContext } from 'react-router-dom';
 // import { useState } from 'react';
 import requestWithNativeFetch from '../../../utils/fetchApi.js';
+import { useEffect } from 'react';
 
 function AddPost({
   avatarURL,
@@ -12,7 +13,6 @@ function AddPost({
   setAddPostFetch,
 }) {
   const [token, , , , setIsLoading] = useOutletContext();
-  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -47,6 +47,15 @@ function AddPost({
     };
     fetchDataForCreatePost();
   };
+
+  useEffect(() => {
+    if (addPostFetch) {
+      const timeoutId = setTimeout(() => {
+        setAddPostFetch('');
+      }, 3000);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [addPostFetch, setAddPostFetch]);
   return (
     <div className={styles.container}>
       <div className={styles.addPost}>

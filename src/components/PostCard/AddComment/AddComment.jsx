@@ -3,6 +3,7 @@ import styles from './AddComment.module.css';
 import Textarea from '../../Form/Textarea/Textarea';
 import { useOutletContext } from 'react-router-dom';
 import requestWithNativeFetch from '../../../utils/fetchApi';
+import { useEffect } from 'react';
 
 function AddComment({
   setForceRenderComments,
@@ -34,16 +35,24 @@ function AddComment({
         );
         setAddCommentFetch(createCommentData);
         if (createCommentData.success) {
-          setForceRenderComments(prev => prev + 1);
+          setForceRenderComments((prev) => prev + 1);
         }
       } catch (err) {
         console.log(err);
-      }finally{
+      } finally {
         e.target.reset();
       }
     };
     fetchDataForCreateComment();
   };
+  useEffect(() => {
+    if (addCommentFetch) {
+      const timeoutId = setTimeout(() => {
+        setAddCommentFetch('');
+      }, 3000);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [setAddCommentFetch, addCommentFetch]);
 
   return (
     <div className={styles.addComment}>

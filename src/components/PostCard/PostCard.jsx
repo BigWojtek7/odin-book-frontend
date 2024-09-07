@@ -8,7 +8,7 @@ import { useOutletContext } from 'react-router-dom';
 import Modal from '../Modal/Modal';
 import requestWithNativeFetch from '../../utils/fetchApi';
 
-function PostCard({ forceRenderPosts, fetchUrl }) {
+function PostCard({ forceRenderPosts, fetchUrl, profileUser}) {
   const [deleteCommentRes, setDeleteCommentRes] = useState({});
 
   const [showCommentModal, setShowCommentModal] = useState(false);
@@ -21,7 +21,7 @@ function PostCard({ forceRenderPosts, fetchUrl }) {
   const inputRef = useRef([]);
   const [addCommentFetch, setAddCommentFetch] = useState(null);
 
-  const [token, , user, , setIsLoading] = useOutletContext();
+  const [token, , , , setIsLoading] = useOutletContext();
 
   const [profilePosts, setProfilePosts] = useState([]);
   const [commentId, setCommentId] = useState();
@@ -29,7 +29,7 @@ function PostCard({ forceRenderPosts, fetchUrl }) {
 
   useEffect(() => {
     setIsLoading(false);
-    if (user.user_id) {
+    if (profileUser?.user_id) {
       const fetchDataForPosts = async () => {
         try {
           const headers = {
@@ -55,7 +55,7 @@ function PostCard({ forceRenderPosts, fetchUrl }) {
     forceRenderPosts,
     deletePostRes,
     fetchUrl,
-    user.user_id,
+    profileUser?.user_id,
   ]);
 
   const handleDeletePost = (postId) => {

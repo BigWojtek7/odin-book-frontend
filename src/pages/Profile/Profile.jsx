@@ -65,12 +65,13 @@ function Profile() {
                   setForceRenderPosts={setForceRenderPosts}
                   addPostFetch={addPostFetch}
                   setAddPostFetch={setAddPostFetch}
+
                 />
               )}
               <PostCard
                 forceRenderPosts={forceRenderPosts}
                 fetchUrl={`${import.meta.env.VITE_BACKEND_URL}/posts/user/${
-                  user.user_id
+                  profileUser?.user_id
                 }`}
                 profileUser={profileUser}
               />
