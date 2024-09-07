@@ -6,9 +6,15 @@ import { useState } from 'react';
 import requestWithNativeFetch from '../../utils/fetchApi';
 import Loader from '../../components/Loader/Loader';
 
+import { useReducer } from 'react';
+import formReducer from './reducer/formReducer';
+import initialFormState from './reducer/initialFormState';
+
 function SignUp() {
   const [fetchData, setFetchData] = useState(null);
   const [token, setToken, , isLoading, setIsLoading] = useOutletContext();
+
+  const [formState, dispatch] = useReducer(formReducer, initialFormState);
 
   const navigate = useNavigate();
   const handleSubmit = (e) => {
@@ -21,7 +27,7 @@ function SignUp() {
           'Content-Type': 'application/json',
         };
         const data = {
-          first_name: e.target.first_name.value,
+          first_name: formState.first_name,
           last_name: e.target.last_name.value,
           email: e.target.email.value,
           username: e.target.username.value,
@@ -50,13 +56,29 @@ function SignUp() {
     };
     fetchDataForCreateUser();
   };
+
+  const handleInputChange = (e) => {
+    dispatch({
+      type: 'handle input change',
+      field: e.target.name,
+      payload: e.target.value,
+    });
+  };
+
+  console.log(formState);
   return (
     <>
       {isLoading ? (
         <Loader />
       ) : !token ? (
         <form className={styles.form} onSubmit={handleSubmit}>
-          <Input type="text" name="first_name" labelName="First Name" />
+          <Input
+            type="text"
+            name="first_name"
+            labelName="First Name"
+            inputValue={formState.first_name}
+            setInputValue={(e) => handleInputChange(e)}
+          />
           <Input type="text" name="last_name" labelName="Last Name" />
           <Input type="email" name="email" labelName="Email" />
           <Input type="text" name="username" labelName="Username" />
