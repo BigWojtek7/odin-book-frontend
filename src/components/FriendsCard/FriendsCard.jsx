@@ -12,7 +12,7 @@ function FriendsCard({ unFollowReq, setUnFollowReq }) {
   const [follower, setFollower] = useState();
 
   // const [deleteRes, setDeleteRes] = useState({});
-  const [token, , user, , setIsLoading] = useOutletContext();
+  const [token, , user, isLoading  , setIsLoading] = useOutletContext();
 
   useEffect(() => {
     if (user?.user_id) {
@@ -72,7 +72,7 @@ function FriendsCard({ unFollowReq, setUnFollowReq }) {
 
   return (
     <>
-      {friends.length === 0 ? (
+      {friends.length === 0 && !isLoading ? (
         <p>Add friends first to see their posts...</p>
       ) : (
         <div className={styles.container}>
