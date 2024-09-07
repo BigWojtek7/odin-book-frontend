@@ -28,11 +28,11 @@ function SignUp() {
         };
         const data = {
           first_name: formState.first_name,
-          last_name: e.target.last_name.value,
-          email: e.target.email.value,
-          username: e.target.username.value,
-          password: e.target.password.value,
-          re_password: e.target.re_password.value,
+          last_name: formState.last_name,
+          email: formState.email,
+          username: formState.username,
+          password: formState.password,
+          re_password: formState.re_password,
         };
         const createUserData = await requestWithNativeFetch(
           url,
@@ -41,12 +41,15 @@ function SignUp() {
           data
         );
         setFetchData(createUserData);
+        console.log(createUserData)
 
         if (createUserData.success) {
           const dataToken = createUserData.token;
           localStorage.setItem('token', dataToken);
           setToken(dataToken);
+          dispatch({ type: 'reset' });
           navigate('/');
+          
         }
       } catch (err) {
         console.log(err);
@@ -79,14 +82,40 @@ function SignUp() {
             inputValue={formState.first_name}
             setInputValue={(e) => handleInputChange(e)}
           />
-          <Input type="text" name="last_name" labelName="Last Name" />
-          <Input type="email" name="email" labelName="Email" />
-          <Input type="text" name="username" labelName="Username" />
-          <Input type="password" name="password" labelName="Password" />
+          <Input
+            type="text"
+            name="last_name"
+            labelName="Last Name"
+            inputValue={formState.last_name}
+            setInputValue={(e) => handleInputChange(e)}
+          />
+          <Input
+            type="email"
+            name="email"
+            labelName="Email"
+            inputValue={formState.email}
+            setInputValue={(e) => handleInputChange(e)}
+          />
+          <Input
+            type="text"
+            name="username"
+            labelName="Username"
+            inputValue={formState.username}
+            setInputValue={(e) => handleInputChange(e)}
+          />
+          <Input
+            type="password"
+            name="password"
+            labelName="Password"
+            inputValue={formState.password}
+            setInputValue={(e) => handleInputChange(e)}
+          />
           <Input
             type="password"
             name="re_password"
             labelName="Reenter Password"
+            inputValue={formState.re_password}
+            setInputValue={(e) => handleInputChange(e)}
           />
           <Button type="submit" name="Sign Up" />
           {!fetchData?.success &&
