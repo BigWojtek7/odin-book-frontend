@@ -22,8 +22,6 @@
   src: url('./assets/fonts/norse-bold.woff2');
 }
 
-
-
 :root {
   --nav-bg: #1c334b;
   --body-bg: #0a141e;
@@ -35,7 +33,7 @@
 }
 
 body {
-  font-family:'Roboto', sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-weight: 400;
   font-size: 1rem;
   background-color: var(--body-bg);
@@ -46,11 +44,9 @@ body {
   line-height: 1.5;
 }
 
-@media(max-width:1000px){
-  body{
+@media (max-width: 1000px) {
+  body {
     padding-inline: 8%;
     padding-block: 0 5%;
   }
-
-
 }
