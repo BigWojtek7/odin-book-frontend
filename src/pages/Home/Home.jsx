@@ -5,11 +5,11 @@ import { Link, useOutletContext } from 'react-router-dom';
 import { useState } from 'react';
 import Icon from '@mdi/react';
 import { mdiLogin, mdiAccountPlus } from '@mdi/js';
-import Loader from '../../components/Loader/Loader';
+
 
 function Home() {
   const [unFollowReq, setUnFollowReq] = useState({});
-  const [token, , user, isLoading] = useOutletContext();
+  const [token, , user, ] = useOutletContext();
   return (
         <>
           {token ? (

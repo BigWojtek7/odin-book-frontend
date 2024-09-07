@@ -5,14 +5,14 @@ import styles from './Profile.module.css';
 import { useEffect, useState } from 'react';
 import getRequestWithNativeFetch from '../../utils/fetchApiGet';
 import AddPost from '../../components/PostCard/AddPost/AddPost';
-import Loader from '../../components/Loader/Loader';
+
 
 function Profile() {
   const [forceRenderPosts, setForceRenderPosts] = useState(0);
 
   const [addPostFetch, setAddPostFetch] = useState();
 
-  const [token, , user, isLoading] = useOutletContext();
+  const [token, , user,] = useOutletContext();
 
   const [followerProfile, setFollowerProfile] = useState();
   const [profileUser, setProfileUser] = useState({});
