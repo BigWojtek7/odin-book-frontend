@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+// import { describe, it, expect } from 'vitest';
 
 describe('something truthy and falsy', () => {
   it('true to be true', () => {
@@ -13,13 +13,25 @@ describe('something truthy and falsy', () => {
 import { render, screen } from '@testing-library/react';
 
 import App from './App';
+import { BrowserRouter } from 'react-router-dom';
 
 describe('App', () => {
-  it('renders headline', () => {
-    render(<App title="React" />);
+  it('renders whole app', () => {
+    const { container } = render(
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    );
+    expect(container).toMatchSnapshot();
 
-    screen.debug();
+  });
+  it('renders paragraph', () => {
+    render(
+      <BrowserRouter>
+      <App />
+    </BrowserRouter>
+    );
 
-    // check if App components renders headline
+    expect(screen.getByRole('paragraph').textContent).toMatch(/friendsbook/i);
   });
 });
