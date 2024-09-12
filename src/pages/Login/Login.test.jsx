@@ -11,8 +11,8 @@ vi.mock('react-router-dom', () => ({
   useNavigate: vi.fn(),
 }));
 
-describe('testing Login component', () => {
-  it('input value is updated correctly', async () => {
+describe('input value is updated correctly', () => {
+  it('testing username input value', async () => {
     const user = userEvent.setup();
     render(<Login />);
     const input = screen.getByRole('textbox', { name: 'Username / E-mail' });
@@ -20,12 +20,23 @@ describe('testing Login component', () => {
     await user.type(input, 'React');
     expect(input.value).toBe('React');
   });
-  it('input value is updated correctly', async () => {
+  it('testing password input value', async () => {
     const user = userEvent.setup();
     render(<Login />);
     const input = screen.getByLabelText('Password');
 
     await user.type(input, 'React');
     expect(input.value).toBe('React');
+  });
+});
+
+describe('call the callback every time input value is changed', () => {
+  it('testing username input callback call', async () => {
+    const user = userEvent.setup();
+    const handleChange = vi.fn();
+    render(<Login />);
+    const input = screen.getByRole('textbox', { name: 'Username / E-mail' });
+    await user.type(input, 'React')
+    expect()
   });
 });
