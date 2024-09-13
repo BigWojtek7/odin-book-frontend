@@ -1,6 +1,5 @@
 import styles from './Input.module.css';
 function Input({ type, name, labelName, inputValue, setInputValue }) {
-  console.log(inputValue)
   return (
     <div className={styles.formGroup}>
       <label htmlFor={name}>{labelName}</label>
