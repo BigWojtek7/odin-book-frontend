@@ -4,7 +4,7 @@ import Textarea from '../../Form/Textarea/Textarea';
 import { useOutletContext } from 'react-router-dom';
 // import { useState } from 'react';
 import requestWithNativeFetch from '../../../utils/fetchApi.js';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 function AddPost({
   avatarURL,
@@ -14,6 +14,7 @@ function AddPost({
 }) {
   const [token, , , , setIsLoading] = useOutletContext();
 
+  const [inputValue, setInputValue] = useState('')
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -25,7 +26,7 @@ function AddPost({
           Authorization: token,
         };
         const data = {
-          content: e.target.content.value,
+          content: inputValue,
         };
         const createPostData = await requestWithNativeFetch(
           url,
@@ -48,6 +49,7 @@ function AddPost({
     fetchDataForCreatePost();
   };
 
+
   useEffect(() => {
     if (addPostFetch) {
       const timeoutId = setTimeout(() => {
@@ -68,6 +70,9 @@ function AddPost({
             className={styles.postTextarea}
             name="content"
             placeholder="Write a post..."
+            isControlled={true}
+            setInputValue={setInputValue}
+            inputValue={inputValue}
           ></Textarea>
           <SubmitButton
             type="submit"
