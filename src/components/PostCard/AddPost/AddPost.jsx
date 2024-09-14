@@ -6,15 +6,11 @@ import { useOutletContext } from 'react-router-dom';
 import requestWithNativeFetch from '../../../utils/fetchApi.js';
 import { useEffect, useState } from 'react';
 
-function AddPost({
-  avatarURL,
-  setForceRenderPosts,
-  addPostFetch,
-  setAddPostFetch,
-}) {
+function AddPost({ avatarURL, setForceRenderPosts }) {
   const [token, , , , setIsLoading] = useOutletContext();
 
-  const [inputValue, setInputValue] = useState('')
+  const [addPostFetch, setAddPostFetch] = useState();
+  const [inputValue, setInputValue] = useState('');
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);

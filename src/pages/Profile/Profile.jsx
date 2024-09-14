@@ -10,7 +10,6 @@ import AddPost from '../../components/PostCard/AddPost/AddPost';
 function Profile() {
   const [forceRenderPosts, setForceRenderPosts] = useState(0);
 
-  const [addPostFetch, setAddPostFetch] = useState();
 
   const [token, , user,] = useOutletContext();
 
@@ -57,8 +56,6 @@ function Profile() {
             <AddPost
               avatarURL={user.avatar_url}
               setForceRenderPosts={setForceRenderPosts}
-              addPostFetch={addPostFetch}
-              setAddPostFetch={setAddPostFetch}
             />
           )}
           <PostCard

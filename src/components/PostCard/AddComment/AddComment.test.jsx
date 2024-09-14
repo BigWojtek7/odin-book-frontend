@@ -1,18 +1,18 @@
-import {render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import AddComment from './AddComment';
 
 import userEvent from '@testing-library/user-event';
 
-
-const user = {avatar_url:'http'}
-const myContextData = [,,user];
+const user = { avatar_url: 'http' };
+const myContextData = [, , user];
 
 beforeEach(() => {
   vi.spyOn(global, 'fetch').mockResolvedValue({
     ok: true,
     status: 200,
     json: async () => ({
-      post_likes: 5,
+      success: true,
+      msg: [{ msg: 'Post has been saved' }],
     }),
   });
 });
@@ -29,14 +29,15 @@ vi.mock('react-router-dom', () => ({
 
 describe('test AddComment component', () => {
   it('renders component', async () => {
+    const mockSetForceRenderComment = vi.fn();
 
-    const user = userEvent.setup()
-    render(<AddComment />);
+    const user = userEvent.setup();
+    render(<AddComment setForceRenderComments={mockSetForceRenderComment} />);
     const button = screen.getByRole('button');
-    const textarea = screen.getByRole('textbox')
+    const textarea = screen.getByRole('textbox');
 
-    user.type(textarea, 'test content')
-    user.click(button)
+    await user.type(textarea, 'test content');
+    await user.click(button);
 
     // await user.click(button)
   });

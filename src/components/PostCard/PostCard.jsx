@@ -20,7 +20,6 @@ function PostCard({ forceRenderPosts, fetchUrl, profileUser }) {
   const [deletePostRes, setDeletePostRes] = useState({});
 
   const inputRef = useRef([]);
-  const [addCommentFetch, setAddCommentFetch] = useState(null);
 
   const [token, , , isLoading, setIsLoading] = useOutletContext();
 
@@ -128,8 +127,6 @@ function PostCard({ forceRenderPosts, fetchUrl, profileUser }) {
                 setForceRenderComments={setForceRenderComments}
                 postId={post.post_id}
                 textareaRef={(el) => (inputRef.current[index] = el)}
-                addCommentFetch={addCommentFetch}
-                setAddCommentFetch={setAddCommentFetch}
               />
               <Comment
                 postId={post.post_id}

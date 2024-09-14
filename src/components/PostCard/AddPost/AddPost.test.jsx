@@ -12,7 +12,8 @@ beforeEach(() => {
     ok: true,
     status: 200,
     json: async () => ({
-      post_likes: 5,
+      success: true,
+      msg:[{msg: 'Post has been saved'}]
     }),
   });
 });
@@ -30,8 +31,10 @@ vi.mock('react-router-dom', () => ({
 describe('test AddPost component', () => {
   it('renders component', async () => {
 
+    const mockSetForceRenderPosts = vi.fn();
+
     const user = userEvent.setup()
-    render(<AddPost />);
+    render(<AddPost setForceRenderPosts={mockSetForceRenderPosts}/>);
     const button = screen.getByRole('button');
     const textarea = screen.getByRole('textbox')
     

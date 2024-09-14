@@ -3,16 +3,16 @@ import styles from './AddComment.module.css';
 import Textarea from '../../Form/Textarea/Textarea';
 import { useOutletContext } from 'react-router-dom';
 import requestWithNativeFetch from '../../../utils/fetchApi';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 function AddComment({
   setForceRenderComments,
   postId,
-  textareaRef,
-  addCommentFetch,
-  setAddCommentFetch,
+  textareaRef
 }) {
   const [token, , user, , ,] = useOutletContext();
+  const [addCommentFetch, setAddCommentFetch] = useState()
+  const [inputValue, setInputValue] = useState('')
   const handleSubmit = (e) => {
     e.preventDefault();
     const fetchDataForCreateComment = async () => {
@@ -25,7 +25,7 @@ function AddComment({
           Authorization: token,
         };
         const data = {
-          content: e.target.content.value,
+          content: inputValue,
         };
         const createCommentData = await requestWithNativeFetch(
           url,
@@ -64,6 +64,9 @@ function AddComment({
           name="content"
           placeholder="Write a comment..."
           ref={textareaRef}
+          isControlled={true}
+          inputValue={inputValue}
+          setInputValue={setInputValue}
         ></Textarea>
         <SubmitButton
           type="submit"
