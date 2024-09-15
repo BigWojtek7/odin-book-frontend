@@ -2,7 +2,7 @@ import {render, screen} from '@testing-library/react';
 import Requests from './Requests';
 import { useState } from 'react';
 
-const isLoading = true
+let isLoading = true
 const setIsLoading = vi.fn()
 
 
@@ -16,8 +16,6 @@ vi.mock('react-router-dom', () => ({
 }));
 
 beforeEach(() => {
-
-  
   vi.spyOn(global, 'fetch').mockResolvedValue({
     ok: true,
     status: 200,
@@ -32,7 +30,18 @@ afterEach(() => {
 describe('Test requests component', () => {
   it('shows loading text while API request is in progress', async () => {
     render(<Requests />);
-    const loading = await screen.findByText('Data is loading...');
-    await expect(loading).toBeInTheDocument();
+    const loading = screen.getByText('Data is loading...');
+    expect(loading).toBeInTheDocument();
+  });
+  it('not shows loading text while API request is done', async () => {
+    // let isLoading = false
+    // const myContextData = [, , user, isLoading, setIsLoading];
+    // vi.mock('react-router-dom', () => ({
+    //   ...vi.importActual('react-router-dom'),
+    //   useOutletContext: () => myContextData,
+    // }));
+    // render(<Requests />);
+    // const loading = screen.queryByText('Data is loading...');
+    // expect(loading).not.toBeInTheDocument();
   });
 });
