@@ -24,8 +24,7 @@ function Requests() {
   useEffect(() => {
     if (user?.user_id) {
       setIsLoading(true);
-
-      const fetchDataForRequests = async () => {
+      const fetchDataForSentRequests = async () => {
         try {
           const url = `${import.meta.env.VITE_BACKEND_URL}/requests/${
             user.user_id
@@ -40,7 +39,7 @@ function Requests() {
           console.log(err);
         }
       };
-      fetchDataForRequests();
+      fetchDataForSentRequests();
     }
     return () => {
       setRequestsSent([]);
@@ -50,8 +49,7 @@ function Requests() {
   useEffect(() => {
     if (user?.user_id) {
       setIsLoading(true);
-
-      const fetchDataForRequests = async () => {
+      const fetchDataForReceivedRequests = async () => {
         try {
           const url = `${import.meta.env.VITE_BACKEND_URL}/requests/${
             user.user_id
@@ -66,7 +64,7 @@ function Requests() {
           console.log(err);
         }
       };
-      fetchDataForRequests();
+      fetchDataForReceivedRequests();
     }
     return () => {
       setRequestsReceived([]);
@@ -76,7 +74,6 @@ function Requests() {
   useEffect(() => {
     if (user?.user_id) {
       setIsLoading(true);
-
       const fetchDataForFriendsSuggestion = async () => {
         try {
           const url = `${import.meta.env.VITE_BACKEND_URL}/followers/${

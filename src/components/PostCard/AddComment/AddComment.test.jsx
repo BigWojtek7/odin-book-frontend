@@ -3,7 +3,7 @@ import AddComment from './AddComment';
 
 import userEvent from '@testing-library/user-event';
 
-const user = { avatar_url: 'http' };
+const user = { avatar_url: 'https://i.pravatar.cc/300' };
 const myContextData = [, , user];
 
 beforeEach(() => {
@@ -39,6 +39,6 @@ describe('test AddComment component', () => {
     await user.type(textarea, 'test content');
     await user.click(button);
 
-    // await user.click(button)
+    expect(textarea).toHaveValue('test content');
   });
 });
