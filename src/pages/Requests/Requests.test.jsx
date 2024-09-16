@@ -33,15 +33,4 @@ describe('Test requests component', () => {
     const loading = screen.getByText('Data is loading...');
     expect(loading).toBeInTheDocument();
   });
-  it('not shows loading text while API request is done', async () => {
-    // let isLoading = false
-    // const myContextData = [, , user, isLoading, setIsLoading];
-    // vi.mock('react-router-dom', () => ({
-    //   ...vi.importActual('react-router-dom'),
-    //   useOutletContext: () => myContextData,
-    // }));
-    // render(<Requests />);
-    // const loading = screen.queryByText('Data is loading...');
-    // expect(loading).not.toBeInTheDocument();
-  });
 });
