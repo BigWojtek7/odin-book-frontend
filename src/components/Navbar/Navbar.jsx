@@ -10,13 +10,13 @@ import {
   mdiAccountGroup,
   mdiCogs,
   mdiLogout,
-  mdiMenu
+  mdiMenu,
 } from '@mdi/js';
 import { useState } from 'react';
 
 function Navbar({ token, setToken }) {
   const { pathname } = useLocation();
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -26,12 +26,12 @@ function Navbar({ token, setToken }) {
     alert('You are signed out');
   };
 
-
-
   return (
     <div className={styles.navHeader}>
-      <button className={styles.btnToggle} ><Icon size={1.4} path={mdiMenu}  onClick={() => setIsOpen(!isOpen)} /></button>
-      <p className={styles.logo}>FriendsBook</p>
+      <button className={styles.btnToggle}>
+        <Icon size={1.4} path={mdiMenu} onClick={() => setIsOpen(!isOpen)} />
+      </button>
+      <Link to='/'className={styles.logo} >FriendsBook</Link>
       <nav className={`${styles.nav} ${isOpen ? styles.navVisible : ''}`}>
         <ul className={styles.navList}>
           {token ? (
@@ -50,7 +50,7 @@ function Navbar({ token, setToken }) {
                 }
               >
                 <Link className={styles.navLink} to="profile">
-                  <Icon path={mdiAccount}  />
+                  <Icon path={mdiAccount} />
                   Profile
                 </Link>
               </li>
@@ -58,7 +58,7 @@ function Navbar({ token, setToken }) {
                 className={pathname === '/requests' ? styles.active : undefined}
               >
                 <Link className={styles.navLink} to="/requests">
-                  <Icon path={mdiAccountGroup}  />
+                  <Icon path={mdiAccountGroup} />
                   Requests
                 </Link>
               </li>
@@ -66,13 +66,17 @@ function Navbar({ token, setToken }) {
                 className={pathname === '/settings' ? styles.active : undefined}
               >
                 <Link className={styles.navLink} to="/settings">
-                  <Icon path={mdiCogs}  />
+                  <Icon path={mdiCogs} />
                   Settings
                 </Link>
               </li>
               <li>
-                <a href="#" className={`${styles.logout} ${styles.navLink}`} onClick={handleLogout}>
-                  <Icon path={mdiLogout}  />
+                <a
+                  href="#"
+                  className={`${styles.logout} ${styles.navLink}`}
+                  onClick={handleLogout}
+                >
+                  <Icon path={mdiLogout} />
                   Log Out
                 </a>
               </li>
@@ -83,13 +87,13 @@ function Navbar({ token, setToken }) {
                 className={pathname === '/sign-up' ? styles.active : undefined}
               >
                 <Link className={styles.navLink} to="sign-up">
-                  <Icon path={mdiAccountPlus}  />
+                  <Icon path={mdiAccountPlus} />
                   SignUp
                 </Link>
               </li>
               <li className={pathname === '/login' ? styles.active : undefined}>
                 <Link className={styles.navLink} to="login">
-                  <Icon path={mdiLogin}  />
+                  <Icon path={mdiLogin} />
                   Login
                 </Link>
               </li>

@@ -69,7 +69,6 @@ function Settings() {
         });
         const responseData = await response.json();
         setUploadAvatar(responseData);
-        console.log(responseData);
         if (responseData.success) {
           setUpdateUser(true);
         }
