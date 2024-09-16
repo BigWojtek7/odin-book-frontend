@@ -23,15 +23,14 @@ describe('App', () => {
       </BrowserRouter>
     );
     expect(container).toMatchSnapshot();
-
   });
   it('renders paragraph', () => {
     render(
       <BrowserRouter>
-      <App />
-    </BrowserRouter>
+        <App />
+      </BrowserRouter>
     );
 
-    expect(screen.getByRole('paragraph').textContent).toMatch(/friendsbook/i);
+    expect(screen.getByText('FriendsBook')).toBeInTheDocument();
   });
 });

@@ -15,7 +15,6 @@ vi.mock('react-router-dom', () => ({
   BrowserRouter: vi.fn().mockImplementation((props) => props.children),
 }));
 
-
 beforeEach(() => {
   vi.spyOn(global, 'fetch').mockResolvedValue({
     ok: true,

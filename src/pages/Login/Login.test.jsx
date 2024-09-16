@@ -36,7 +36,7 @@ describe('call the callback every time input value is changed', () => {
     const handleChange = vi.fn();
     render(<Login />);
     const input = screen.getByRole('textbox', { name: 'Username / E-mail' });
-    await user.type(input, 'React')
-    expect()
+    await user.type(input, 'React');
+    expect();
   });
 });

@@ -19,11 +19,12 @@ exports[`Testing Navbar Components > The component UI should not change 1`] = `
         />
       </svg>
     </button>
-    <p
+    <a
       class="_logo_278c00"
+      href="/"
     >
       FriendsBook
-    </p>
+    </a>
     <nav
       class="_nav_278c00 "
     >

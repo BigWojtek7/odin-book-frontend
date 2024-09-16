@@ -1,10 +1,9 @@
-import {render, screen} from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import Settings from './Settings';
 import { useState } from 'react';
 
-let isLoading = true
-const setIsLoading = vi.fn()
-
+let isLoading = true;
+const setIsLoading = vi.fn();
 
 const user = { avatar_url: 'https://i.pravatar.cc/300', user_id: 7 };
 const myContextData = [, , user, isLoading, setIsLoading];
