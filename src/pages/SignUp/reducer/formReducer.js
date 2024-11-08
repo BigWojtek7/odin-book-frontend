@@ -9,7 +9,7 @@ function formReducer(state, action) {
       };
     }
     case 'reset': {
-      return (state = initialFormState);
+      return initialFormState;
     }
     default: {
       throw Error('Unknown action: ' + action.type);
