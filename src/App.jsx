@@ -3,6 +3,9 @@ import Navbar from './components/Navbar/Navbar';
 import { useEffect, useState } from 'react';
 import getRequestWithNativeFetch from './utils/fetchApiGet';
 
+import LoaderProvider from './contexts/Loader/LoaderProvider';
+
+import Loader from './components/Loader/Loader';
 function App() {
   const [user, setUser] = useState({});
 
@@ -35,6 +38,8 @@ function App() {
   }, [token, updateUser]);
   return (
     <>
+    <LoaderProvider>
+      <Loader/>
       <Navbar token={token} setToken={setToken} />
       <main>
         <Outlet
@@ -47,7 +52,7 @@ function App() {
             setUpdateUser,
           ]}
         />
-      </main>
+      </main></LoaderProvider>
     </>
   );
 }
