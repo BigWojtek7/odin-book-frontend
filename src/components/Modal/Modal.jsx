@@ -1,37 +1,30 @@
-import CancelButton from '../Form/Buttons/cancelButton';
-import SubmitButton from '../Form/Buttons/SubmitButton';
-import styles from './Modal.module.css';
-import { useEffect, useRef } from 'react';
-function Modal({title='Confirmation', isShow, onRequestClose, onRequestSubmit, children }) {
-  const dialogRef = useRef(null);
+import { createPortal } from 'react-dom';
+import useModal from '../../contexts/Modal/useModal';
 
-  useEffect(() => {
-    if (isShow) {
-      return dialogRef.current.showModal();
-    }
-    dialogRef.current.close();
-  }, [isShow]);
+import styles from './Modal.module.css';
+import Button from '../Form/Button/Button';
+
+function Modal() {
+  const { modalData, closeModal } = useModal();
+
+  if (!modalData) return null;
 
   return (
-    <dialog ref={dialogRef} className={styles.modal}>
-      <h1>{title}</h1>
-      <p className={styles.children}>{children}</p>
-      <div className={styles.buttons}>
-        <CancelButton
-          type="button"
-          name="Close"
-          clickHandler={onRequestClose}
-        />
-        {onRequestSubmit && (
-          <SubmitButton
-            type="button"
-            name="Submit"
-            clickHandler={onRequestSubmit}
-            style={{ marginLeft: '10px' }}
-          />
-        )}
-      </div>
-    </dialog>
+    <>
+      {createPortal(
+        <div className={styles.overlay}>
+          <div className={styles.content}>
+            <p>{modalData.message}</p>
+            <Button onClick={modalData.onConfirm}>Yes</Button>
+            <Button onClick={closeModal} style={{ marginLeft: '0.5em' }}>
+              No
+            </Button>
+          </div>
+        </div>,
+        document.getElementById('modal-root')
+      )}
+    </>
   );
 }
+
 export default Modal;

@@ -1,25 +1,18 @@
-.modal{
-  margin: 100px auto;
-  padding: 2em;;
-  background-color: var(--nav-bg);
-  color: var(--font-clr);
-  border: var(--btn-clr) 5px solid;
-}
-
-.buttons{
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
-  margin-top: 1.5em;
+  align-items: center;
 }
 
-.buttons button{
-  flex: 1
-}
-
-.modal::backdrop {
-  background: hsl(0 0% 0% / 70%);
-}
-
-.children {
-  margin-bottom: 0.5em;
+.content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  position: relative;
 }

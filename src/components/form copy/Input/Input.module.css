@@ -1,0 +1,8 @@
+.formGroup {
+  display: grid;
+  gap: var(--size-100);
+}
+
+.error {
+  color: red;
+}
