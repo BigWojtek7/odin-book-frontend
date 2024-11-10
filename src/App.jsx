@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import getRequestWithNativeFetch from './utils/fetchApiGet';
 
 import LoaderProvider from './contexts/Loader/LoaderProvider';
+import AuthProvider from './contexts/Auth/AuthProvider';
 
 import Loader from './components/Loader/Loader';
 function App() {
@@ -38,21 +39,24 @@ function App() {
   }, [token, updateUser]);
   return (
     <>
-    <LoaderProvider>
-      <Loader/>
-      <Navbar token={token} setToken={setToken} />
-      <main>
-        <Outlet
-          context={[
-            token,
-            setToken,
-            user,
-            isLoading,
-            setIsLoading,
-            setUpdateUser,
-          ]}
-        />
-      </main></LoaderProvider>
+      <AuthProvider>
+        <LoaderProvider>
+          <Loader />
+          <Navbar token={token} setToken={setToken} />
+          <main>
+            <Outlet
+              context={[
+                token,
+                setToken,
+                user,
+                isLoading,
+                setIsLoading,
+                setUpdateUser,
+              ]}
+            />
+          </main>
+        </LoaderProvider>
+      </AuthProvider>
     </>
   );
 }
