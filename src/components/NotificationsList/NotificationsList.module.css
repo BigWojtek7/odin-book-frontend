@@ -1,0 +1,22 @@
+.notificationsContainer {
+  position: fixed;
+  top: 50px;
+  right: 20px;
+  z-index: 9999;
+}
+
+.notification {
+  background-color: var(--clr-secondary-200);
+  color: #fff;
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.notification.success {
+  background-color: green;
+}
+
+.notification.error {
+  background-color: red;
+}

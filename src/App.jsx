@@ -6,7 +6,9 @@ import getRequestWithNativeFetch from './utils/fetchApiGet';
 import LoaderProvider from './contexts/Loader/LoaderProvider';
 import AuthProvider from './contexts/Auth/AuthProvider';
 
+import NotificationProvider from './contexts/Notification/NotificationProvider';
 import Loader from './components/Loader/Loader';
+
 function App() {
   const [user, setUser] = useState({});
 
@@ -39,24 +41,26 @@ function App() {
   }, [token, updateUser]);
   return (
     <>
-      <AuthProvider>
+      <NotificationProvider>
         <LoaderProvider>
-          <Loader />
-          <Navbar token={token} setToken={setToken} />
-          <main>
-            <Outlet
-              context={[
-                token,
-                setToken,
-                user,
-                isLoading,
-                setIsLoading,
-                setUpdateUser,
-              ]}
-            />
-          </main>
+          <AuthProvider>
+            <Loader />
+            <Navbar token={token} setToken={setToken} />
+            <main>
+              <Outlet
+                context={[
+                  token,
+                  setToken,
+                  user,
+                  isLoading,
+                  setIsLoading,
+                  setUpdateUser,
+                ]}
+              />
+            </main>
+          </AuthProvider>
         </LoaderProvider>
-      </AuthProvider>
+      </NotificationProvider>
     </>
   );
 }
