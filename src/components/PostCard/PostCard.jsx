@@ -36,7 +36,6 @@ function PostCard({ forceRenderPosts, fetchUrl, profileUser }) {
             Authorization: token,
           };
           const postsData = await getRequestWithNativeFetch(fetchUrl, headers);
-
           setProfilePosts(postsData);
         } catch (err) {
           console.log(err);
