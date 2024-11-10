@@ -1,68 +1,24 @@
-import { Outlet } from 'react-router-dom';
-import Navbar from './components/Navbar/Navbar';
-import { useEffect, useState } from 'react';
-import getRequestWithNativeFetch from './utils/fetchApiGet';
-
-import LoaderProvider from './contexts/Loader/LoaderProvider';
+import MainLayout from './layouts/MainLayout';
 import AuthProvider from './contexts/Auth/AuthProvider';
-
+import LoaderProvider from './contexts/Loader/LoaderProvider';
+import ModalProvider from './contexts/Modal/ModalProvider';
 import NotificationProvider from './contexts/Notification/NotificationProvider';
-import Loader from './components/Loader/Loader';
 
 function App() {
-  const [user, setUser] = useState({});
-
-  const currentToken = localStorage.getItem('token');
-  const [token, setToken] = useState(currentToken);
-  const [updateUser, setUpdateUser] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    if (token) {
-      const fetchDataForUsers = async () => {
-        try {
-          const url = `${import.meta.env.VITE_BACKEND_URL}/users/user`;
-          const headers = {
-            Authorization: token,
-          };
-          const userData = await getRequestWithNativeFetch(url, headers);
-          setUser(userData);
-        } catch (err) {
-          console.log(err);
-        } finally {
-          setUpdateUser(false);
-        }
-      };
-      fetchDataForUsers();
-    }
-    return () => {
-      setUser([]);
-    };
-  }, [token, updateUser]);
   return (
     <>
       <NotificationProvider>
-        <LoaderProvider>
-          <AuthProvider>
-            <Loader />
-            <Navbar token={token} setToken={setToken} />
-            <main>
-              <Outlet
-                context={[
-                  token,
-                  setToken,
-                  user,
-                  isLoading,
-                  setIsLoading,
-                  setUpdateUser,
-                ]}
-              />
-            </main>
-          </AuthProvider>
-        </LoaderProvider>
+        <ModalProvider>
+          <LoaderProvider>
+            <AuthProvider>
+              <MainLayout />
+            </AuthProvider>
+          </LoaderProvider>
+        </ModalProvider>
       </NotificationProvider>
     </>
   );
 }
 
 export default App;
+
