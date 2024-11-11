@@ -10,7 +10,6 @@ import useAuth from '../../contexts/Auth/useAuth';
 function Home() {
   const [unFollowReq, setUnFollowReq] = useState({});
   const {token, user} = useAuth();
-  console.log(user)
   return (
     <>
       {token ? (
