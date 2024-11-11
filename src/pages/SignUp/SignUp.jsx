@@ -9,55 +9,30 @@ import Loader from '../../components/Loader/Loader';
 import { useReducer } from 'react';
 import formReducer from './reducer/formReducer';
 import initialFormState from './reducer/initialFormState';
+import useAuth from '../../contexts/Auth/useAuth';
 
 function SignUp() {
   const [fetchData, setFetchData] = useState(null);
-  const [token, setToken, , isLoading, setIsLoading] = useOutletContext();
+  const { token, signUpAction } = useAuth();
 
   const [formState, dispatch] = useReducer(formReducer, initialFormState);
 
   const navigate = useNavigate();
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
-    const fetchDataForCreateUser = async () => {
-      try {
-        const url = `${import.meta.env.VITE_BACKEND_URL}/users/sign-up`;
-        const headers = {
-          'Content-Type': 'application/json',
-        };
-        const data = {
-          first_name: formState.first_name,
-          last_name: formState.last_name,
-          email: formState.email,
-          username: formState.username,
-          password: formState.password,
-          re_password: formState.re_password,
-        };
-        const createUserData = await requestWithNativeFetch(
-          url,
-          'POST',
-          headers,
-          data
-        );
-        setFetchData(createUserData);
-        console.log(createUserData)
-
-        if (createUserData.success) {
-          const dataToken = createUserData.token;
-          localStorage.setItem('token', dataToken);
-          setToken(dataToken);
-          dispatch({ type: 'reset' });
-          navigate('/');
-          
-        }
-      } catch (err) {
-        console.log(err);
-      } finally {
-        setIsLoading(false);
-      }
+    const data = {
+      first_name: formState.first_name,
+      last_name: formState.last_name,
+      email: formState.email,
+      username: formState.username,
+      password: formState.password,
+      re_password: formState.re_password,
     };
-    fetchDataForCreateUser();
+
+    const signUpData = await signUpAction(data);
+    console.log(signUpData)
+    setFetchData(signUpData);
+
   };
 
   const handleInputChange = (e) => {
@@ -71,9 +46,7 @@ function SignUp() {
   console.log(formState);
   return (
     <>
-      {isLoading ? (
-        <Loader />
-      ) : !token ? (
+      {!token ? (
         <form className={styles.form} onSubmit={handleSubmit}>
           <Input
             type="text"

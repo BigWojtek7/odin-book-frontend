@@ -51,7 +51,7 @@ const AuthProvider = ({ children }) => {
         method: 'post',
       };
       const loginData = await requestWithNativeFetch(
-        `${import.meta.env.VITE_BACKEND_URL}/login`,
+        `${import.meta.env.VITE_BACKEND_URL}/users/login`,
         options
       );
 
@@ -82,7 +82,7 @@ const AuthProvider = ({ children }) => {
         method: 'post',
       };
       const createUserData = await requestWithNativeFetch(
-        `${import.meta.env.VITE_BACKEND_URL}/sign-up`,
+        `${import.meta.env.VITE_BACKEND_URL}/users/sign-up`,
         options
       );
       if (createUserData.success) {

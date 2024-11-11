@@ -8,62 +8,49 @@ import { useState } from 'react';
 
 import requestWithNativeFetch from '../../utils/fetchApi';
 import { useNavigate, useOutletContext } from 'react-router-dom';
+import useAuth from '../../contexts/Auth/useAuth';
 
 function Login() {
   const [fetchData, setFetchData] = useState(null);
-  const [token, setToken, , isLoading, setIsLoading] = useOutletContext();
+  const { token, loginAction } = useAuth();
+  // const [token, setToken, , isLoading, setIsLoading] = useOutletContext();
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
-    const fetchDataForLogin = async () => {
-      try {
-        const url = `${import.meta.env.VITE_BACKEND_URL}/users/login`;
-        const headers = { 'Content-Type': 'application/json' };
-        const data = {
-          username: e.target.username.value,
-          password: e.target.password.value,
-        };
-        const messagesData = await requestWithNativeFetch(
-          url,
-          'POST',
-          headers,
-          data
-        );
-        setFetchData(messagesData);
 
-        if (messagesData.success) {
-          const dataToken = messagesData.token;
-          localStorage.setItem('token', dataToken);
-          setToken(dataToken);
-          navigate('/');
-        }
-      } catch (err) {
-        console.log(err);
-      } finally {
-        setIsLoading(false);
-      }
+    const data = {
+      username: e.target.username.value,
+      password: e.target.password.value,
     };
-    fetchDataForLogin();
+
+    const loginData = await loginAction(data);
+    setFetchData(loginData);
+
+    //     if (messagesData.success) {
+    //       const dataToken = messagesData.token;
+    //       localStorage.setItem('token', dataToken);
+    //       setToken(dataToken);
+    //       navigate('/');
+    //     }
+
+    // fetchDataForLogin();
   };
 
   return (
     <>
-      {isLoading ? (
-        <Loader />
-      ) : !token ? (
+      {!token ? (
         <>
-          <form className={styles.form} onSubmit={handleSubmit}>
+          <form className={styles.form} onSubmit={handleLogin}>
             <Input type="text" name="username" labelName="Username / E-mail" />
             <Input type="password" name="password" labelName="Password" />
             <SubmitButton type="submit" name="Log In" />
             {fetchData && <p>{fetchData.msg}</p>}
           </form>
-          <form className={styles.form}onSubmit={handleSubmit}>
+          <form className={styles.form} onSubmit={handleLogin}>
             <input type="hidden" name="username" value="guest" />
             <input type="hidden" name="password" value="guest" />
-            <CancelButton type="submit" name="Guest Mode"  />
+            <CancelButton type="submit" name="Guest Mode" />
           </form>
         </>
       ) : (
