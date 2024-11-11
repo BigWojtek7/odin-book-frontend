@@ -5,13 +5,14 @@ import styles from './Profile.module.css';
 import { useEffect, useState } from 'react';
 import getRequestWithNativeFetch from '../../utils/fetchApiGet';
 import AddPost from '../../components/PostCard/AddPost/AddPost';
+import useAuth from '../../contexts/Auth/useAuth';
 
 
 function Profile() {
   const [forceRenderPosts, setForceRenderPosts] = useState(0);
 
 
-  const [token, , user,] = useOutletContext();
+  const {token, user} = useAuth();
 
   const [followerProfile, setFollowerProfile] = useState();
   const [profileUser, setProfileUser] = useState({});
@@ -54,7 +55,7 @@ function Profile() {
         <div className={styles.posts}>
           {!isFollowerProfile && (
             <AddPost
-              avatarURL={user.avatar_url}
+              avatarURL={user?.avatar_url}
               setForceRenderPosts={setForceRenderPosts}
             />
           )}

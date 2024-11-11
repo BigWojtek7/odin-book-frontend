@@ -8,10 +8,12 @@ import requestWithNativeFetch from '../../utils/fetchApi';
 import Loader from '../../components/Loader/Loader';
 import Icon from '@mdi/react';
 import { mdiLogin } from '@mdi/js';
+import useAuth from '../../contexts/Auth/useAuth';
 
 function Settings() {
-  const [token, setToken, user, isLoading, setIsLoading, setUpdateUser] =
-    useOutletContext();
+  const { token, user } = useAuth();
+  // const [token, setToken, user, isLoading, setIsLoading, setUpdateUser] =
+  //   useOutletContext();
   const [passwordFetch, setPasswordFetch] = useState(null);
   const [profileFetch, setProfileFetch] = useState(null);
   const [aboutFetch, setAboutFetch] = useState(null);
@@ -30,28 +32,28 @@ function Settings() {
   const [aboutInput, setAboutInput] = useState();
 
   useEffect(() => {
-    const initialFirstNameValue = user.first_name;
+    const initialFirstNameValue = user?.first_name;
     setFirstNameInput(initialFirstNameValue);
 
-    const initialLastNameValue = user.last_name;
+    const initialLastNameValue = user?.last_name;
     setLastNameInput(initialLastNameValue);
 
-    const initialUsernameValue = user.username;
+    const initialUsernameValue = user?.username;
     setUsernameInput(initialUsernameValue);
 
-    const initialEmailValue = user.e_mail;
+    const initialEmailValue = user?.e_mail;
     setLastEmailInput(initialEmailValue);
 
-    const initialProfessionValue = user.profession;
+    const initialProfessionValue = user?.profession;
     setProfessionInput(initialProfessionValue);
 
-    const initialAboutValue = user.about;
+    const initialAboutValue = user?.about;
     setAboutInput(initialAboutValue);
   }, [user]);
 
   const handleAvatarUpload = (e) => {
     e.preventDefault();
-    setIsLoading(true);
+    // setIsLoading(true);
     const fetchDataForUploadAvatar = async () => {
       try {
         const data = new FormData();
@@ -75,7 +77,7 @@ function Settings() {
       } catch (err) {
         console.log(err);
       } finally {
-        setIsLoading(false);
+        // setIsLoading(false);
       }
     };
     fetchDataForUploadAvatar();
@@ -83,7 +85,7 @@ function Settings() {
 
   const handleEditProfile = (e) => {
     e.preventDefault();
-    setIsLoading(true);
+    // setIsLoading(true);
     const fetchDataForChangeProfile = async () => {
       try {
         const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
@@ -118,7 +120,7 @@ function Settings() {
       } catch (err) {
         console.log(err);
       } finally {
-        setIsLoading(false);
+        // setIsLoading(false);
       }
     };
     fetchDataForChangeProfile();
@@ -126,7 +128,7 @@ function Settings() {
 
   const handleEditAbout = (e) => {
     e.preventDefault();
-    setIsLoading(true);
+    // setIsLoading(true);
     const fetchDataForChangeAbout = async () => {
       try {
         const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
@@ -155,7 +157,7 @@ function Settings() {
       } catch (err) {
         console.log(err);
       } finally {
-        setIsLoading(false);
+        // setIsLoading(false);
       }
     };
     fetchDataForChangeAbout();
@@ -163,7 +165,7 @@ function Settings() {
 
   const handleEditPassword = (e) => {
     e.preventDefault();
-    setIsLoading(true);
+    // setIsLoading(true);
     const fetchDataForChangePassword = async () => {
       try {
         const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
@@ -194,23 +196,21 @@ function Settings() {
       } catch (err) {
         console.log(err);
       } finally {
-        setIsLoading(false);
+        // setIsLoading(false);
       }
     };
     fetchDataForChangePassword();
   };
   return (
     <>
-      {isLoading ? (
-        <Loader />
-      ) : !isUpdated ? (
+      {!isUpdated ? (
         <div className={styles.settings}>
           <div className={styles.profilAvatar}>
             <h2 className={styles.cardHeading}>Edit Avatar:</h2>
             <div className={styles.imgDiv}>
               <img
                 className={styles.avatar}
-                src={user.avatar_url}
+                src={user?.avatar_url}
                 alt="avatar"
               />
             </div>
@@ -259,28 +259,28 @@ function Settings() {
                 name="last_name"
                 labelName="Last Name"
                 inputValue={lastNameInput}
-                setInputValue={(e) =>setLastNameInput(e.target.value)}
+                setInputValue={(e) => setLastNameInput(e.target.value)}
               />
               <Input
                 type="email"
                 name="email"
                 labelName="Email"
                 inputValue={emailInput}
-                setInputValue={(e) =>setLastEmailInput(e.target.value)}
+                setInputValue={(e) => setLastEmailInput(e.target.value)}
               />
               <Input
                 type="text"
                 name="username"
                 labelName="Username"
                 inputValue={usernameInput}
-                setInputValue={(e) =>setUsernameInput(e.target.value)}
+                setInputValue={(e) => setUsernameInput(e.target.value)}
               />
               <Input
                 type="text"
                 name="profession"
                 labelName="Profession"
                 inputValue={professionInput}
-                setInputValue={(e) =>setProfessionInput(e.target.value)}
+                setInputValue={(e) => setProfessionInput(e.target.value)}
               />
               <SubmitButton type="submit" name="Submit" />
               {profileFetch &&

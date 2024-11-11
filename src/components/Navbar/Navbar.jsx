@@ -13,17 +13,16 @@ import {
   mdiMenu,
 } from '@mdi/js';
 import { useState } from 'react';
+import useAuth from '../../contexts/Auth/useAuth';
 
-function Navbar({ token, setToken }) {
+function Navbar() {
   const { pathname } = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    setToken(null);
-    navigate('/');
 
-    alert('You are signed out');
+  const { token, logOut } = useAuth();
+  const handleLogout = () => {
+    logOut();
   };
 
   return (
@@ -31,7 +30,9 @@ function Navbar({ token, setToken }) {
       <button className={styles.btnToggle}>
         <Icon size={1.4} path={mdiMenu} onClick={() => setIsOpen(!isOpen)} />
       </button>
-      <Link to='/'className={styles.logo} >FriendsBook</Link>
+      <Link to="/" className={styles.logo}>
+        FriendsBook
+      </Link>
       <nav className={`${styles.nav} ${isOpen ? styles.navVisible : ''}`}>
         <ul className={styles.navList}>
           {token ? (

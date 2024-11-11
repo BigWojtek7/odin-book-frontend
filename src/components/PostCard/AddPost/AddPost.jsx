@@ -5,9 +5,10 @@ import { useOutletContext } from 'react-router-dom';
 // import { useState } from 'react';
 import requestWithNativeFetch from '../../../utils/fetchApi.js';
 import { useEffect, useState } from 'react';
+import useAuth from '../../../contexts/Auth/useAuth.js';
 
 function AddPost({ avatarURL, setForceRenderPosts }) {
-  const [token, , , , setIsLoading] = useOutletContext();
+  const {token, user} = useAuth();
 
   const [addPostFetch, setAddPostFetch] = useState();
   const [inputValue, setInputValue] = useState('');

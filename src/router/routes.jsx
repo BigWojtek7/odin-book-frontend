@@ -16,7 +16,7 @@ const routes = [
         element: <PrivateRoute />,
         children: [
           { index: true, element: <Home /> },
-          { path: 'profile/:followerid', element: <Profile /> },
+          { path: 'profile?/:followerid', element: <Profile /> },
           { path: 'requests', element: <Requests /> },
           { path: 'settings', element: <Settings /> },
         ],

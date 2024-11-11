@@ -8,6 +8,7 @@ import getRequestWithNativeFetch from '../../utils/fetchApiGet';
 import requestWithNativeFetch from '../../utils/fetchApi';
 
 import Loader from '../../components/Loader/Loader';
+import useAuth from '../../contexts/Auth/useAuth';
 
 function Requests() {
   const [requestsReceived, setRequestsReceived] = useState([]);
@@ -18,12 +19,13 @@ function Requests() {
 
   const [deleteRequestRes, setDeleteRequestRes] = useState({});
 
-  const [token, , user, isLoading, setIsLoading, setUpdateUser] =
-    useOutletContext();
+  const { token, user } = useAuth();
+
+  // const [token, , user, isLoading, setIsLoading, setUpdateUser] =
+  //   useOutletContext();
 
   useEffect(() => {
     if (user?.user_id) {
-      setIsLoading(true);
       const fetchDataForSentRequests = async () => {
         try {
           const url = `${import.meta.env.VITE_BACKEND_URL}/requests/${
@@ -34,7 +36,6 @@ function Requests() {
           };
           const friendsData = await getRequestWithNativeFetch(url, headers);
           setRequestsSent(friendsData);
-          setIsLoading(false);
         } catch (err) {
           console.log(err);
         }
@@ -44,11 +45,10 @@ function Requests() {
     return () => {
       setRequestsSent([]);
     };
-  }, [setIsLoading, token, user, addFollower, deleteRequestRes]);
+  }, [token, user, addFollower, deleteRequestRes]);
 
   useEffect(() => {
     if (user?.user_id) {
-      setIsLoading(true);
       const fetchDataForReceivedRequests = async () => {
         try {
           const url = `${import.meta.env.VITE_BACKEND_URL}/requests/${
@@ -59,7 +59,7 @@ function Requests() {
           };
           const friendsData = await getRequestWithNativeFetch(url, headers);
           setRequestsReceived(friendsData);
-          setIsLoading(false);
+          false;
         } catch (err) {
           console.log(err);
         }
@@ -69,11 +69,10 @@ function Requests() {
     return () => {
       setRequestsReceived([]);
     };
-  }, [setIsLoading, token, user, addFollower]);
+  }, [token, user, addFollower]);
 
   useEffect(() => {
     if (user?.user_id) {
-      setIsLoading(true);
       const fetchDataForFriendsSuggestion = async () => {
         try {
           const url = `${import.meta.env.VITE_BACKEND_URL}/followers/${
@@ -87,7 +86,6 @@ function Requests() {
         } catch (err) {
           console.log(err);
         } finally {
-          setIsLoading(false);
         }
       };
       fetchDataForFriendsSuggestion();
@@ -95,12 +93,12 @@ function Requests() {
     return () => {
       setFriendsSuggest([]);
     };
-  }, [setIsLoading, token, user]);
+  }, [token, user]);
 
   const handleAddFollower = (e) => {
     e.preventDefault();
     const followerId = e.target.follower_id.value;
-    setIsLoading(true);
+    // setIsLoading(true);
     const fetchDataForAddFollower = async () => {
       try {
         const url = `${import.meta.env.VITE_BACKEND_URL}/followers/${
@@ -121,7 +119,7 @@ function Requests() {
       } catch (err) {
         console.log(err);
       } finally {
-        setIsLoading(false);
+        // setIsLoading(false);
       }
     };
     fetchDataForAddFollower();
@@ -130,7 +128,7 @@ function Requests() {
   const handleSentRequest = (e) => {
     e.preventDefault();
     const requestReceiverId = e.target.request_receiver_id.value;
-    setIsLoading(true);
+    // setIsLoading(true);
     const fetchDataForAddFollower = async () => {
       try {
         const url = `${
@@ -150,7 +148,7 @@ function Requests() {
       } catch (err) {
         console.log(err);
       } finally {
-        setIsLoading(false);
+        // setIsLoading(false);
       }
     };
     fetchDataForAddFollower();
@@ -159,7 +157,7 @@ function Requests() {
   const handleDeleteRequest = (e) => {
     e.preventDefault();
     const requestReceiverId = e.target.request_receiver_id.value;
-    setIsLoading(true);
+    // setIsLoading(true);
     const fetchDataForDelete = async () => {
       try {
         const url = `${
@@ -175,129 +173,125 @@ function Requests() {
       } catch (err) {
         console.log(err);
       } finally {
-        setIsLoading(false);
+        // setIsLoading(false);
       }
     };
     fetchDataForDelete();
   };
   return (
     <>
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <div className={styles.requests}>
-          <div className={styles.sideCard}>
-            <h2 className={styles.sideHeading}>Sent Requests:</h2>
-            {requestsSent.map((request) => (
-              <div className={styles.usersCard} key={request.follower_id}>
-                <Friend
-                  followerId={request.follower_id}
-                  name={request.follower_name}
-                  friendsNumber={request.user_followers_count}
-                  avatarURL={request.avatar_url}
+      <div className={styles.requests}>
+        <div className={styles.sideCard}>
+          <h2 className={styles.sideHeading}>Sent Requests:</h2>
+          {requestsSent.map((request) => (
+            <div className={styles.usersCard} key={request.follower_id}>
+              <Friend
+                followerId={request.follower_id}
+                name={request.follower_name}
+                friendsNumber={request.user_followers_count}
+                avatarURL={request.avatar_url}
+                style={{
+                  padding: '0.5em 0.5em 0 0.5em',
+                }}
+              />
+              <form className={styles.form} onSubmit={handleDeleteRequest}>
+                <input
+                  type="hidden"
+                  name="request_receiver_id"
+                  value={request.follower_id}
+                />
+                <CancelButton
+                  type="submit"
+                  name="Cancel follow request"
                   style={{
-                    padding: '0.5em 0.5em 0 0.5em',
+                    width: '100%',
+                    fontSize: '0.6rem',
+                    borderRadius: '0 0 10px 10px',
                   }}
                 />
-                <form className={styles.form} onSubmit={handleDeleteRequest}>
+              </form>
+            </div>
+          ))}
+        </div>
+        <div className={styles.sideCard}>
+          <h2 className={styles.sideHeading}>Received Requests:</h2>
+          {requestsReceived.map((request) => (
+            <div className={styles.usersCard} key={request.follower_id}>
+              <Friend
+                followerId={request.follower_id}
+                name={request.follower_name}
+                friendsNumber={request.user_followers_count}
+                avatarURL={request.avatar_url}
+                style={{
+                  padding: '0.5em 0.5em 0 0.5em',
+                }}
+              />
+              <div className={styles.buttons}>
+                <form className={styles.form} onSubmit={handleAddFollower}>
                   <input
                     type="hidden"
-                    name="request_receiver_id"
+                    name="follower_id"
                     value={request.follower_id}
-                  />
-                  <CancelButton
-                    type="submit"
-                    name="Cancel follow request"
-                    style={{
-                      width: '100%',
-                      fontSize: '0.6rem',
-                      borderRadius: '0 0 10px 10px',
-                    }}
-                  />
-                </form>
-              </div>
-            ))}
-          </div>
-          <div className={styles.sideCard}>
-            <h2 className={styles.sideHeading}>Received Requests:</h2>
-            {requestsReceived.map((request) => (
-              <div className={styles.usersCard} key={request.follower_id}>
-                <Friend
-                  followerId={request.follower_id}
-                  name={request.follower_name}
-                  friendsNumber={request.user_followers_count}
-                  avatarURL={request.avatar_url}
-                  style={{
-                    padding: '0.5em 0.5em 0 0.5em',
-                  }}
-                />
-                <div className={styles.buttons}>
-                  <form className={styles.form} onSubmit={handleAddFollower}>
-                    <input
-                      type="hidden"
-                      name="follower_id"
-                      value={request.follower_id}
-                    />
-                    <SubmitButton
-                      type="submit"
-                      name="Confirm"
-                      style={{
-                        width: '100%',
-                        fontSize: '0.6rem',
-                        borderRadius: '0 0 0 10px',
-                      }}
-                    />
-                  </form>
-                  <form className={styles.form} onSubmit={handleDeleteRequest}>
-                    <input type="hidden" name="request_id" value={request.id} />
-                    <CancelButton
-                      type="submit"
-                      name="Delete"
-                      style={{
-                        width: '100%',
-                        fontSize: '0.6rem',
-                        borderRadius: '0 0 10px 0',
-                      }}
-                    />
-                  </form>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className={styles.sideCard}>
-            <h2 className={styles.sideHeading}>Users you may know:</h2>
-            {friendsSuggest.map((friend) => (
-              <div className={styles.usersCard} key={friend.user_id}>
-                <Friend
-                  followerId={friend.user_id}
-                  name={friend.full_name}
-                  friendsNumber={friend.user_followers_count}
-                  avatarURL={friend.avatar_url}
-                  style={{
-                    padding: '0.5em 0.5em 0 0.5em',
-                  }}
-                />
-                <form className={styles.form} onSubmit={handleSentRequest}>
-                  <input
-                    type="hidden"
-                    name="request_receiver_id"
-                    value={friend.user_id}
                   />
                   <SubmitButton
                     type="submit"
-                    name="Send follow request"
+                    name="Confirm"
                     style={{
                       width: '100%',
                       fontSize: '0.6rem',
-                      borderRadius: '0 0 10px 10px',
+                      borderRadius: '0 0 0 10px',
+                    }}
+                  />
+                </form>
+                <form className={styles.form} onSubmit={handleDeleteRequest}>
+                  <input type="hidden" name="request_id" value={request.id} />
+                  <CancelButton
+                    type="submit"
+                    name="Delete"
+                    style={{
+                      width: '100%',
+                      fontSize: '0.6rem',
+                      borderRadius: '0 0 10px 0',
                     }}
                   />
                 </form>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
-      )}
+        <div className={styles.sideCard}>
+          <h2 className={styles.sideHeading}>Users you may know:</h2>
+          {friendsSuggest.map((friend) => (
+            <div className={styles.usersCard} key={friend.user_id}>
+              <Friend
+                followerId={friend.user_id}
+                name={friend.full_name}
+                friendsNumber={friend.user_followers_count}
+                avatarURL={friend.avatar_url}
+                style={{
+                  padding: '0.5em 0.5em 0 0.5em',
+                }}
+              />
+              <form className={styles.form} onSubmit={handleSentRequest}>
+                <input
+                  type="hidden"
+                  name="request_receiver_id"
+                  value={friend.user_id}
+                />
+                <SubmitButton
+                  type="submit"
+                  name="Send follow request"
+                  style={{
+                    width: '100%',
+                    fontSize: '0.6rem',
+                    borderRadius: '0 0 10px 10px',
+                  }}
+                />
+              </form>
+            </div>
+          ))}
+        </div>
+      </div>
     </>
   );
 }
