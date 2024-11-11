@@ -4,13 +4,14 @@ import Textarea from '../../Form/Textarea/Textarea';
 import { useOutletContext } from 'react-router-dom';
 import requestWithNativeFetch from '../../../utils/fetchApi';
 import { useEffect, useState } from 'react';
+import useAuth from '../../../contexts/Auth/useAuth';
 
 function AddComment({
   setForceRenderComments,
   postId,
   textareaRef
 }) {
-  const [token, , user, , ,] = useOutletContext();
+  const {token, user} = useAuth();
   const [addCommentFetch, setAddCommentFetch] = useState()
   const [inputValue, setInputValue] = useState('')
   const handleSubmit = (e) => {

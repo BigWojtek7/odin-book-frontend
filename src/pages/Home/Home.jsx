@@ -5,10 +5,12 @@ import { Link, useOutletContext } from 'react-router-dom';
 import { useState } from 'react';
 import Icon from '@mdi/react';
 import { mdiLogin, mdiAccountPlus } from '@mdi/js';
+import useAuth from '../../contexts/Auth/useAuth';
 
 function Home() {
   const [unFollowReq, setUnFollowReq] = useState({});
-  const [token, , user] = useOutletContext();
+  const {token, user} = useAuth();
+  console.log(user)
   return (
     <>
       {token ? (
@@ -21,7 +23,7 @@ function Home() {
             <PostCard
               forceRenderPosts={unFollowReq}
               fetchUrl={`${import.meta.env.VITE_BACKEND_URL}/posts/${
-                user.user_id
+                user?.user_id
               }/followers`}
               profileUser={user}
             />

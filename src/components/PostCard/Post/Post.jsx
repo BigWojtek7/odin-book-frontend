@@ -5,6 +5,7 @@ import { Link, useOutletContext } from 'react-router-dom';
 import requestWithNativeFetch from '../../../utils/fetchApi';
 import { useEffect, useState } from 'react';
 import getRequestWithNativeFetch from '../../../utils/fetchApiGet';
+import useAuth from '../../../contexts/Auth/useAuth';
 
 function Post({
   postId,
@@ -19,7 +20,7 @@ function Post({
   setShowPostModal,
   setShowLikeModal,
 }) {
-  const [token, , user, , ,] = useOutletContext();
+  const {token, user} = useAuth();
   const [postLikes, setPostLikes] = useState({ post_likes: '?' });
   const [isLikeAdded, setIsLikeAdded] = useState(false);
 

@@ -4,6 +4,7 @@ import styles from './Comment.module.css';
 import { useEffect, useState } from 'react';
 import Icon from '@mdi/react';
 import { mdiTrashCan } from '@mdi/js';
+import useAuth from '../../../contexts/Auth/useAuth';
 
 function Comment({
   postId,
@@ -13,7 +14,7 @@ function Comment({
   deleteCommentRes,
 }) {
   const [comments, setComments] = useState([]);
-  const [token, , user, , , ,] = useOutletContext();
+  const {token, user} = useAuth();
 
   useEffect(() => {
     const fetchDataForComments = async () => {

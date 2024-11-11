@@ -6,13 +6,14 @@ import getRequestWithNativeFetch from '../../utils/fetchApiGet';
 import CancelButton from '../Form/Buttons/cancelButton';
 import requestWithNativeFetch from '../../utils/fetchApi';
 import Modal from '../Modal/Modal';
+import useAuth from '../../contexts/Auth/useAuth';
 function FriendsCard({ unFollowReq, setUnFollowReq }) {
   const [friends, setFriends] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [follower, setFollower] = useState();
 
   // const [deleteRes, setDeleteRes] = useState({});
-  const [token, , user, isLoading  , setIsLoading] = useOutletContext();
+  const { token, user } = useAuth();
 
   useEffect(() => {
     if (user?.user_id) {
@@ -38,7 +39,6 @@ function FriendsCard({ unFollowReq, setUnFollowReq }) {
   }, [token, user, unFollowReq]);
 
   const handleUnFollow = (followerid) => {
-    setIsLoading(true);
     const fetchDataForUnfollow = async () => {
       try {
         const url = `${import.meta.env.VITE_BACKEND_URL}/followers/${
@@ -54,7 +54,6 @@ function FriendsCard({ unFollowReq, setUnFollowReq }) {
       } catch (err) {
         console.log(err);
       } finally {
-        setIsLoading(false);
         setShowModal(false);
       }
     };
@@ -72,7 +71,7 @@ function FriendsCard({ unFollowReq, setUnFollowReq }) {
 
   return (
     <>
-      {friends.length === 0 && !isLoading ? (
+      {friends.length === 0 ? (
         <p>Add friends first to see their posts...</p>
       ) : (
         <div className={styles.container}>

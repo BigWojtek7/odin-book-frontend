@@ -8,6 +8,7 @@ import { useOutletContext } from 'react-router-dom';
 import Modal from '../Modal/Modal';
 import requestWithNativeFetch from '../../utils/fetchApi';
 import Loader from '../Loader/Loader';
+import useAuth from '../../contexts/Auth/useAuth';
 
 function PostCard({ forceRenderPosts, fetchUrl, profileUser }) {
   const [deleteCommentRes, setDeleteCommentRes] = useState({});
@@ -21,7 +22,7 @@ function PostCard({ forceRenderPosts, fetchUrl, profileUser }) {
 
   const inputRef = useRef([]);
 
-  const [token, , , isLoading, setIsLoading] = useOutletContext();
+  const { token } = useAuth();
 
   const [profilePosts, setProfilePosts] = useState([]);
   const [commentId, setCommentId] = useState();
@@ -29,7 +30,7 @@ function PostCard({ forceRenderPosts, fetchUrl, profileUser }) {
 
   useEffect(() => {
     if (profileUser?.user_id) {
-      setIsLoading(true);
+
       const fetchDataForPosts = async () => {
         try {
           const headers = {
@@ -40,7 +41,7 @@ function PostCard({ forceRenderPosts, fetchUrl, profileUser }) {
         } catch (err) {
           console.log(err);
         } finally {
-          setIsLoading(false);
+
         }
       };
       fetchDataForPosts();
@@ -49,7 +50,6 @@ function PostCard({ forceRenderPosts, fetchUrl, profileUser }) {
       setProfilePosts([]);
     };
   }, [
-    setIsLoading,
     token,
     forceRenderPosts,
     deletePostRes,
@@ -58,7 +58,7 @@ function PostCard({ forceRenderPosts, fetchUrl, profileUser }) {
   ]);
 
   const handleDeletePost = (postId) => {
-    setIsLoading(true);
+
     const fetchDataForDeletePost = async () => {
       try {
         const url = `${import.meta.env.VITE_BACKEND_URL}/posts/${postId}`;
@@ -72,7 +72,7 @@ function PostCard({ forceRenderPosts, fetchUrl, profileUser }) {
       } catch (err) {
         console.log(err);
       } finally {
-        setIsLoading(false);
+
         setShowPostModal(false);
       }
     };
@@ -103,10 +103,7 @@ function PostCard({ forceRenderPosts, fetchUrl, profileUser }) {
 
   return (
     <>
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <>
+
           {profilePosts.map((post, index) => (
             <div className={styles.postCard} key={post.post_id}>
               <Post
@@ -157,8 +154,7 @@ function PostCard({ forceRenderPosts, fetchUrl, profileUser }) {
           >
             You already liked this post!
           </Modal>
-        </>
-      )}
+
     </>
   );
 }

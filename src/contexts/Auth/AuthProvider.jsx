@@ -24,16 +24,16 @@ const AuthProvider = ({ children }) => {
     }),
     [token]
   );
-
   const {
     fetchData: userData,
     // error,
     // loading,
   } = useFetch(
-    token ? `${import.meta.env.VITE_BACKEND_URL}/user` : null,
+    token ? `${import.meta.env.VITE_BACKEND_URL}/users/user` : null,
     options
   );
 
+ 
   useEffect(() => {
     if (userData) {
       setUser(userData);
