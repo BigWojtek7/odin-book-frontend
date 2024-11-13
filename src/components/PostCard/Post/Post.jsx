@@ -16,11 +16,9 @@ function Post({
   avatarURL,
   inputRef,
   inputRefIndex,
-  setDeletePostId,
-  setShowPostModal,
-  setShowLikeModal,
+  handleDelete,
 }) {
-  const {token, user} = useAuth();
+  const { token, user } = useAuth();
   const [postLikes, setPostLikes] = useState({ post_likes: '?' });
   const [isLikeAdded, setIsLikeAdded] = useState(false);
 
@@ -76,11 +74,6 @@ function Post({
     fetchDataForAddLike();
   };
 
-  const handleDelete = () => {
-    setShowPostModal(true);
-    setDeletePostId(postId);
-  };
-
   return (
     <div className={styles.post}>
       <div className={styles.postInfo}>
@@ -109,7 +102,7 @@ function Post({
         {authorId === user.user_id && (
           <li
             className={`${styles.listItem} ${styles.deleteItem}`}
-            onClick={handleDelete}
+            onClick={() => handleDelete(postId)}
           >
             <Icon path={mdiTrashCan} size={1} />
             Delete

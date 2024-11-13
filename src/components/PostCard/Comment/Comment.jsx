@@ -5,6 +5,11 @@ import { useEffect, useState } from 'react';
 import Icon from '@mdi/react';
 import { mdiTrashCan } from '@mdi/js';
 import useAuth from '../../../contexts/Auth/useAuth';
+import useComments from '../../../hooks/useComments';
+import useModal from '../../../contexts/Modal/useModal';
+import useNotification from '../../../contexts/Notification/useNotification';
+import useLoader from '../../../contexts/Loader/useLoader';
+import requestWithNativeFetch from '../../../utils/requestWithNativeFetch';
 
 function Comment({
   postId,
@@ -13,34 +18,71 @@ function Comment({
   setCommentId,
   deleteCommentRes,
 }) {
-  const [comments, setComments] = useState([]);
-  const {token, user} = useAuth();
+  // const [comments, setComments] = useState([]);
+  const { token, user } = useAuth();
 
-  useEffect(() => {
-    const fetchDataForComments = async () => {
+  const { openModal, closeModal } = useModal();
+  const { addNotification } = useNotification();
+
+  const { start: loaderStart, stop: loaderStop } = useLoader();
+
+  const { comments, setComments } = useComments(
+    `${import.meta.env.VITE_BACKEND_URL}/posts/${postId}/comments`
+  );
+
+  // useEffect(() => {
+  //   const fetchDataForComments = async () => {
+  //     try {
+  //       const url = `${
+  //         import.meta.env.VITE_BACKEND_URL
+  //       }/posts/${postId}/comments`;
+  //       const headers = {
+  //         Authorization: token,
+  //       };
+  //       const commentsData = await getRequestWithNativeFetch(url, headers);
+  //       setComments(commentsData);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
+  //   fetchDataForComments();
+
+  //   return () => {
+  //     setComments([]);
+  //   };
+  // }, [token, postId, forceRenderComments, deleteCommentRes]);
+
+
+  const handleDeleteComment = (commentId) => {
+    openModal('Do you really want to delete this comment?', async () => {
       try {
-        const url = `${
-          import.meta.env.VITE_BACKEND_URL
-        }/posts/${postId}/comments`;
-        const headers = {
-          Authorization: token,
+        loaderStart();
+        const options = {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: token,
+          },
+          method: 'delete',
         };
-        const commentsData = await getRequestWithNativeFetch(url, headers);
-        setComments(commentsData);
+        const deletePostData = await requestWithNativeFetch(
+          `${import.meta.env.VITE_BACKEND_URL}/posts/comments/${commentId}`,
+          options
+        );
+        if (deletePostData.success) {
+          setComments((prevPosts) =>
+            prevPosts.filter(
+              (comment) => comment.comment_id !== Number(commentId)
+            )
+          );
+          addNotification('The comment has been deleted', 'success');
+        }
       } catch (err) {
         console.log(err);
+      } finally {
+        loaderStop();
+        closeModal();
       }
-    };
-    fetchDataForComments();
-
-    return () => {
-      setComments([]);
-    };
-  }, [token, postId, forceRenderComments, deleteCommentRes]);
-
-  const handleDelete = (e) => {
-    setShowModal(true);
-    setCommentId(e.currentTarget.value);
+    });
   };
 
   return (
@@ -69,8 +111,7 @@ function Comment({
               {comment.author_id === user.user_id && (
                 <button
                   className={styles.trashIcon}
-                  value={comment.comment_id}
-                  onClick={handleDelete}
+                  onClick={() => handleDeleteComment(comment.comment_id)}
                 >
                   <Icon path={mdiTrashCan} size={1} />
                 </button>

@@ -8,7 +8,7 @@ import Modal from '../Modal/Modal';
 import requestWithNativeFetch from '../../utils/fetchApi';
 import useAuth from '../../contexts/Auth/useAuth';
 
-function PostCard({ posts, forceRenderPosts, fetchUrl, profileUser }) {
+function PostCard({ posts, onDelete }) {
   const [deleteCommentRes, setDeleteCommentRes] = useState({});
 
   const [showCommentModal, setShowCommentModal] = useState(false);
@@ -48,25 +48,25 @@ function PostCard({ posts, forceRenderPosts, fetchUrl, profileUser }) {
   //   };
   // }, [token, forceRenderPosts, deletePostRes, fetchUrl, profileUser?.user_id]);
 
-  const handleDeletePost = (postId) => {
-    const fetchDataForDeletePost = async () => {
-      try {
-        const url = `${import.meta.env.VITE_BACKEND_URL}/posts/${postId}`;
-        const headers = { Authorization: token };
-        const deleteData = await requestWithNativeFetch(url, 'DELETE', headers);
-        setDeletePostRes(deleteData);
+  // const handleDeletePost = (postId) => {
+  //   const fetchDataForDeletePost = async () => {
+  //     try {
+  //       const url = `${import.meta.env.VITE_BACKEND_URL}/posts/${postId}`;
+  //       const headers = { Authorization: token };
+  //       const deleteData = await requestWithNativeFetch(url, 'DELETE', headers);
+  //       setDeletePostRes(deleteData);
 
-        if (deleteData.success) {
-          setDeletePostRes(deleteData);
-        }
-      } catch (err) {
-        console.log(err);
-      } finally {
-        setShowPostModal(false);
-      }
-    };
-    fetchDataForDeletePost();
-  };
+  //       if (deleteData.success) {
+  //         setDeletePostRes(deleteData);
+  //       }
+  //     } catch (err) {
+  //       console.log(err);
+  //     } finally {
+  //       setShowPostModal(false);
+  //     }
+  //   };
+  //   fetchDataForDeletePost();
+  // };
 
   const handleDeleteComment = (commentId) => {
     const fetchDataForDelete = async () => {
@@ -103,9 +103,7 @@ function PostCard({ posts, forceRenderPosts, fetchUrl, profileUser }) {
             avatarURL={post.avatar_url}
             inputRef={inputRef}
             inputRefIndex={index}
-            setShowPostModal={setShowPostModal}
-            setShowLikeModal={setShowLikeModal}
-            setDeletePostId={setDeletePostId}
+            handleDelete={onDelete}
           />
           <AddComment
             setForceRenderComments={setForceRenderComments}
