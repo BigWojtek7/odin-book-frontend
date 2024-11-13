@@ -18,21 +18,22 @@ function Home() {
   );
 
   const handleDeletePost = (deletedPostId) => {
-    // Aktualizuj stan, aby usunąć post z listy
     setPosts((prevPosts) =>
       prevPosts.filter((post) => post.post_id !== deletedPostId)
     );
   };
 
-  console.log(posts);
+  const onDeletePostsByFollower = (followerId) => {
+    setPosts((prevPosts) =>
+      prevPosts.filter((post) => post.author_id !== followerId)
+    );
+  };
+
   return (
     <>
       {token ? (
         <div className={styles.home}>
-          <FriendsCard
-            unFollowReq={unFollowReq}
-            setUnFollowReq={setUnFollowReq}
-          />
+          <FriendsCard onDeletePostsByFollower={onDeletePostsByFollower} />
           <div className={styles.posts}>
             <PostCard posts={posts} onDelete={handleDeletePost} />
           </div>

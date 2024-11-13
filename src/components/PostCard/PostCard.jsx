@@ -99,7 +99,6 @@ function PostCard({ posts, onDelete }) {
   };
 
   const handleDeletePost = (postId) => {
-    console.log(postId)
     openModal('Do you really want to delete this post?', async () => {
       try {
         loaderStart();

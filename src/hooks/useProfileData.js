@@ -7,7 +7,6 @@ const useProfileData = (followerid) => {
   const [profileUser, setProfileUser] = useState({});
   const [isFollowerProfile, setIsFollowerProfile] = useState(false);
 
-  console.log(token);
   useEffect(() => {
     setIsFollowerProfile(followerid !== 'profile');
   }, [followerid]);

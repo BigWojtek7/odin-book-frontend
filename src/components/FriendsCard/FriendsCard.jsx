@@ -1,78 +1,176 @@
-import styles from './FriendCard.module.css';
-import Friend from './Friend';
-import { useEffect, useState } from 'react';
-import { useOutletContext } from 'react-router-dom';
-import getRequestWithNativeFetch from '../../utils/fetchApiGet';
-import CancelButton from '../Form/Buttons/cancelButton';
-import requestWithNativeFetch from '../../utils/fetchApi';
-import Modal from '../Modal/Modal';
-import useAuth from '../../contexts/Auth/useAuth';
-function FriendsCard({ unFollowReq, setUnFollowReq }) {
-  const [friends, setFriends] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [follower, setFollower] = useState();
+// import styles from './FriendCard.module.css';
+// import Friend from './Friend';
+// import CancelButton from '../Form/Buttons/cancelButton';
+// import requestWithNativeFetch from '../../utils/requestWithNativeFetch';
+// import useAuth from '../../contexts/Auth/useAuth';
+// import useFriends from '../../hooks/useFriends';
+// import useModal from '../../contexts/Modal/useModal';
+// import useNotification from '../../contexts/Notification/useNotification';
+// import useLoader from '../../contexts/Loader/useLoader';
 
-  // const [deleteRes, setDeleteRes] = useState({});
+// function FriendsCard({ onDeletePost }) {
+
+//   const { friends, setFriends } = useFriends();
+
+//   const { token, user } = useAuth();
+
+//   const { openModal, closeModal } = useModal();
+//   const { addNotification } = useNotification();
+
+//   const { start: loaderStart, stop: loaderStop } = useLoader();
+
+//   const handleDeleteFriend = (e) => {
+//     e.preventDefault();
+//     const followerId = e.target.follower_id.value;
+//     const followerName = e.target.follower_name.value;
+//     console.log(followerId, followerName)
+//     openModal(`Do you really want to delete ${followerName}?`, async () => {
+//       try {
+//         loaderStart();
+//         const options = {
+//           headers: {
+//             'Content-Type': 'application/json',
+//             Authorization: token,
+//           },
+//           method: 'delete',
+//         };
+//         const deleteFriendData = await requestWithNativeFetch(
+//           `${import.meta.env.VITE_BACKEND_URL}/followers/${
+//             user.user_id
+//           }/${followerId}`,
+//           options
+//         );
+//         if (deleteFriendData.success) {
+//           setFriends((prevFriends) =>
+//             prevFriends.filter((friend) => friend.follower_id !== followerId)
+//           );
+//           const followerPosts = posts.filter(
+//             (post) => post.user_id === followerId
+//           );
+//           followerPosts.forEach((post) => onDeletePost(post.post_id));
+//           addNotification(`${followerName} has been deleted`, 'success');
+//         }
+//       } catch (err) {
+//         console.log(err);
+//       } finally {
+//         loaderStop();
+//         closeModal();
+//       }
+//     });
+//   };
+
+//   return (
+//     <>
+//       {friends.length === 0 ? (
+//         <p>Add friends first to see their posts...</p>
+//       ) : (
+//         <div className={styles.container}>
+//           <h2>Friends:</h2>
+//           {friends.map((follower) => (
+//             <div key={follower.follower_id} className={styles.friendBar}>
+//               <Friend
+//                 followerId={follower.follower_id}
+//                 name={follower.follower_name}
+//                 friendsNumber={follower.user_followers_count}
+//                 avatarURL={follower.avatar_url}
+//                 style={{
+//                   padding: '0.5em 0.5em 0 0.5em',
+//                 }}
+//               />
+//               <form className={styles.form} onSubmit={handleDeleteFriend}>
+//                 <input
+//                   type="hidden"
+//                   name="follower_id"
+//                   value={follower.follower_id}
+//                 />
+//                 <input
+//                   type="hidden"
+//                   name="follower_name"
+//                   value={follower.follower_name}
+//                 />
+//                 <CancelButton
+//                   type="submit"
+//                   name="Unfollow"
+//                   style={{
+//                     // 'writing-mode': 'vertical-rl',
+//                     fontSize: '0.6rem',
+//                     borderRadius: '0 0 10px 10px',
+//                     width: '100%',
+//                   }}
+//                 />
+//               </form>
+//             </div>
+//           ))}
+//         </div>
+//       )}
+//     </>
+//   );
+// }
+
+import styles from './FriendsCard.module.css';
+import Friend from './Friend';
+import CancelButton from '../Form/Buttons/cancelButton';
+import requestWithNativeFetch from '../../utils/requestWithNativeFetch';
+import useAuth from '../../contexts/Auth/useAuth';
+import useFriends from '../../hooks/useFriends';
+import useNotification from '../../contexts/Notification/useNotification';
+import useModal from '../../contexts/Modal/useModal';
+import useLoader from '../../contexts/Loader/useLoader';
+
+function FriendsCard({ onDeletePostsByFollower }) {
+  const { friends, setFriends } = useFriends();
   const { token, user } = useAuth();
 
-  useEffect(() => {
-    if (user?.user_id) {
-      const fetchDataForFriend = async () => {
-        try {
-          const url = `${import.meta.env.VITE_BACKEND_URL}/followers/${
-            user.user_id
-          }`;
-          const headers = {
-            Authorization: token,
-          };
-          const friendsData = await getRequestWithNativeFetch(url, headers);
-          console.log(friendsData)
-          setFriends(friendsData);
-        } catch (err) {
-          console.log(err);
-        }
-      };
-      fetchDataForFriend();
-    }
-    return () => {
-      setFriends([]);
-    };
-  }, [token, user, unFollowReq]);
+  const { openModal, closeModal } = useModal();
+  const { addNotification } = useNotification();
 
-  const handleUnFollow = (followerid) => {
-    const fetchDataForUnfollow = async () => {
-      try {
-        const url = `${import.meta.env.VITE_BACKEND_URL}/followers/${
-          user.user_id
-        }/${followerid}`;
-        const headers = { Authorization: token };
-        const deleteData = await requestWithNativeFetch(url, 'DELETE', headers);
-        setUnFollowReq(deleteData);
+  const { start: loaderStart, stop: loaderStop } = useLoader();
 
-        // if (deleteData.success) {
-        //   setUnfollowReq(deleteData);
-        // }
-      } catch (err) {
-        console.log(err);
-      } finally {
-        setShowModal(false);
-      }
-    };
-    fetchDataForUnfollow();
+  const confirmDeleteFriend = (followerId, followerName) => {
+    console.log(followerName, followerId);
+    openModal(`Do you really want to delete ${followerName}?`, () =>
+      deleteFriend(followerId, followerName)
+    );
   };
 
-  const handleDelete = (e) => {
-    e.preventDefault();
-    setShowModal(true);
-    setFollower({
-      follower_id: e.target.follower_id.value,
-      follower_name: e.target.follower_name.value,
-    });
+  const deleteFriend = async (followerId, followerName) => {
+    try {
+      loaderStart();
+      const options = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+        method: 'delete',
+      };
+      const deleteFriendData = await requestWithNativeFetch(
+        `${import.meta.env.VITE_BACKEND_URL}/followers/${
+          user.user_id
+        }/${followerId}`,
+        options
+      );
+      if (deleteFriendData.success) {
+        updateFriendsState(followerId);
+        onDeletePostsByFollower(followerId);
+        addNotification(`${followerName} has been deleted`, 'success');
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      loaderStop();
+      closeModal();
+    }
+  };
+
+  const updateFriendsState = (followerId) => {
+    setFriends((prevFriends) =>
+      prevFriends.filter((friend) => friend.follower_id !== followerId)
+    );
   };
 
   return (
     <>
-      {friends.length === 0 ? (
+      {friends?.length === 0 ? (
         <p>Add friends first to see their posts...</p>
       ) : (
         <div className={styles.container}>
@@ -84,41 +182,26 @@ function FriendsCard({ unFollowReq, setUnFollowReq }) {
                 name={follower.follower_name}
                 friendsNumber={follower.user_followers_count}
                 avatarURL={follower.avatar_url}
+                style={{ padding: '0.5em 0.5em 0 0.5em' }}
+              />
+              <CancelButton
+                type="button"
+                clickHandler={() =>
+                  confirmDeleteFriend(
+                    follower.follower_id,
+                    follower.follower_name
+                  )
+                }
+                name="Unfollow"
+                className={styles.unfollowButton}
                 style={{
-                  padding: '0.5em 0.5em 0 0.5em',
+                  fontSize: '0.6rem',
+                  borderRadius: '0 0 10px 10px',
+                  width: '100%',
                 }}
               />
-              <form className={styles.form} onSubmit={handleDelete}>
-                <input
-                  type="hidden"
-                  name="follower_id"
-                  value={follower.follower_id}
-                />
-                <input
-                  type="hidden"
-                  name="follower_name"
-                  value={follower.follower_name}
-                />
-                <CancelButton
-                  type="submit"
-                  name="Unfollow"
-                  style={{
-                    // 'writing-mode': 'vertical-rl',
-                    fontSize: '0.6rem',
-                    borderRadius: '0 0 10px 10px',
-                    width: '100%',
-                  }}
-                />
-              </form>
             </div>
           ))}
-          <Modal
-            isShow={showModal}
-            onRequestSubmit={() => handleUnFollow(follower.follower_id)}
-            onRequestClose={() => setShowModal((prev) => !prev)}
-          >
-            Are you sure to unfollow <strong>{follower?.follower_name}</strong>
-          </Modal>
         </div>
       )}
     </>

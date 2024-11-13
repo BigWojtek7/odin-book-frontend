@@ -3,58 +3,86 @@ import SubmitButton from '../../Form/Buttons/SubmitButton';
 import Textarea from '../../Form/Textarea/Textarea';
 import { useOutletContext } from 'react-router-dom';
 // import { useState } from 'react';
-import requestWithNativeFetch from '../../../utils/fetchApi.js';
+import requestWithNativeFetch from '../../../utils/requestWithNativeFetch.js';
 import { useEffect, useState } from 'react';
 import useAuth from '../../../contexts/Auth/useAuth.js';
+import useNotification from '../../../contexts/Notification/useNotification.js';
+import useLoader from '../../../contexts/Loader/useLoader.js';
 
 function AddPost({ avatarURL, setForceRenderPosts }) {
-  const {token, user} = useAuth();
+  const { token, user } = useAuth();
 
-  const [addPostFetch, setAddPostFetch] = useState();
+  const [createPostRes, setCreatePostRes] = useState();
   const [inputValue, setInputValue] = useState('');
-  const handleSubmit = (e) => {
+
+  const { addNotification } = useNotification();
+
+  const { start: loaderStart, stop: loaderStop } = useLoader();
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   setIsLoading(true);
+  //   const fetchDataForCreatePost = async () => {
+  //     try {
+  //       const url = `${import.meta.env.VITE_BACKEND_URL}/posts`;
+  //       const headers = {
+  //         'Content-Type': 'application/json',
+  //         Authorization: token,
+  //       };
+  //       const data = {
+  //         content: inputValue,
+  //       };
+  //       const createPostData = await requestWithNativeFetch(
+  //         url,
+  //         'POST',
+  //         headers,
+  //         data
+  //       );
+
+  //       setAddPostFetch(createPostData);
+
+  //       if (createPostData.success) {
+  //         setForceRenderPosts((prev) => prev + 1);
+  //       }
+  //     } catch (err) {
+  //       console.log(err);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
+  //   fetchDataForCreatePost();
+  // };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
-    const fetchDataForCreatePost = async () => {
-      try {
-        const url = `${import.meta.env.VITE_BACKEND_URL}/posts`;
-        const headers = {
+    try {
+      loaderStart();
+      const options = {
+        headers: {
           'Content-Type': 'application/json',
           Authorization: token,
-        };
-        const data = {
-          content: inputValue,
-        };
-        const createPostData = await requestWithNativeFetch(
-          url,
-          'POST',
-          headers,
-          data
-        );
-
-        setAddPostFetch(createPostData);
-
-        if (createPostData.success) {
-          setForceRenderPosts((prev) => prev + 1);
-        }
-      } catch (err) {
-        console.log(err);
-      } finally {
-        setIsLoading(false);
+        },
+        body: JSON.stringify({
+          content: e.target.content.value,
+        }),
+        method: 'post',
+      };
+      const createPostDate = await requestWithNativeFetch(
+        `${import.meta.env.VITE_BACKEND_URL}/posts/`,
+        options
+      );
+      setCreatePostRes(createPostDate);
+      console.log(createPostDate);
+      if (createPostDate.success) {
+        addNotification('The post has been created', 'success');
       }
-    };
-    fetchDataForCreatePost();
+    } catch (err) {
+      console.log(err.name);
+    } finally {
+      loaderStop();
+    }
   };
 
-
-  useEffect(() => {
-    if (addPostFetch) {
-      const timeoutId = setTimeout(() => {
-        setAddPostFetch('');
-      }, 3000);
-      return () => clearTimeout(timeoutId);
-    }
-  }, [addPostFetch, setAddPostFetch]);
   return (
     <div className={styles.container}>
       <div className={styles.addPost}>
@@ -77,10 +105,6 @@ function AddPost({ avatarURL, setForceRenderPosts }) {
             style={{ borderRadius: '10px' }}
           />
         </form>
-      </div>
-      <div>
-        {addPostFetch &&
-          addPostFetch.msg.map((err, index) => <p key={index}>{err.msg}</p>)}
       </div>
     </div>
   );

@@ -15,13 +15,13 @@ function Profile() {
 
   const { profileUser, isFollowerProfile } = useProfileData(followerid);
 
-  console.log(profileUser);
+
 
   const { posts, setPosts } = usePosts(
     `${import.meta.env.VITE_BACKEND_URL}/posts/user/${profileUser?.user_id}`,
     Boolean(profileUser?.user_id)
   );
-  console.log(posts);
+
 
   const handleDeletePost = (deletedPostId) => {
     setPosts((prevPosts) =>
