@@ -1,15 +1,23 @@
 import PostCard from '../../components/PostCard/PostCard';
 import FriendsCard from '../../components/FriendsCard/FriendsCard';
 import styles from './Home.module.css';
-import { Link, useOutletContext } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import Icon from '@mdi/react';
 import { mdiLogin, mdiAccountPlus } from '@mdi/js';
 import useAuth from '../../contexts/Auth/useAuth';
+import usePost from '../../hooks/usePost';
 
 function Home() {
   const [unFollowReq, setUnFollowReq] = useState({});
-  const {token, user} = useAuth();
+  const { token, user } = useAuth();
+
+  const { posts, setPosts } = usePost(
+    `${import.meta.env.VITE_BACKEND_URL}/posts/${user?.user_id}/followers`,
+    Boolean(user)
+  );
+
+  console.log(posts);
   return (
     <>
       {token ? (
@@ -20,11 +28,7 @@ function Home() {
           />
           <div className={styles.posts}>
             <PostCard
-              forceRenderPosts={unFollowReq}
-              fetchUrl={`${import.meta.env.VITE_BACKEND_URL}/posts/${
-                user?.user_id
-              }/followers`}
-              profileUser={user}
+            posts={posts}
             />
           </div>
         </div>

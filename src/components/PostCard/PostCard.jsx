@@ -6,10 +6,9 @@ import { useEffect, useRef, useState } from 'react';
 import getRequestWithNativeFetch from '../../utils/fetchApiGet';
 import Modal from '../Modal/Modal';
 import requestWithNativeFetch from '../../utils/fetchApi';
-import Loader from '../Loader/Loader';
 import useAuth from '../../contexts/Auth/useAuth';
 
-function PostCard({ forceRenderPosts, fetchUrl, profileUser }) {
+function PostCard({ posts, forceRenderPosts, fetchUrl, profileUser }) {
   const [deleteCommentRes, setDeleteCommentRes] = useState({});
 
   const [showCommentModal, setShowCommentModal] = useState(false);
@@ -27,27 +26,27 @@ function PostCard({ forceRenderPosts, fetchUrl, profileUser }) {
   const [commentId, setCommentId] = useState();
   const [deletePostId, setDeletePostId] = useState();
 
-  useEffect(() => {
-    if (profileUser?.user_id) {
-      const fetchDataForPosts = async () => {
-        try {
-          const headers = {
-            Authorization: token,
-          };
-          const postsData = await getRequestWithNativeFetch(fetchUrl, headers);
-          console.log(postsData);
-          setProfilePosts(postsData);
-        } catch (err) {
-          console.log(err);
-        } finally {
-        }
-      };
-      fetchDataForPosts();
-    }
-    return () => {
-      setProfilePosts([]);
-    };
-  }, [token, forceRenderPosts, deletePostRes, fetchUrl, profileUser?.user_id]);
+  // useEffect(() => {
+  //   if (profileUser?.user_id) {
+  //     const fetchDataForPosts = async () => {
+  //       try {
+  //         const headers = {
+  //           Authorization: token,
+  //         };
+  //         const postsData = await getRequestWithNativeFetch(fetchUrl, headers);
+  //         console.log(postsData);
+  //         setProfilePosts(postsData);
+  //       } catch (err) {
+  //         console.log(err);
+  //       } finally {
+  //       }
+  //     };
+  //     fetchDataForPosts();
+  //   }
+  //   return () => {
+  //     setProfilePosts([]);
+  //   };
+  // }, [token, forceRenderPosts, deletePostRes, fetchUrl, profileUser?.user_id]);
 
   const handleDeletePost = (postId) => {
     const fetchDataForDeletePost = async () => {
@@ -93,7 +92,7 @@ function PostCard({ forceRenderPosts, fetchUrl, profileUser }) {
 
   return (
     <>
-      {profilePosts.map((post, index) => (
+      {posts?.map((post, index) => (
         <div className={styles.postCard} key={post.post_id}>
           <Post
             date={post.post_date}
