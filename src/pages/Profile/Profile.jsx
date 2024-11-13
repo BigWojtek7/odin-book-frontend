@@ -23,6 +23,12 @@ function Profile() {
   );
   console.log(posts);
 
+  const handleDeletePost = (deletedPostId) => {
+    setPosts((prevPosts) =>
+      prevPosts.filter((post) => post.post_id !== deletedPostId)
+    );
+  };
+
   // useEffect(() => {
   //   setProfileUser(isFollowerProfile ? followerProfile : user);
   // }, [followerProfile, isFollowerProfile, user]);
@@ -61,8 +67,7 @@ function Profile() {
               setForceRenderPosts={setForceRenderPosts}
             />
           )}
-          <PostCard posts={posts}
-          />
+          <PostCard posts={posts} onDelete={handleDeletePost} />
         </div>
       </div>
     </>

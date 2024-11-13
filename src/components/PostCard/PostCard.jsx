@@ -5,8 +5,11 @@ import AddComment from './AddComment/AddComment';
 import { useEffect, useRef, useState } from 'react';
 import getRequestWithNativeFetch from '../../utils/fetchApiGet';
 import Modal from '../Modal/Modal';
-import requestWithNativeFetch from '../../utils/fetchApi';
 import useAuth from '../../contexts/Auth/useAuth';
+import useModal from '../../contexts/Modal/useModal';
+import useNotification from '../../contexts/Notification/useNotification';
+import useLoader from '../../contexts/Loader/useLoader';
+import requestWithNativeFetch from '../../utils/requestWithNativeFetch';
 
 function PostCard({ posts, onDelete }) {
   const [deleteCommentRes, setDeleteCommentRes] = useState({});
@@ -21,6 +24,11 @@ function PostCard({ posts, onDelete }) {
   const inputRef = useRef([]);
 
   const { token } = useAuth();
+
+  const { openModal, closeModal } = useModal();
+  const { addNotification } = useNotification();
+
+  const { start: loaderStart, stop: loaderStop } = useLoader();
 
   const [profilePosts, setProfilePosts] = useState([]);
   const [commentId, setCommentId] = useState();
@@ -90,6 +98,35 @@ function PostCard({ posts, onDelete }) {
     fetchDataForDelete();
   };
 
+  const handleDeletePost = (postId) => {
+    console.log(postId)
+    openModal('Do you really want to delete this post?', async () => {
+      try {
+        loaderStart();
+        const options = {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: token,
+          },
+          method: 'delete',
+        };
+        const deletePostData = await requestWithNativeFetch(
+          `${import.meta.env.VITE_BACKEND_URL}/posts/${postId}`,
+          options
+        );
+        if (deletePostData.success) {
+          onDelete(postId);
+          addNotification('The post has been deleted', 'success');
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        loaderStop();
+        closeModal();
+      }
+    });
+  };
+
   return (
     <>
       {posts?.map((post, index) => (
@@ -103,7 +140,7 @@ function PostCard({ posts, onDelete }) {
             avatarURL={post.avatar_url}
             inputRef={inputRef}
             inputRefIndex={index}
-            handleDelete={onDelete}
+            handleDelete={handleDeletePost}
           />
           <AddComment
             setForceRenderComments={setForceRenderComments}
