@@ -3,50 +3,52 @@ import PostCard from '../../components/PostCard/PostCard';
 import UserCard from '../../components/UserCard/UserCard';
 import styles from './Profile.module.css';
 import { useEffect, useState } from 'react';
-import getRequestWithNativeFetch from '../../utils/fetchApiGet';
+import useProfileData from '../../hooks/useProfileData';
 import AddPost from '../../components/PostCard/AddPost/AddPost';
 import useAuth from '../../contexts/Auth/useAuth';
-
+import usePosts from '../../hooks/usePosts';
 
 function Profile() {
   const [forceRenderPosts, setForceRenderPosts] = useState(0);
 
-
-  const {token, user} = useAuth();
-
-  const [followerProfile, setFollowerProfile] = useState();
-  const [profileUser, setProfileUser] = useState({});
-
   const { followerid } = useParams();
 
-  const isFollowerProfile = followerid !== 'profile';
+  const { profileUser, isFollowerProfile } = useProfileData(followerid);
 
-  useEffect(() => {
-    setProfileUser(isFollowerProfile ? followerProfile : user);
-  }, [followerProfile, isFollowerProfile, user]);
+  console.log(profileUser);
 
-  useEffect(() => {
-    if (token && isFollowerProfile) {
-      const fetchDataForProfile = async () => {
-        try {
-          const url = `${
-            import.meta.env.VITE_BACKEND_URL
-          }/users/${followerid}/profile`;
-          const headers = {
-            Authorization: token,
-          };
-          const userData = await getRequestWithNativeFetch(url, headers);
-          setFollowerProfile(userData);
-        } catch (err) {
-          console.log(err);
-        }
-      };
-      fetchDataForProfile();
-    }
-    return () => {
-      setFollowerProfile([]);
-    };
-  }, [token, isFollowerProfile, followerid]);
+  const { posts, setPosts } = usePosts(
+    `${import.meta.env.VITE_BACKEND_URL}/posts/user/${profileUser?.user_id}`,
+    Boolean(profileUser?.user_id)
+  );
+  console.log(posts);
+
+  // useEffect(() => {
+  //   setProfileUser(isFollowerProfile ? followerProfile : user);
+  // }, [followerProfile, isFollowerProfile, user]);
+
+  // useEffect(() => {
+  //   if (token && isFollowerProfile) {
+  //     const fetchDataForProfile = async () => {
+  //       try {
+  //         const url = `${
+  //           import.meta.env.VITE_BACKEND_URL
+  //         }/users/${followerid}/profile`;
+  //         const headers = {
+  //           Authorization: token,
+  //         };
+  //         const userData = await getRequestWithNativeFetch(url, headers);
+  //         setFollowerProfile(userData);
+  //       } catch (err) {
+  //         console.log(err);
+  //       }
+  //     };
+  //     fetchDataForProfile();
+  //   }
+  //   return () => {
+  //     setFollowerProfile([]);
+  //   };
+  // }, [token, isFollowerProfile, followerid]);
 
   return (
     <>
@@ -55,16 +57,11 @@ function Profile() {
         <div className={styles.posts}>
           {!isFollowerProfile && (
             <AddPost
-              avatarURL={user?.avatar_url}
+              avatarURL={profileUser?.avatar_url}
               setForceRenderPosts={setForceRenderPosts}
             />
           )}
-          <PostCard
-            forceRenderPosts={forceRenderPosts}
-            fetchUrl={`${import.meta.env.VITE_BACKEND_URL}/posts/user/${
-              profileUser?.user_id
-            }`}
-            profileUser={profileUser}
+          <PostCard posts={posts}
           />
         </div>
       </div>

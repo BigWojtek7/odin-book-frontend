@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import useAuth from '../../contexts/Auth/useAuth';
+import useAuth from '../contexts/Auth/useAuth';
 import requestWithNativeFetch from '../utils/requestWithNativeFetch';
 
 const useProfileData = (followerid) => {
@@ -7,6 +7,7 @@ const useProfileData = (followerid) => {
   const [profileUser, setProfileUser] = useState({});
   const [isFollowerProfile, setIsFollowerProfile] = useState(false);
 
+  console.log(token);
   useEffect(() => {
     setIsFollowerProfile(followerid !== 'profile');
   }, [followerid]);
@@ -14,11 +15,12 @@ const useProfileData = (followerid) => {
   useEffect(() => {
     const fetchDataForProfile = async () => {
       try {
-        const url = `${import.meta.env.VITE_BACKEND_URL}/users/${followerid}/profile`;
-        const headers = {
-          Authorization: token,
-        };
-        const userData = await requestWithNativeFetch(url, headers);
+        const url = `${
+          import.meta.env.VITE_BACKEND_URL
+        }/users/${followerid}/profile`;
+        const userData = await requestWithNativeFetch(url, {
+          headers: { Authorization: token },
+        });
         setProfileUser(userData);
       } catch (err) {
         console.error('Failed to fetch profile data:', err);
@@ -30,7 +32,6 @@ const useProfileData = (followerid) => {
     } else {
       setProfileUser(user); // Ustawia aktualnie zalogowanego użytkownika, jeśli to jego profil
     }
-
   }, [token, followerid, isFollowerProfile, user]);
 
   return { profileUser, isFollowerProfile };

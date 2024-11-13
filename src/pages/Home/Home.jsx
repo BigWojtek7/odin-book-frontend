@@ -6,7 +6,7 @@ import { useState } from 'react';
 import Icon from '@mdi/react';
 import { mdiLogin, mdiAccountPlus } from '@mdi/js';
 import useAuth from '../../contexts/Auth/useAuth';
-import usePost from '../../hooks/usePost';
+import usePosts from '../../hooks/usePosts';
 import useModal from '../../contexts/Modal/useModal';
 import useNotification from '../../contexts/Notification/useNotification';
 import useLoader from '../../contexts/Loader/useLoader';
@@ -21,7 +21,7 @@ function Home() {
 
   const { start: loaderStart, stop: loaderStop } = useLoader();
 
-  const { posts, setPosts } = usePost(
+  const { posts, setPosts } = usePosts(
     `${import.meta.env.VITE_BACKEND_URL}/posts/${user?.user_id}/followers`,
     Boolean(user)
   );
