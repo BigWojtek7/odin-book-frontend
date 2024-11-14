@@ -1,11 +1,11 @@
 import styles from './Post.module.css';
 import Icon from '@mdi/react';
 import { mdiThumbUp, mdiMessage, mdiTrashCan } from '@mdi/js';
-import { Link, useOutletContext } from 'react-router-dom';
-import requestWithNativeFetch from '../../../utils/fetchApi';
+import { Link } from 'react-router-dom';
+import requestWithNativeFetch from '../../../utils/requestWithNativeFetch';
 import { useEffect, useState } from 'react';
-import getRequestWithNativeFetch from '../../../utils/fetchApiGet';
 import useAuth from '../../../contexts/Auth/useAuth';
+import useNotification from '../../../contexts/Notification/useNotification';
 
 function Post({
   postId,
@@ -19,8 +19,8 @@ function Post({
   handleDelete,
 }) {
   const { token, user } = useAuth();
-  const [postLikes, setPostLikes] = useState({ post_likes: '?' });
-  const [isLikeAdded, setIsLikeAdded] = useState(false);
+  const { addNotification } = useNotification();
+  const [postLikes, setPostLikes] = useState(0);
 
   const handleCommentClick = () => {
     inputRef.current[inputRefIndex].focus();
@@ -30,48 +30,40 @@ function Post({
     const fetchDataForLikes = async () => {
       try {
         const url = `${import.meta.env.VITE_BACKEND_URL}/posts/${postId}/likes`;
-        const headers = {
-          Authorization: token,
-        };
-        const postLikesData = await getRequestWithNativeFetch(url, headers);
-        if (typeof postLikesData !== 'undefined') {
-          setPostLikes(postLikesData);
+        const postLikesData = await requestWithNativeFetch(url, {
+          headers: { Authorization: token },
+        });
+        if (postLikesData && typeof postLikesData.post_likes === 'number') {
+          setPostLikes(postLikesData.post_likes);
         }
       } catch (err) {
         console.log(err);
-      } finally {
-        setIsLikeAdded(false);
       }
     };
     fetchDataForLikes();
+  }, [postId, token]);
 
-    return () => {
-      setPostLikes({ post_likes: '?' });
-    };
-  }, [postId, token, isLikeAdded]);
-
-  const handleLikeClick = (e) => {
+  const handleLikeClick = async (e) => {
     e.preventDefault();
-    // setIsLoading(true);
-    const fetchDataForAddLike = async () => {
-      try {
-        const url = `${import.meta.env.VITE_BACKEND_URL}/posts/${postId}/likes`;
-        const headers = {
+    try {
+      const url = `${import.meta.env.VITE_BACKEND_URL}/posts/${postId}/likes`;
+      const addLikeData = await requestWithNativeFetch(url, {
+        headers: {
           'Content-Type': 'application/json',
           Authorization: token,
-        };
-        const addLikeData = await requestWithNativeFetch(url, 'POST', headers);
-        if (addLikeData.success) {
-          setIsLikeAdded(true);
-        }
-        if (!addLikeData.success) {
-          setShowLikeModal(true);
-        }
-      } catch (err) {
-        console.log(err);
+        },
+        method: 'POST',
+      });
+
+      if (addLikeData.success) {
+        setPostLikes((prevLikes) => prevLikes + 1);
+        addNotification('You liked the post', 'success');
+      } else {
+        addNotification('You already liked this post', 'error');
       }
-    };
-    fetchDataForAddLike();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -93,7 +85,7 @@ function Post({
       <ul className={styles.listIcons}>
         <li className={styles.listItem} onClick={handleLikeClick}>
           <Icon path={mdiThumbUp} size={1} />
-          {`Like (${postLikes.post_likes})`}
+          {`Like (${postLikes})`}
         </li>
         <li className={styles.listItem} onClick={handleCommentClick}>
           <Icon path={mdiMessage} size={1} />
@@ -113,4 +105,5 @@ function Post({
     </div>
   );
 }
+
 export default Post;
