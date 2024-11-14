@@ -1,7 +1,5 @@
-import { Link, useOutletContext } from 'react-router-dom';
-import getRequestWithNativeFetch from '../../../utils/fetchApiGet';
+import { Link } from 'react-router-dom';
 import styles from './Comment.module.css';
-import { useEffect, useState } from 'react';
 import Icon from '@mdi/react';
 import { mdiTrashCan } from '@mdi/js';
 import useAuth from '../../../contexts/Auth/useAuth';
@@ -65,8 +63,6 @@ function Comment({ postId, textareaRef }) {
       loaderStop();
     }
   };
-
-  console.log(comments);
 
   const handleDeleteComment = (commentId) => {
     openModal('Do you really want to delete this comment?', async () => {

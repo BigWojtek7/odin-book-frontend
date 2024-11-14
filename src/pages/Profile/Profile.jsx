@@ -1,21 +1,25 @@
-import { useOutletContext, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import PostCard from '../../components/PostCard/PostCard';
 import UserCard from '../../components/UserCard/UserCard';
 import styles from './Profile.module.css';
-import { useEffect, useState } from 'react';
 import useProfileData from '../../hooks/useProfileData';
 import AddPost from '../../components/PostCard/AddPost/AddPost';
 import useAuth from '../../contexts/Auth/useAuth';
 import usePosts from '../../hooks/usePosts';
+import useNotification from '../../contexts/Notification/useNotification';
+import useLoader from '../../contexts/Loader/useLoader';
+import requestWithNativeFetch from '../../utils/requestWithNativeFetch';
 
 function Profile() {
-  const [forceRenderPosts, setForceRenderPosts] = useState(0);
-
   const { followerid } = useParams();
 
   const { profileUser, isFollowerProfile } = useProfileData(followerid);
 
   const { token } = useAuth();
+
+  const { addNotification } = useNotification();
+
+  const { start: loaderStart, stop: loaderStop } = useLoader();
 
   const { posts, setPosts } = usePosts(
     `${import.meta.env.VITE_BACKEND_URL}/posts/user/${profileUser?.user_id}`,
@@ -29,7 +33,6 @@ function Profile() {
   };
 
   const handleAddPost = async (content) => {
-    e.preventDefault();
     try {
       loaderStart();
       const options = {
@@ -38,26 +41,23 @@ function Profile() {
           Authorization: token,
         },
         body: JSON.stringify({
-          content: e.target.content.value,
+          content: content,
         }),
         method: 'post',
       };
-      const createPostDate = await requestWithNativeFetch(
+      const createPostData = await requestWithNativeFetch(
         `${import.meta.env.VITE_BACKEND_URL}/posts/`,
         options
       );
-      setCreatePostRes(createPostDate);
-      console.log(createPostDate);
-      if (createPostDate.success) {
+      if (createPostData.success) {
         setPosts((prevPosts) => [
           {
-            author_id: createCommentData.data.user_id,
-            author_name: createCommentData.data.author_name,
-            avatar_url: createCommentData.data.avatar_url,
-
-            comment_id: createCommentData.data.id,
-            content: createCommentData.data.content,
-            date_format: createCommentData.data.date_format,
+            author_id: createPostData.data.user_id,
+            author_name: createPostData.data.author_name,
+            avatar_url: createPostData.data.avatar_url,
+            post_id: createPostData.data.id,
+            post_content: createPostData.data.content,
+            post_date: createPostData.data.date_format,
           },
           ...prevPosts,
         ]);
