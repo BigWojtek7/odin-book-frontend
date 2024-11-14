@@ -34,6 +34,7 @@ function PostCard({ posts, onDelete }) {
   const [commentId, setCommentId] = useState();
   const [deletePostId, setDeletePostId] = useState();
 
+
   const handleDeleteComment = (commentId) => {
     const fetchDataForDelete = async () => {
       try {

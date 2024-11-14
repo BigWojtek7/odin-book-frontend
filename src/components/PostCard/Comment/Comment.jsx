@@ -13,15 +13,7 @@ import requestWithNativeFetch from '../../../utils/requestWithNativeFetch';
 
 import AddComment from '../AddComment/AddComment';
 
-function Comment({
-  postId,
-  textareaRef,
-  forceRenderComments,
-  setShowModal,
-  setCommentId,
-  deleteCommentRes,
-}) {
-  // const [comments, setComments] = useState([]);
+function Comment({ postId, textareaRef }) {
   const { token, user } = useAuth();
 
   const { openModal, closeModal } = useModal();
@@ -32,6 +24,51 @@ function Comment({
   const { comments, setComments } = useComments(
     `${import.meta.env.VITE_BACKEND_URL}/posts/${postId}/comments`
   );
+
+  const handleAddComment = async (content) => {
+    try {
+      loaderStart();
+      const options = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+        body: JSON.stringify({
+          content: content,
+        }),
+        method: 'post',
+      };
+
+      const createCommentData = await requestWithNativeFetch(
+        `${import.meta.env.VITE_BACKEND_URL}/posts/${postId}/comments`,
+        options
+      );
+      console.log(createCommentData);
+      console.log(createCommentData.avatar_url);
+      // setCreteCommentRes(createCommentData);
+      if (createCommentData.success) {
+        setComments((prevComments) => [
+          {
+            author_id: createCommentData.data.user_id,
+            author_name: createCommentData.data.author_name,
+            avatar_url: createCommentData.data.avatar_url,
+
+            comment_id: createCommentData.data.id,
+            content: createCommentData.data.content,
+            date_format: createCommentData.data.date_format,
+          },
+          ...prevComments,
+        ]);
+        addNotification('the comment has been created', 'success');
+      }
+    } catch (err) {
+      console.log(err.name);
+    } finally {
+      loaderStop();
+    }
+  };
+
+  console.log(comments);
 
   const handleDeleteComment = (commentId) => {
     openModal('Do you really want to delete this comment?', async () => {
@@ -67,7 +104,11 @@ function Comment({
 
   return (
     <>
-      <AddComment postId={postId} textareaRef={textareaRef}/>
+      <AddComment
+        postId={postId}
+        textareaRef={textareaRef}
+        handleAddComment={handleAddComment}
+      />
       {comments.map((comment) => (
         <div className={styles.comment} key={comment.comment_id}>
           <div className={styles.imgDiv}>

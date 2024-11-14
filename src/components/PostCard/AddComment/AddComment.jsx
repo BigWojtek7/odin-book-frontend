@@ -5,54 +5,16 @@ import requestWithNativeFetch from '../../../utils/fetchApi';
 import { useEffect, useState } from 'react';
 import useAuth from '../../../contexts/Auth/useAuth';
 
-function AddComment({
-  setForceRenderComments,
-  postId,
-  textareaRef
-}) {
-  const {token, user} = useAuth();
-  const [addCommentFetch, setAddCommentFetch] = useState()
-  const [inputValue, setInputValue] = useState('')
+function AddComment({ postId, textareaRef, handleAddComment }) {
+  const { token, user } = useAuth();
+  const [addCommentFetch, setAddCommentFetch] = useState();
+  const [inputValue, setInputValue] = useState('');
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const fetchDataForCreateComment = async () => {
-      try {
-        const url = `${
-          import.meta.env.VITE_BACKEND_URL
-        }/posts/${postId}/comments`;
-        const headers = {
-          'Content-Type': 'application/json',
-          Authorization: token,
-        };
-        const data = {
-          content: inputValue,
-        };
-        const createCommentData = await requestWithNativeFetch(
-          url,
-          'POST',
-          headers,
-          data
-        );
-        setAddCommentFetch(createCommentData);
-        if (createCommentData.success) {
-          setForceRenderComments((prev) => prev + 1);
-        }
-      } catch (err) {
-        console.log(err);
-      } finally {
-        e.target.reset();
-      }
-    };
-    fetchDataForCreateComment();
+    handleAddComment(inputValue);
+    setInputValue('');
   };
-  useEffect(() => {
-    if (addCommentFetch) {
-      const timeoutId = setTimeout(() => {
-        setAddCommentFetch('');
-      }, 3000);
-      return () => clearTimeout(timeoutId);
-    }
-  }, [setAddCommentFetch, addCommentFetch]);
 
   return (
     <div className={styles.addComment}>
