@@ -34,48 +34,6 @@ function PostCard({ posts, onDelete }) {
   const [commentId, setCommentId] = useState();
   const [deletePostId, setDeletePostId] = useState();
 
-  // useEffect(() => {
-  //   if (profileUser?.user_id) {
-  //     const fetchDataForPosts = async () => {
-  //       try {
-  //         const headers = {
-  //           Authorization: token,
-  //         };
-  //         const postsData = await getRequestWithNativeFetch(fetchUrl, headers);
-  //         console.log(postsData);
-  //         setProfilePosts(postsData);
-  //       } catch (err) {
-  //         console.log(err);
-  //       } finally {
-  //       }
-  //     };
-  //     fetchDataForPosts();
-  //   }
-  //   return () => {
-  //     setProfilePosts([]);
-  //   };
-  // }, [token, forceRenderPosts, deletePostRes, fetchUrl, profileUser?.user_id]);
-
-  // const handleDeletePost = (postId) => {
-  //   const fetchDataForDeletePost = async () => {
-  //     try {
-  //       const url = `${import.meta.env.VITE_BACKEND_URL}/posts/${postId}`;
-  //       const headers = { Authorization: token };
-  //       const deleteData = await requestWithNativeFetch(url, 'DELETE', headers);
-  //       setDeletePostRes(deleteData);
-
-  //       if (deleteData.success) {
-  //         setDeletePostRes(deleteData);
-  //       }
-  //     } catch (err) {
-  //       console.log(err);
-  //     } finally {
-  //       setShowPostModal(false);
-  //     }
-  //   };
-  //   fetchDataForDeletePost();
-  // };
-
   const handleDeleteComment = (commentId) => {
     const fetchDataForDelete = async () => {
       try {

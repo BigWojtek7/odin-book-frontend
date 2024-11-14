@@ -30,29 +30,6 @@ function Comment({
     `${import.meta.env.VITE_BACKEND_URL}/posts/${postId}/comments`
   );
 
-  // useEffect(() => {
-  //   const fetchDataForComments = async () => {
-  //     try {
-  //       const url = `${
-  //         import.meta.env.VITE_BACKEND_URL
-  //       }/posts/${postId}/comments`;
-  //       const headers = {
-  //         Authorization: token,
-  //       };
-  //       const commentsData = await getRequestWithNativeFetch(url, headers);
-  //       setComments(commentsData);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-  //   fetchDataForComments();
-
-  //   return () => {
-  //     setComments([]);
-  //   };
-  // }, [token, postId, forceRenderComments, deleteCommentRes]);
-
-
   const handleDeleteComment = (commentId) => {
     openModal('Do you really want to delete this comment?', async () => {
       try {
