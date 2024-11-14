@@ -11,8 +11,11 @@ import useNotification from '../../../contexts/Notification/useNotification';
 import useLoader from '../../../contexts/Loader/useLoader';
 import requestWithNativeFetch from '../../../utils/requestWithNativeFetch';
 
+import AddComment from '../AddComment/AddComment';
+
 function Comment({
   postId,
+  textareaRef,
   forceRenderComments,
   setShowModal,
   setCommentId,
@@ -64,6 +67,7 @@ function Comment({
 
   return (
     <>
+      <AddComment postId={postId} textareaRef={textareaRef}/>
       {comments.map((comment) => (
         <div className={styles.comment} key={comment.comment_id}>
           <div className={styles.imgDiv}>

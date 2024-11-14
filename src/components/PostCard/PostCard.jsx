@@ -99,17 +99,18 @@ function PostCard({ posts, onDelete }) {
             inputRefIndex={index}
             handleDelete={handleDeletePost}
           />
-          <AddComment
+          {/* <AddComment
             setForceRenderComments={setForceRenderComments}
             postId={post.post_id}
             textareaRef={(el) => (inputRef.current[index] = el)}
-          />
+          /> */}
           <Comment
             postId={post.post_id}
             forceRenderComments={forceRenderComments}
             setShowModal={setShowCommentModal}
             setCommentId={setCommentId}
             deleteCommentRes={deleteCommentRes}
+            textareaRef={(el) => (inputRef.current[index] = el)}
           />
         </div>
       ))}

@@ -1,7 +1,6 @@
 import SubmitButton from '../../Form/Buttons/SubmitButton';
 import styles from './AddComment.module.css';
 import Textarea from '../../Form/Textarea/Textarea';
-import { useOutletContext } from 'react-router-dom';
 import requestWithNativeFetch from '../../../utils/fetchApi';
 import { useEffect, useState } from 'react';
 import useAuth from '../../../contexts/Auth/useAuth';

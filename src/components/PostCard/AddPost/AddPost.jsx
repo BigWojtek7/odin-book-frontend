@@ -19,40 +19,6 @@ function AddPost({ avatarURL, setForceRenderPosts }) {
 
   const { start: loaderStart, stop: loaderStop } = useLoader();
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   setIsLoading(true);
-  //   const fetchDataForCreatePost = async () => {
-  //     try {
-  //       const url = `${import.meta.env.VITE_BACKEND_URL}/posts`;
-  //       const headers = {
-  //         'Content-Type': 'application/json',
-  //         Authorization: token,
-  //       };
-  //       const data = {
-  //         content: inputValue,
-  //       };
-  //       const createPostData = await requestWithNativeFetch(
-  //         url,
-  //         'POST',
-  //         headers,
-  //         data
-  //       );
-
-  //       setAddPostFetch(createPostData);
-
-  //       if (createPostData.success) {
-  //         setForceRenderPosts((prev) => prev + 1);
-  //       }
-  //     } catch (err) {
-  //       console.log(err);
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
-  //   fetchDataForCreatePost();
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
