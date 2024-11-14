@@ -5,7 +5,7 @@ import requestWithNativeFetch from '../../../utils/fetchApi';
 import { useEffect, useState } from 'react';
 import useAuth from '../../../contexts/Auth/useAuth';
 
-function AddComment({ postId, textareaRef, handleAddComment }) {
+function AddComment({ textareaRef, handleAddComment }) {
   const { token, user } = useAuth();
   const [addCommentFetch, setAddCommentFetch] = useState();
   const [inputValue, setInputValue] = useState('');

@@ -15,13 +15,12 @@ function Profile() {
 
   const { profileUser, isFollowerProfile } = useProfileData(followerid);
 
-
+  const { token } = useAuth();
 
   const { posts, setPosts } = usePosts(
     `${import.meta.env.VITE_BACKEND_URL}/posts/user/${profileUser?.user_id}`,
     Boolean(profileUser?.user_id)
   );
-
 
   const handleDeletePost = (deletedPostId) => {
     setPosts((prevPosts) =>
@@ -29,32 +28,47 @@ function Profile() {
     );
   };
 
-  // useEffect(() => {
-  //   setProfileUser(isFollowerProfile ? followerProfile : user);
-  // }, [followerProfile, isFollowerProfile, user]);
+  const handleAddPost = async (content) => {
+    e.preventDefault();
+    try {
+      loaderStart();
+      const options = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+        body: JSON.stringify({
+          content: e.target.content.value,
+        }),
+        method: 'post',
+      };
+      const createPostDate = await requestWithNativeFetch(
+        `${import.meta.env.VITE_BACKEND_URL}/posts/`,
+        options
+      );
+      setCreatePostRes(createPostDate);
+      console.log(createPostDate);
+      if (createPostDate.success) {
+        setPosts((prevPosts) => [
+          {
+            author_id: createCommentData.data.user_id,
+            author_name: createCommentData.data.author_name,
+            avatar_url: createCommentData.data.avatar_url,
 
-  // useEffect(() => {
-  //   if (token && isFollowerProfile) {
-  //     const fetchDataForProfile = async () => {
-  //       try {
-  //         const url = `${
-  //           import.meta.env.VITE_BACKEND_URL
-  //         }/users/${followerid}/profile`;
-  //         const headers = {
-  //           Authorization: token,
-  //         };
-  //         const userData = await getRequestWithNativeFetch(url, headers);
-  //         setFollowerProfile(userData);
-  //       } catch (err) {
-  //         console.log(err);
-  //       }
-  //     };
-  //     fetchDataForProfile();
-  //   }
-  //   return () => {
-  //     setFollowerProfile([]);
-  //   };
-  // }, [token, isFollowerProfile, followerid]);
+            comment_id: createCommentData.data.id,
+            content: createCommentData.data.content,
+            date_format: createCommentData.data.date_format,
+          },
+          ...prevPosts,
+        ]);
+        addNotification('The post has been created', 'success');
+      }
+    } catch (err) {
+      console.log(err.name);
+    } finally {
+      loaderStop();
+    }
+  };
 
   return (
     <>
@@ -64,7 +78,7 @@ function Profile() {
           {!isFollowerProfile && (
             <AddPost
               avatarURL={profileUser?.avatar_url}
-              setForceRenderPosts={setForceRenderPosts}
+              handleAddPost={handleAddPost}
             />
           )}
           <PostCard posts={posts} onDelete={handleDeletePost} />

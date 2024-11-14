@@ -9,7 +9,7 @@ import useAuth from '../../../contexts/Auth/useAuth.js';
 import useNotification from '../../../contexts/Notification/useNotification.js';
 import useLoader from '../../../contexts/Loader/useLoader.js';
 
-function AddPost({ avatarURL, setForceRenderPosts }) {
+function AddPost({ avatarURL, handleAddPost }) {
   const { token, user } = useAuth();
 
   const [createPostRes, setCreatePostRes] = useState();
@@ -21,32 +21,8 @@ function AddPost({ avatarURL, setForceRenderPosts }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      loaderStart();
-      const options = {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: token,
-        },
-        body: JSON.stringify({
-          content: e.target.content.value,
-        }),
-        method: 'post',
-      };
-      const createPostDate = await requestWithNativeFetch(
-        `${import.meta.env.VITE_BACKEND_URL}/posts/`,
-        options
-      );
-      setCreatePostRes(createPostDate);
-      console.log(createPostDate);
-      if (createPostDate.success) {
-        addNotification('The post has been created', 'success');
-      }
-    } catch (err) {
-      console.log(err.name);
-    } finally {
-      loaderStop();
-    }
+    handleAddPost(inputValue);
+    setInputValue("");
   };
 
   return (

@@ -43,9 +43,7 @@ function Comment({ postId, textareaRef }) {
         `${import.meta.env.VITE_BACKEND_URL}/posts/${postId}/comments`,
         options
       );
-      console.log(createCommentData);
-      console.log(createCommentData.avatar_url);
-      // setCreteCommentRes(createCommentData);
+
       if (createCommentData.success) {
         setComments((prevComments) => [
           {
