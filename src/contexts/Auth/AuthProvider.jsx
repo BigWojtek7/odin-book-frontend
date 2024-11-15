@@ -33,7 +33,6 @@ const AuthProvider = ({ children }) => {
     options
   );
 
- 
   useEffect(() => {
     if (userData) {
       setUser(userData);
@@ -106,7 +105,7 @@ const AuthProvider = ({ children }) => {
     setToken(null);
     setUser(null);
     // alert('You are signed out');
-    addNotification('You have been logged out', 'success');
+    addNotification('You have been logged out', 'delete');
   };
   return (
     <AuthContext.Provider

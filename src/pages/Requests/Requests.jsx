@@ -2,182 +2,19 @@ import styles from './Requests.module.css';
 import Friend from '../../components/FriendsCard/Friend';
 import SubmitButton from '../../components/Form/Buttons/SubmitButton';
 import CancelButton from '../../components/Form/Buttons/cancelButton';
-import { useEffect, useState } from 'react';
-import { useOutletContext } from 'react-router-dom';
-import getRequestWithNativeFetch from '../../utils/fetchApiGet';
-import requestWithNativeFetch from '../../utils/fetchApi';
 
-import Loader from '../../components/Loader/Loader';
-import useAuth from '../../contexts/Auth/useAuth';
+import useRequests from '../../hooks/useRequests';
 
 function Requests() {
-  const [requestsReceived, setRequestsReceived] = useState([]);
-  const [requestsSent, setRequestsSent] = useState([]);
+  const {
+    requestsReceived,
+    requestsSent,
+    friendsSuggest,
+    handleAddFollower,
+    handleSentRequest,
+    handleDeleteRequest,
+  } = useRequests();
 
-  const [friendsSuggest, setFriendsSuggest] = useState([]);
-  const [addFollower, setAddFollower] = useState({});
-
-  const [deleteRequestRes, setDeleteRequestRes] = useState({});
-
-  const { token, user } = useAuth();
-
-  // const [token, , user, isLoading, setIsLoading, setUpdateUser] =
-  //   useOutletContext();
-
-  useEffect(() => {
-    if (user?.user_id) {
-      const fetchDataForSentRequests = async () => {
-        try {
-          const url = `${import.meta.env.VITE_BACKEND_URL}/requests/${
-            user.user_id
-          }/sent`;
-          const headers = {
-            Authorization: token,
-          };
-          const friendsData = await getRequestWithNativeFetch(url, headers);
-          setRequestsSent(friendsData);
-        } catch (err) {
-          console.log(err);
-        }
-      };
-      fetchDataForSentRequests();
-    }
-    return () => {
-      setRequestsSent([]);
-    };
-  }, [token, user, addFollower, deleteRequestRes]);
-
-  useEffect(() => {
-    if (user?.user_id) {
-      const fetchDataForReceivedRequests = async () => {
-        try {
-          const url = `${import.meta.env.VITE_BACKEND_URL}/requests/${
-            user.user_id
-          }/received`;
-          const headers = {
-            Authorization: token,
-          };
-          const friendsData = await getRequestWithNativeFetch(url, headers);
-          setRequestsReceived(friendsData);
-          false;
-        } catch (err) {
-          console.log(err);
-        }
-      };
-      fetchDataForReceivedRequests();
-    }
-    return () => {
-      setRequestsReceived([]);
-    };
-  }, [token, user, addFollower]);
-
-  useEffect(() => {
-    if (user?.user_id) {
-      const fetchDataForFriendsSuggestion = async () => {
-        try {
-          const url = `${import.meta.env.VITE_BACKEND_URL}/followers/${
-            user.user_id
-          }/suggestions`;
-          const headers = {
-            Authorization: token,
-          };
-          const friendsData = await getRequestWithNativeFetch(url, headers);
-          setFriendsSuggest(friendsData);
-        } catch (err) {
-          console.log(err);
-        } finally {
-        }
-      };
-      fetchDataForFriendsSuggestion();
-    }
-    return () => {
-      setFriendsSuggest([]);
-    };
-  }, [token, user]);
-
-  const handleAddFollower = (e) => {
-    e.preventDefault();
-    const followerId = e.target.follower_id.value;
-    // setIsLoading(true);
-    const fetchDataForAddFollower = async () => {
-      try {
-        const url = `${import.meta.env.VITE_BACKEND_URL}/followers/${
-          user.user_id
-        }/${followerId}`;
-        const headers = { Authorization: token };
-        const addFollowerData = await requestWithNativeFetch(
-          url,
-          'POST',
-          headers
-        );
-        setAddFollower(addFollowerData);
-
-        if (addFollowerData.success) {
-          setAddFollower(addFollowerData);
-          setUpdateUser(true);
-        }
-      } catch (err) {
-        console.log(err);
-      } finally {
-        // setIsLoading(false);
-      }
-    };
-    fetchDataForAddFollower();
-  };
-
-  const handleSentRequest = (e) => {
-    e.preventDefault();
-    const requestReceiverId = e.target.request_receiver_id.value;
-    // setIsLoading(true);
-    const fetchDataForAddFollower = async () => {
-      try {
-        const url = `${
-          import.meta.env.VITE_BACKEND_URL
-        }/requests/${requestReceiverId}/${user.user_id}`;
-        const headers = { Authorization: token };
-        const addFollowerData = await requestWithNativeFetch(
-          url,
-          'POST',
-          headers
-        );
-        setAddFollower(addFollowerData);
-
-        if (addFollowerData.success) {
-          setAddFollower(addFollowerData);
-        }
-      } catch (err) {
-        console.log(err);
-      } finally {
-        // setIsLoading(false);
-      }
-    };
-    fetchDataForAddFollower();
-  };
-
-  const handleDeleteRequest = (e) => {
-    e.preventDefault();
-    const requestReceiverId = e.target.request_receiver_id.value;
-    // setIsLoading(true);
-    const fetchDataForDelete = async () => {
-      try {
-        const url = `${
-          import.meta.env.VITE_BACKEND_URL
-        }/requests/${requestReceiverId}/${user.user_id}`;
-        const headers = { Authorization: token };
-        const deleteData = await requestWithNativeFetch(url, 'DELETE', headers);
-        setDeleteRequestRes(deleteData);
-
-        if (deleteData.success) {
-          setDeleteRequestRes(deleteData);
-        }
-      } catch (err) {
-        console.log(err);
-      } finally {
-        // setIsLoading(false);
-      }
-    };
-    fetchDataForDelete();
-  };
   return (
     <>
       <div className={styles.requests}>
@@ -194,7 +31,13 @@ function Requests() {
                   padding: '0.5em 0.5em 0 0.5em',
                 }}
               />
-              <form className={styles.form} onSubmit={handleDeleteRequest}>
+              <form
+                className={styles.form}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleDeleteRequest('sent', request.follower_id);
+                }}
+              >
                 <input
                   type="hidden"
                   name="request_receiver_id"
@@ -227,7 +70,13 @@ function Requests() {
                 }}
               />
               <div className={styles.buttons}>
-                <form className={styles.form} onSubmit={handleAddFollower}>
+                <form
+                  className={styles.form}
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    handleAddFollower(request.follower_id);
+                  }}
+                >
                   <input
                     type="hidden"
                     name="follower_id"
@@ -243,7 +92,13 @@ function Requests() {
                     }}
                   />
                 </form>
-                <form className={styles.form} onSubmit={handleDeleteRequest}>
+                <form
+                  className={styles.form}
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    handleDeleteRequest('received', request.follower_id);
+                  }}
+                >
                   <input type="hidden" name="request_id" value={request.id} />
                   <CancelButton
                     type="submit"
@@ -272,7 +127,13 @@ function Requests() {
                   padding: '0.5em 0.5em 0 0.5em',
                 }}
               />
-              <form className={styles.form} onSubmit={handleSentRequest}>
+              <form
+                className={styles.form}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleSentRequest(friend.user_id);
+                }}
+              >
                 <input
                   type="hidden"
                   name="request_receiver_id"

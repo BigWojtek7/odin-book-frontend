@@ -59,7 +59,7 @@ function Post({
         setPostLikes((prevLikes) => prevLikes + 1);
         addNotification('You liked the post', 'success');
       } else {
-        addNotification('You already liked this post', 'error');
+        addNotification('You already liked this post', 'delete');
       }
     } catch (err) {
       console.log(err);

@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styles from './Navbar.module.css';
 
 import Icon from '@mdi/react';
@@ -18,7 +18,6 @@ import useAuth from '../../contexts/Auth/useAuth';
 function Navbar() {
   const { pathname } = useLocation();
   const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate();
 
   const { token, logOut } = useAuth();
   const handleLogout = () => {
