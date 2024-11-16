@@ -1,13 +1,13 @@
 module.exports = {
   root: true,
-  env: { browser: true, es2020: true, '@vitest/env': true },
+  env: { browser: true, es2020: true, 'vitest-globals/env': true },
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:react/jsx-runtime',
     'plugin:react-hooks/recommended',
     'prettier',
-    'plugin:@vitest/legacy-recommended'
+    'plugin:vitest-globals/recommended',
   ],
   // globals: {
   //   vi: true,
@@ -15,7 +15,7 @@ module.exports = {
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
   settings: { react: { version: '18.2' } },
-  plugins: ['react-refresh', '@vitest'],
+  plugins: ['react-refresh'],
   rules: {
     'react/jsx-no-target-blank': 'off',
     'react-refresh/only-export-components': [

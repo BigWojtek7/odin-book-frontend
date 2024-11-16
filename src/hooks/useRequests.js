@@ -40,7 +40,7 @@ function useRequests() {
 
     fetchSentRequests();
     return () => setRequestsSent([]);
-  }, [token, user]);
+  }, [token, user, loaderStart, loaderStop]);
 
   // Fetch received requests
   useEffect(() => {
@@ -66,7 +66,7 @@ function useRequests() {
 
     fetchReceivedRequests();
     return () => setRequestsReceived([]);
-  }, [token, user]);
+  }, [token, user, loaderStart, loaderStop]);
 
   // Fetch friends suggestions
   useEffect(() => {
@@ -92,7 +92,7 @@ function useRequests() {
 
     fetchFriendsSuggestions();
     return () => setFriendsSuggest([]);
-  }, [token, user]);
+  }, [token, user, loaderStart, loaderStop]);
 
   const handleAddFollower = async (followerId) => {
     try {
