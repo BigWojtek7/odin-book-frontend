@@ -3,15 +3,14 @@ import Input from '../../components/Form/Input/Input';
 import SubmitButton from '../../components/Form/Buttons/SubmitButton';
 import Textarea from '../../components/Form/Textarea/Textarea';
 import { useEffect, useState } from 'react';
-import { Link, useOutletContext } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import requestWithNativeFetch from '../../utils/fetchApi';
-import Loader from '../../components/Loader/Loader';
 import Icon from '@mdi/react';
 import { mdiLogin } from '@mdi/js';
 import useAuth from '../../contexts/Auth/useAuth';
 
 function Settings() {
-  const { token, user } = useAuth();
+  const { token, user, refreshUser } = useAuth();
   // const [token, setToken, user, isLoading, setIsLoading, setUpdateUser] =
   //   useOutletContext();
   const [passwordFetch, setPasswordFetch] = useState(null);
@@ -72,7 +71,7 @@ function Settings() {
         const responseData = await response.json();
         setUploadAvatar(responseData);
         if (responseData.success) {
-          setUpdateUser(true);
+          refreshUser();
         }
       } catch (err) {
         console.log(err);
@@ -112,7 +111,7 @@ function Settings() {
         setProfileFetch(profileChangeData);
 
         if (profileChangeData.success) {
-          setUpdateUser(true);
+          refreshUser();
           // setIsUpdated(true);
           // localStorage.removeItem('token');
           // setToken(null);
@@ -150,7 +149,7 @@ function Settings() {
         setAboutFetch(aboutChangeData);
 
         if (aboutChangeData.success) {
-          setUpdateUser(true);
+          refreshUser();
           // localStorage.removeItem('token');
           // setToken(null);
         }
@@ -189,7 +188,7 @@ function Settings() {
         setPasswordFetch(passwordChangeData);
 
         if (passwordChangeData.success) {
-          setIsUpdated(true);
+          refreshUser();
           localStorage.removeItem('token');
           setToken(null);
         }
@@ -205,9 +204,9 @@ function Settings() {
     <>
       {!isUpdated ? (
         <div className={styles.settings}>
-          <div className={styles.profilAvatar}>
+          <div className={styles.avatarSection}>
             <h2 className={styles.cardHeading}>Edit Avatar:</h2>
-            <div className={styles.imgDiv}>
+            <div className={styles.avatarContainer}>
               <img
                 className={styles.avatar}
                 src={user?.avatar_url}

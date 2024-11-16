@@ -24,11 +24,7 @@ const AuthProvider = ({ children }) => {
     }),
     [token]
   );
-  const {
-    fetchData: userData,
-    // error,
-    // loading,
-  } = useFetch(
+  const { fetchData: userData, toggleRefresh } = useFetch(
     token ? `${import.meta.env.VITE_BACKEND_URL}/users/user` : null,
     options
   );
@@ -38,6 +34,10 @@ const AuthProvider = ({ children }) => {
       setUser(userData);
     }
   }, [userData]);
+
+  const refreshUser = () => {
+    toggleRefresh();
+  };
 
   const loginAction = async (data) => {
     try {
@@ -109,7 +109,7 @@ const AuthProvider = ({ children }) => {
   };
   return (
     <AuthContext.Provider
-      value={{ token, user, loginAction, signUpAction, logOut }}
+      value={{ token, user, loginAction, signUpAction, logOut, refreshUser }}
     >
       {children}
     </AuthContext.Provider>

@@ -4,10 +4,12 @@ import requestWithNativeFetch from '../utils/requestWithNativeFetch';
 
 const useFetch = (url, options) => {
   const [fetchData, setFetchData] = useState(null);
+  const [refresh, setRefresh] = useState(false);
   const [error, setError] = useState(null);
 
   const { start: loaderStart, stop: loaderStop } = useLoader();
 
+  const toggleRefresh = () => setRefresh((prev) => !prev);
   useEffect(() => {
     if (url) {
       let ignore = false;
@@ -30,9 +32,9 @@ const useFetch = (url, options) => {
         ignore = true;
       };
     }
-  }, [url, options, loaderStart, loaderStop]);
+  }, [url, options, loaderStart, loaderStop, refresh]);
 
-  return { fetchData, setFetchData, error };
+  return { fetchData, setFetchData, toggleRefresh, error };
 };
 
 export default useFetch;
