@@ -4,15 +4,21 @@ import SubmitButton from '../../components/Form/Buttons/SubmitButton';
 import Textarea from '../../components/Form/Textarea/Textarea';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import requestWithNativeFetch from '../../utils/fetchApi';
+import requestWithNativeFetch from '../../utils/requestWithNativeFetch';
 import Icon from '@mdi/react';
 import { mdiLogin } from '@mdi/js';
 import useAuth from '../../contexts/Auth/useAuth';
+import useLoader from '../../contexts/Loader/useLoader';
+import useNotification from '../../contexts/Notification/useNotification';
+import useModal from '../../contexts/Modal/useModal';
 
 function Settings() {
   const { token, user, refreshUser } = useAuth();
-  // const [token, setToken, user, isLoading, setIsLoading, setUpdateUser] =
-  //   useOutletContext();
+
+  const { start: loaderStart, stop: loaderStop } = useLoader();
+  const { addNotification } = useNotification();
+  const { openModal, closeModal } = useModal();
+
   const [passwordFetch, setPasswordFetch] = useState(null);
   const [profileFetch, setProfileFetch] = useState(null);
   const [aboutFetch, setAboutFetch] = useState(null);
@@ -52,31 +58,30 @@ function Settings() {
 
   const handleAvatarUpload = (e) => {
     e.preventDefault();
-    // setIsLoading(true);
     const fetchDataForUploadAvatar = async () => {
       try {
+        loaderStart();
         const data = new FormData();
         const file = e.target.avatar.files[0];
         data.set('file', file);
+
         const url = `${import.meta.env.VITE_BACKEND_URL}/users/avatar`;
-        const headers = {
-          // 'Content-Type': 'multipart/form-data',
-          Authorization: token,
-        };
-        const response = await fetch(url, {
+        const options = {
           method: 'POST',
-          headers: headers,
+          headers: { Authorization: token },
           body: data,
-        });
-        const responseData = await response.json();
+        };
+
+        const responseData = await requestWithNativeFetch(url, options);
         setUploadAvatar(responseData);
+
         if (responseData.success) {
           refreshUser();
         }
       } catch (err) {
         console.log(err);
       } finally {
-        // setIsLoading(false);
+        loaderStop();
       }
     };
     fetchDataForUploadAvatar();
@@ -84,42 +89,37 @@ function Settings() {
 
   const handleEditProfile = (e) => {
     e.preventDefault();
-    // setIsLoading(true);
     const fetchDataForChangeProfile = async () => {
       try {
+        loaderStart();
         const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
           user.user_id
         }/profile`;
-        const headers = {
-          'Content-Type': 'application/json',
-          Authorization: token,
+        const options = {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: token,
+          },
+          body: JSON.stringify({
+            first_name: e.target.first_name.value,
+            last_name: e.target.last_name.value,
+            email: e.target.email.value,
+            profession: e.target.profession.value,
+            username: e.target.username.value,
+          }),
         };
-        const data = {
-          first_name: e.target.first_name.value,
-          last_name: e.target.last_name.value,
-          email: e.target.email.value,
-          profession: e.target.profession.value,
-          username: e.target.username.value,
-        };
-        const profileChangeData = await requestWithNativeFetch(
-          url,
-          'PATCH',
-          headers,
-          data
-        );
-        console.log(profileChangeData);
+
+        const profileChangeData = await requestWithNativeFetch(url, options);
         setProfileFetch(profileChangeData);
 
         if (profileChangeData.success) {
           refreshUser();
-          // setIsUpdated(true);
-          // localStorage.removeItem('token');
-          // setToken(null);
         }
       } catch (err) {
         console.log(err);
       } finally {
-        // setIsLoading(false);
+        loaderStop();
       }
     };
     fetchDataForChangeProfile();
@@ -127,36 +127,31 @@ function Settings() {
 
   const handleEditAbout = (e) => {
     e.preventDefault();
-    // setIsLoading(true);
     const fetchDataForChangeAbout = async () => {
       try {
+        loaderStart();
         const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
           user.user_id
         }/about`;
-        const headers = {
-          'Content-Type': 'application/json',
-          Authorization: token,
+        const options = {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: token,
+          },
+          body: JSON.stringify({ about: e.target.about.value }),
         };
-        const data = {
-          about: e.target.about.value,
-        };
-        const aboutChangeData = await requestWithNativeFetch(
-          url,
-          'PATCH',
-          headers,
-          data
-        );
+
+        const aboutChangeData = await requestWithNativeFetch(url, options);
         setAboutFetch(aboutChangeData);
 
         if (aboutChangeData.success) {
           refreshUser();
-          // localStorage.removeItem('token');
-          // setToken(null);
         }
       } catch (err) {
         console.log(err);
       } finally {
-        // setIsLoading(false);
+        loaderStop();
       }
     };
     fetchDataForChangeAbout();
@@ -164,27 +159,26 @@ function Settings() {
 
   const handleEditPassword = (e) => {
     e.preventDefault();
-    // setIsLoading(true);
     const fetchDataForChangePassword = async () => {
       try {
+        loaderStart();
         const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
           user.user_id
         }/password`;
-        const headers = {
-          'Content-Type': 'application/json',
-          Authorization: token,
+        const options = {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: token,
+          },
+          body: JSON.stringify({
+            old_password: e.target.old_password.value,
+            new_password: e.target.password.value,
+            re_new_password: e.target.re_password.value,
+          }),
         };
-        const data = {
-          old_password: e.target.old_password.value,
-          new_password: e.target.password.value,
-          re_new_password: e.target.re_password.value,
-        };
-        const passwordChangeData = await requestWithNativeFetch(
-          url,
-          'PATCH',
-          headers,
-          data
-        );
+
+        const passwordChangeData = await requestWithNativeFetch(url, options);
         setPasswordFetch(passwordChangeData);
 
         if (passwordChangeData.success) {
@@ -195,7 +189,7 @@ function Settings() {
       } catch (err) {
         console.log(err);
       } finally {
-        // setIsLoading(false);
+        loaderStop();
       }
     };
     fetchDataForChangePassword();
