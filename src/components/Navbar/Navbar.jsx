@@ -37,7 +37,11 @@ function Navbar() {
           {token ? (
             <>
               <li className={pathname === '/' ? styles.active : undefined}>
-                <Link className={styles.navLink} to="/">
+                <Link
+                  className={styles.navLink}
+                  to="/"
+                  onClick={() => setIsOpen(!isOpen)}
+                >
                   <Icon path={mdiHome} />
                   Home
                 </Link>
@@ -49,7 +53,11 @@ function Navbar() {
                     : undefined
                 }
               >
-                <Link className={styles.navLink} to="profile">
+                <Link
+                  className={styles.navLink}
+                  to="profile"
+                  onClick={() => setIsOpen(!isOpen)}
+                >
                   <Icon path={mdiAccount} />
                   Profile
                 </Link>
@@ -57,7 +65,11 @@ function Navbar() {
               <li
                 className={pathname === '/requests' ? styles.active : undefined}
               >
-                <Link className={styles.navLink} to="/requests">
+                <Link
+                  className={styles.navLink}
+                  to="/requests"
+                  onClick={() => setIsOpen(!isOpen)}
+                >
                   <Icon path={mdiAccountGroup} />
                   Requests
                 </Link>
@@ -65,7 +77,11 @@ function Navbar() {
               <li
                 className={pathname === '/settings' ? styles.active : undefined}
               >
-                <Link className={styles.navLink} to="/settings">
+                <Link
+                  className={styles.navLink}
+                  to="/settings"
+                  onClick={() => setIsOpen(!isOpen)}
+                >
                   <Icon path={mdiCogs} />
                   Settings
                 </Link>

@@ -3,32 +3,35 @@ import FriendsMiniature from './FriendsMiniature';
 import { useEffect, useState } from 'react';
 import getRequestWithNativeFetch from '../../utils/fetchApiGet';
 import useAuth from '../../contexts/Auth/useAuth';
+import useFriends from '../../hooks/useFriends';
 function UserCard({ profileUser }) {
-  const { token, user } = useAuth();
-  const [friends, setFriends] = useState([]);
+  const { user } = useAuth();
 
-  useEffect(() => {
-    if (profileUser?.user_id) {
-      const fetchDataForMiniatures = async () => {
-        try {
-          const url = `${import.meta.env.VITE_BACKEND_URL}/followers/${
-            profileUser.user_id
-          }`;
-          const headers = {
-            Authorization: token,
-          };
-          const friendsData = await getRequestWithNativeFetch(url, headers);
-          setFriends(friendsData);
-        } catch (err) {
-          console.log(err);
-        }
-      };
-      fetchDataForMiniatures();
-    }
-    return () => {
-      setFriends([]);
-    };
-  }, [token, profileUser]);
+  const { friends } = useFriends(profileUser?.user_id);
+  // const [friends, setFriends] = useState([]);
+
+  // useEffect(() => {
+  //   if (profileUser?.user_id) {
+  //     const fetchDataForFriends = async () => {
+  //       try {
+  //         const url = `${import.meta.env.VITE_BACKEND_URL}/followers/${
+  //           profileUser.user_id
+  //         }`;
+  //         const headers = {
+  //           Authorization: token,
+  //         };
+  //         const friendsData = await getRequestWithNativeFetch(url, headers);
+  //         setFriends(friendsData);
+  //       } catch (err) {
+  //         console.log(err);
+  //       }
+  //     };
+  //     fetchDataForFriends();
+  //   }
+  //   return () => {
+  //     setFriends([]);
+  //   };
+  // }, [token, profileUser]);
 
   return (
     <div className={styles.card}>
@@ -44,7 +47,7 @@ function UserCard({ profileUser }) {
       </div>
       <h2>{`${profileUser?.user_followers_count} friends:`}</h2>
       <div className={styles.profileFriends}>
-        {friends.map((friend) => (
+        {friends?.map((friend) => (
           <FriendsMiniature
             key={friend.follower_id}
             followerId={
