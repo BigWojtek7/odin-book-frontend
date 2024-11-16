@@ -1,13 +1,7 @@
 import styles from './AddPost.module.css';
 import SubmitButton from '../../Form/Buttons/SubmitButton';
 import Textarea from '../../Form/Textarea/Textarea';
-import { useOutletContext } from 'react-router-dom';
-// import { useState } from 'react';
-import requestWithNativeFetch from '../../../utils/requestWithNativeFetch.js';
-import { useEffect, useState } from 'react';
-import useAuth from '../../../contexts/Auth/useAuth.js';
-import useNotification from '../../../contexts/Notification/useNotification.js';
-import useLoader from '../../../contexts/Loader/useLoader.js';
+import { useState } from 'react';
 
 function AddPost({ avatarURL, handleAddPost }) {
   const [inputValue, setInputValue] = useState('');

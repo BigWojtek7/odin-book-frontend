@@ -1,37 +1,11 @@
 import styles from './UserCard.module.css';
 import FriendsMiniature from './FriendsMiniature';
-import { useEffect, useState } from 'react';
-import getRequestWithNativeFetch from '../../utils/fetchApiGet';
 import useAuth from '../../contexts/Auth/useAuth';
 import useFriends from '../../hooks/useFriends';
 function UserCard({ profileUser }) {
   const { user } = useAuth();
 
   const { friends } = useFriends(profileUser?.user_id);
-  // const [friends, setFriends] = useState([]);
-
-  // useEffect(() => {
-  //   if (profileUser?.user_id) {
-  //     const fetchDataForFriends = async () => {
-  //       try {
-  //         const url = `${import.meta.env.VITE_BACKEND_URL}/followers/${
-  //           profileUser.user_id
-  //         }`;
-  //         const headers = {
-  //           Authorization: token,
-  //         };
-  //         const friendsData = await getRequestWithNativeFetch(url, headers);
-  //         setFriends(friendsData);
-  //       } catch (err) {
-  //         console.log(err);
-  //       }
-  //     };
-  //     fetchDataForFriends();
-  //   }
-  //   return () => {
-  //     setFriends([]);
-  //   };
-  // }, [token, profileUser]);
 
   return (
     <div className={styles.card}>

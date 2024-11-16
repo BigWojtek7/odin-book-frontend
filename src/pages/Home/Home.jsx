@@ -2,7 +2,6 @@ import PostCard from '../../components/PostCard/PostCard';
 import FriendsCard from '../../components/FriendsCard/FriendsCard';
 import styles from './Home.module.css';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
 import Icon from '@mdi/react';
 import { mdiLogin, mdiAccountPlus } from '@mdi/js';
 import useAuth from '../../contexts/Auth/useAuth';
