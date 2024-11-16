@@ -5,10 +5,12 @@
   border-radius: 10px;
   padding: 0.5em;
 }
+
 .friendInfo {
   padding: 0 0.5em;
 }
-.name{
+
+.name {
   text-decoration: none;
   color: inherit;
 }
@@ -16,6 +18,7 @@
 .friendsNumber {
   font-size: 0.8em;
 }
-.img{
+
+.img {
   width: 50px;
 }

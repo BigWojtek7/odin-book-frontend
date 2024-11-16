@@ -1,12 +1,11 @@
 import SubmitButton from '../../Form/Buttons/SubmitButton';
 import styles from './AddComment.module.css';
 import Textarea from '../../Form/Textarea/Textarea';
-import requestWithNativeFetch from '../../../utils/fetchApi';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import useAuth from '../../../contexts/Auth/useAuth';
 
 function AddComment({ textareaRef, handleAddComment }) {
-  const { token, user } = useAuth();
+  const { user } = useAuth();
   const [addCommentFetch, setAddCommentFetch] = useState();
   const [inputValue, setInputValue] = useState('');
 

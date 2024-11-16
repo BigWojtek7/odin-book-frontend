@@ -9,7 +9,6 @@ import useAuth from '../../contexts/Auth/useAuth';
 import usePosts from '../../hooks/usePosts';
 
 function Home() {
-  const [unFollowReq, setUnFollowReq] = useState({});
   const { token, user } = useAuth();
 
   const { posts, setPosts } = usePosts(

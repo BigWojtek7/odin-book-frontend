@@ -1,10 +1,7 @@
 import Input from '../../components/Form/Input/Input';
 import Button from '../../components/Form/Buttons/SubmitButton';
 import styles from './SignUp.module.css';
-import { useNavigate, useOutletContext } from 'react-router-dom';
 import { useState } from 'react';
-import requestWithNativeFetch from '../../utils/fetchApi';
-import Loader from '../../components/Loader/Loader';
 
 import { useReducer } from 'react';
 import formReducer from './reducer/formReducer';
@@ -17,7 +14,6 @@ function SignUp() {
 
   const [formState, dispatch] = useReducer(formReducer, initialFormState);
 
-  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
@@ -30,9 +26,8 @@ function SignUp() {
     };
 
     const signUpData = await signUpAction(data);
-    console.log(signUpData)
+    console.log(signUpData);
     setFetchData(signUpData);
-
   };
 
   const handleInputChange = (e) => {
@@ -43,7 +38,6 @@ function SignUp() {
     });
   };
 
-  console.log(formState);
   return (
     <>
       {!token ? (

@@ -10,19 +10,12 @@ import useNotification from '../../../contexts/Notification/useNotification.js';
 import useLoader from '../../../contexts/Loader/useLoader.js';
 
 function AddPost({ avatarURL, handleAddPost }) {
-  const { token, user } = useAuth();
-
-  const [createPostRes, setCreatePostRes] = useState();
   const [inputValue, setInputValue] = useState('');
-
-  const { addNotification } = useNotification();
-
-  const { start: loaderStart, stop: loaderStop } = useLoader();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     handleAddPost(inputValue);
-    setInputValue("");
+    setInputValue('');
   };
 
   return (

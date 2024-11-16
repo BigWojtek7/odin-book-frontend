@@ -1,12 +1,11 @@
 import styles from './UserCard.module.css';
 import FriendsMiniature from './FriendsMiniature';
-import { useOutletContext } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import getRequestWithNativeFetch from '../../utils/fetchApiGet';
 import useAuth from '../../contexts/Auth/useAuth';
 function UserCard({ profileUser }) {
-  const {token, user} = useAuth();
-  const [friendsMiniatures, setFriendsMiniatures] = useState([]);
+  const { token, user } = useAuth();
+  const [friends, setFriends] = useState([]);
 
   useEffect(() => {
     if (profileUser?.user_id) {
@@ -19,7 +18,7 @@ function UserCard({ profileUser }) {
             Authorization: token,
           };
           const friendsData = await getRequestWithNativeFetch(url, headers);
-          setFriendsMiniatures(friendsData);
+          setFriends(friendsData);
         } catch (err) {
           console.log(err);
         }
@@ -27,7 +26,7 @@ function UserCard({ profileUser }) {
       fetchDataForMiniatures();
     }
     return () => {
-      setFriendsMiniatures([]);
+      setFriends([]);
     };
   }, [token, profileUser]);
 
@@ -45,7 +44,7 @@ function UserCard({ profileUser }) {
       </div>
       <h2>{`${profileUser?.user_followers_count} friends:`}</h2>
       <div className={styles.profileFriends}>
-        {friendsMiniatures.map((friend) => (
+        {friends.map((friend) => (
           <FriendsMiniature
             key={friend.follower_id}
             followerId={

@@ -1,10 +1,7 @@
 import styles from './PostCard.module.css';
 import Post from './Post/Post';
 import Comment from './Comment/Comment';
-import AddComment from './AddComment/AddComment';
-import { useEffect, useRef, useState } from 'react';
-import getRequestWithNativeFetch from '../../utils/fetchApiGet';
-import Modal from '../Modal/Modal';
+import { useRef, useState } from 'react';
 import useAuth from '../../contexts/Auth/useAuth';
 import useModal from '../../contexts/Modal/useModal';
 import useNotification from '../../contexts/Notification/useNotification';
@@ -30,10 +27,8 @@ function PostCard({ posts, onDelete }) {
 
   const { start: loaderStart, stop: loaderStop } = useLoader();
 
-  const [profilePosts, setProfilePosts] = useState([]);
   const [commentId, setCommentId] = useState();
   const [deletePostId, setDeletePostId] = useState();
-
 
   const handleDeleteComment = (commentId) => {
     const fetchDataForDelete = async () => {
@@ -115,27 +110,6 @@ function PostCard({ posts, onDelete }) {
           />
         </div>
       ))}
-      <Modal
-        isShow={showCommentModal}
-        onRequestSubmit={() => handleDeleteComment(commentId)}
-        onRequestClose={() => setShowCommentModal((prev) => !prev)}
-      >
-        Are you sure to delete this comment ?
-      </Modal>
-      <Modal
-        isShow={showPostModal}
-        onRequestSubmit={() => handleDeletePost(deletePostId)}
-        onRequestClose={() => setShowPostModal((prev) => !prev)}
-      >
-        Are you sure to delete this post ?
-      </Modal>
-      <Modal
-        isShow={showLikeModal}
-        onRequestClose={() => setShowLikeModal((prev) => !prev)}
-        title="Warning"
-      >
-        You already liked this post!
-      </Modal>
     </>
   );
 }
