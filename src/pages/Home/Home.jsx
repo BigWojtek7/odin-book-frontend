@@ -28,26 +28,12 @@ function Home() {
   };
 
   return (
-    <>
-      {token ? (
-        <div className={styles.home}>
-          <FriendsCard onDeletePostsByFollower={onDeletePostsByFollower} />
-          <div className={styles.posts}>
-            <PostCard posts={posts} onDelete={handleDeletePost} />
-          </div>
-        </div>
-      ) : (
-        <div className={styles.welcomeMessage}>
-          <h1>Welcome to Odin Book</h1>
-          <Link className={styles.login} to="/login">
-            <Icon path={mdiLogin} size={5} color="var(--input-bd)"></Icon>
-          </Link>
-          <Link className={styles.signUp} to="/sign-up">
-            <Icon path={mdiAccountPlus} size={5} color="var(--btn-clr)"></Icon>
-          </Link>
-        </div>
-      )}
-    </>
+    <div className={styles.home}>
+      <FriendsCard onDeletePostsByFollower={onDeletePostsByFollower} />
+      <div className={styles.posts}>
+        <PostCard posts={posts} onDelete={handleDeletePost} />
+      </div>
+    </div>
   );
 }
 export default Home;
