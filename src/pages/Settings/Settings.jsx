@@ -56,143 +56,131 @@ function Settings() {
     setAboutInput(initialAboutValue);
   }, [user]);
 
-  const handleAvatarUpload = (e) => {
+  const handleAvatarUpload = async (e) => {
     e.preventDefault();
-    const fetchDataForUploadAvatar = async () => {
-      try {
-        loaderStart();
-        const data = new FormData();
-        const file = e.target.avatar.files[0];
-        data.set('file', file);
+    try {
+      loaderStart();
+      const data = new FormData();
+      const file = e.target.avatar.files[0];
+      data.set('file', file);
 
-        const url = `${import.meta.env.VITE_BACKEND_URL}/users/avatar`;
-        const options = {
-          method: 'POST',
-          headers: { Authorization: token },
-          body: data,
-        };
+      const url = `${import.meta.env.VITE_BACKEND_URL}/users/avatar`;
+      const options = {
+        method: 'POST',
+        headers: { Authorization: token },
+        body: data,
+      };
 
-        const responseData = await requestWithNativeFetch(url, options);
-        setUploadAvatar(responseData);
+      const responseData = await requestWithNativeFetch(url, options);
+      setUploadAvatar(responseData);
 
-        if (responseData.success) {
-          refreshUser();
-        }
-      } catch (err) {
-        console.log(err);
-      } finally {
-        loaderStop();
+      if (responseData.success) {
+        refreshUser();
       }
-    };
-    fetchDataForUploadAvatar();
+    } catch (err) {
+      console.log(err);
+    } finally {
+      loaderStop();
+    }
   };
 
-  const handleEditProfile = (e) => {
+  const handleEditProfile = async (e) => {
     e.preventDefault();
-    const fetchDataForChangeProfile = async () => {
-      try {
-        loaderStart();
-        const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
-          user.user_id
-        }/profile`;
-        const options = {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: token,
-          },
-          body: JSON.stringify({
-            first_name: e.target.first_name.value,
-            last_name: e.target.last_name.value,
-            email: e.target.email.value,
-            profession: e.target.profession.value,
-            username: e.target.username.value,
-          }),
-        };
+    try {
+      loaderStart();
+      const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
+        user.user_id
+      }/profile`;
+      const options = {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+        body: JSON.stringify({
+          first_name: e.target.first_name.value,
+          last_name: e.target.last_name.value,
+          email: e.target.email.value,
+          profession: e.target.profession.value,
+          username: e.target.username.value,
+        }),
+      };
 
-        const profileChangeData = await requestWithNativeFetch(url, options);
-        setProfileFetch(profileChangeData);
+      const profileChangeData = await requestWithNativeFetch(url, options);
+      setProfileFetch(profileChangeData);
 
-        if (profileChangeData.success) {
-          refreshUser();
-        }
-      } catch (err) {
-        console.log(err);
-      } finally {
-        loaderStop();
+      if (profileChangeData.success) {
+        refreshUser();
       }
-    };
-    fetchDataForChangeProfile();
+    } catch (err) {
+      console.log(err);
+    } finally {
+      loaderStop();
+    }
   };
 
-  const handleEditAbout = (e) => {
+  const handleEditAbout = async (e) => {
     e.preventDefault();
-    const fetchDataForChangeAbout = async () => {
-      try {
-        loaderStart();
-        const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
-          user.user_id
-        }/about`;
-        const options = {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: token,
-          },
-          body: JSON.stringify({ about: e.target.about.value }),
-        };
+    try {
+      loaderStart();
+      const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
+        user.user_id
+      }/about`;
+      const options = {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+        body: JSON.stringify({ about: e.target.about.value }),
+      };
 
-        const aboutChangeData = await requestWithNativeFetch(url, options);
-        setAboutFetch(aboutChangeData);
+      const aboutChangeData = await requestWithNativeFetch(url, options);
+      setAboutFetch(aboutChangeData);
 
-        if (aboutChangeData.success) {
-          refreshUser();
-        }
-      } catch (err) {
-        console.log(err);
-      } finally {
-        loaderStop();
+      if (aboutChangeData.success) {
+        refreshUser();
       }
-    };
-    fetchDataForChangeAbout();
+    } catch (err) {
+      console.log(err);
+    } finally {
+      loaderStop();
+    }
   };
 
-  const handleEditPassword = (e) => {
+  const handleEditPassword = async (e) => {
     e.preventDefault();
-    const fetchDataForChangePassword = async () => {
-      try {
-        loaderStart();
-        const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
-          user.user_id
-        }/password`;
-        const options = {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: token,
-          },
-          body: JSON.stringify({
-            old_password: e.target.old_password.value,
-            new_password: e.target.password.value,
-            re_new_password: e.target.re_password.value,
-          }),
-        };
+    try {
+      loaderStart();
+      const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
+        user.user_id
+      }/password`;
+      const options = {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+        body: JSON.stringify({
+          old_password: e.target.old_password.value,
+          new_password: e.target.password.value,
+          re_new_password: e.target.re_password.value,
+        }),
+      };
 
-        const passwordChangeData = await requestWithNativeFetch(url, options);
-        setPasswordFetch(passwordChangeData);
+      const passwordChangeData = await requestWithNativeFetch(url, options);
+      setPasswordFetch(passwordChangeData);
 
-        if (passwordChangeData.success) {
-          refreshUser();
-          localStorage.removeItem('token');
-          setToken(null);
-        }
-      } catch (err) {
-        console.log(err);
-      } finally {
-        loaderStop();
+      if (passwordChangeData.success) {
+        refreshUser();
+        localStorage.removeItem('token');
+        setToken(null);
       }
-    };
-    fetchDataForChangePassword();
+    } catch (err) {
+      console.log(err);
+    } finally {
+      loaderStop();
+    }
   };
   return (
     <>
