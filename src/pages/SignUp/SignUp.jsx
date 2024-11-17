@@ -1,39 +1,48 @@
 import Input from '../../components/Form/Input/Input';
-import Button from '../../components/Form/Buttons/SubmitButton';
 import styles from './SignUp.module.css';
 import { useState } from 'react';
 
 import { useReducer } from 'react';
-import formReducer from './reducer/formReducer';
-import initialFormState from './reducer/initialFormState';
+
 import useAuth from '../../contexts/Auth/useAuth';
 import SubmitButton from '../../components/Form/Buttons/SubmitButton';
+import formReducer from '../../reducers/formReducer';
+import {
+  initialSignUpFormState,
+  signUpFormRules,
+} from '../../reducers/initialSignUpFormState';
 
 function SignUp() {
   const [fetchData, setFetchData] = useState(null);
   const { token, signUpAction } = useAuth();
 
-  const [formState, dispatch] = useReducer(formReducer, initialFormState);
+  const [formState, dispatch] = useReducer(
+    (state, action) => formReducer(state, action, signUpFormRules),
+    initialSignUpFormState
+  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = {
-      first_name: formState.first_name,
-      last_name: formState.last_name,
-      email: formState.email,
-      username: formState.username,
-      password: formState.password,
-      re_password: formState.re_password,
-    };
+    dispatch({ type: 'validate_all' });
 
-    const signUpData = await signUpAction(data);
-    console.log(signUpData);
-    setFetchData(signUpData);
+    if (formState.isValid) {
+      const data = {
+        first_name: formState.first_name,
+        last_name: formState.last_name,
+        email: formState.email,
+        username: formState.username,
+        password: formState.password,
+        re_password: formState.re_password,
+      };
+
+      const signUpData = await signUpAction(data);
+      setFetchData(signUpData);
+    }
   };
 
   const handleInputChange = (e) => {
     dispatch({
-      type: 'handle input change',
+      type: 'input_validate',
       field: e.target.name,
       payload: e.target.value,
     });
@@ -44,48 +53,51 @@ function SignUp() {
       {!token ? (
         <form className={styles.form} onSubmit={handleSubmit}>
           <Input
-            type="text"
             name="first_name"
-            labelName="First Name"
+            label="First Name"
             inputValue={formState.first_name}
-            setInputValue={(e) => handleInputChange(e)}
+            onChange={handleInputChange}
+            error={formState.errors.first_name}
           />
           <Input
-            type="text"
             name="last_name"
-            labelName="Last Name"
+            label="Last Name"
             inputValue={formState.last_name}
-            setInputValue={(e) => handleInputChange(e)}
+            onChange={handleInputChange}
+            error={formState.errors.last_name}
           />
           <Input
             type="email"
             name="email"
-            labelName="Email"
+            label="Email"
             inputValue={formState.email}
-            setInputValue={(e) => handleInputChange(e)}
+            onChange={handleInputChange}
+            error={formState.errors.email}
           />
           <Input
-            type="text"
             name="username"
-            labelName="Username"
+            label="Username"
             inputValue={formState.username}
-            setInputValue={(e) => handleInputChange(e)}
+            onChange={handleInputChange}
+            error={formState.errors.username}
           />
           <Input
             type="password"
             name="password"
-            labelName="Password"
+            label="Password"
             inputValue={formState.password}
-            setInputValue={(e) => handleInputChange(e)}
+            onChange={handleInputChange}
+            error={formState.errors.password}
           />
           <Input
             type="password"
             name="re_password"
-            labelName="Reenter Password"
+            label="Reenter Password"
             inputValue={formState.re_password}
-            setInputValue={(e) => handleInputChange(e)}
+            onChange={handleInputChange}
+            error={formState.errors.re_password}
           />
-           <SubmitButton type="submit" >Sign Up</SubmitButton>
+          <SubmitButton type="submit">Sign Up</SubmitButton>
           {!fetchData?.success &&
             fetchData?.msg.map((err, index) => <p key={index}>{err.msg}</p>)}
         </form>
