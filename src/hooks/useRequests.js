@@ -18,6 +18,7 @@ function useRequests() {
 
   // Fetch sent requests
   useEffect(() => {
+    let ignore = false;
     const fetchSentRequests = async () => {
       try {
         loaderStart();
@@ -29,7 +30,7 @@ function useRequests() {
             headers: { Authorization: token },
           };
           const data = await requestWithNativeFetch(url, options);
-          if (data.success) setRequestsSent(data.requests);
+          if (!ignore && data.success) setRequestsSent(data.requests);
         }
       } catch (error) {
         console.error('Error fetching sent requests:', error);
@@ -39,11 +40,14 @@ function useRequests() {
     };
 
     fetchSentRequests();
-    return () => setRequestsSent([]);
+    return () => {
+      ignore = true;
+    };
   }, [token, user, loaderStart, loaderStop]);
 
   // Fetch received requests
   useEffect(() => {
+    let ignore = false;
     const fetchReceivedRequests = async () => {
       try {
         loaderStart();
@@ -55,7 +59,7 @@ function useRequests() {
             headers: { Authorization: token },
           };
           const data = await requestWithNativeFetch(url, options);
-          if (data.success) setRequestsReceived(data.requests);
+          if (!ignore && data.success) setRequestsReceived(data.requests);
         }
       } catch (error) {
         console.error('Error fetching received requests:', error);
@@ -65,11 +69,14 @@ function useRequests() {
     };
 
     fetchReceivedRequests();
-    return () => setRequestsReceived([]);
+    return () => {
+      ignore = true;
+    };
   }, [token, user, loaderStart, loaderStop]);
 
   // Fetch friends suggestions
   useEffect(() => {
+    let ignore = false;
     const fetchFriendsSuggestions = async () => {
       try {
         loaderStart();
@@ -81,7 +88,7 @@ function useRequests() {
             headers: { Authorization: token },
           };
           const data = await requestWithNativeFetch(url, options);
-          if (data.success) setFriendsSuggest(data.friends);
+          if (!ignore && data.success) setFriendsSuggest(data.friends);
         }
       } catch (error) {
         console.error('Error fetching friends suggestions:', error);
@@ -89,9 +96,10 @@ function useRequests() {
         loaderStop();
       }
     };
-
     fetchFriendsSuggestions();
-    return () => setFriendsSuggest([]);
+    return () => {
+      ignore = true;
+    };
   }, [token, user, loaderStart, loaderStop]);
 
   const handleAddFollower = async (followerId) => {

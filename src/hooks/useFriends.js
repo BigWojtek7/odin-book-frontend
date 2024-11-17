@@ -7,10 +7,11 @@ function useFriends(userId) {
   const [friends, setFriends] = useState([]);
   const { token, user } = useAuth();
 
-  console.log(userId)
+  console.log(userId);
   const { start: loaderStart, stop: loaderStop } = useLoader();
 
   useEffect(() => {
+    let ignore = false;
     const id = userId || user?.user_id;
     if (id) {
       const fetchFriends = async () => {
@@ -20,7 +21,9 @@ function useFriends(userId) {
           const friendsData = await requestWithNativeFetch(url, {
             headers: { Authorization: token },
           });
-          setFriends(friendsData);
+          if (!ignore) {
+            setFriends(friendsData);
+          }
         } catch (err) {
           console.error('Error fetching friends:', err);
         } finally {
@@ -29,6 +32,9 @@ function useFriends(userId) {
       };
       fetchFriends();
     }
+    return () => {
+      ignore = true;
+    };
   }, [token, userId, user, loaderStart, loaderStop]);
 
   return { friends, setFriends };

@@ -73,7 +73,7 @@ function Profile() {
   return (
     <>
       <div className={styles.profile}>
-        <UserCard profileUser={profileUser} />
+          <UserCard profileUser={profileUser} />
         <div className={styles.posts}>
           {!isFollowerProfile && (
             <AddPost
