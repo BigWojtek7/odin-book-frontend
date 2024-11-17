@@ -26,8 +26,8 @@ function Login() {
       {!token ? (
         <>
           <form className={styles.form} onSubmit={handleLogin}>
-            <Input type="text" name="username" labelName="Username / E-mail" />
-            <Input type="password" name="password" labelName="Password" />
+            <Input type="text" name="username" label="Username / E-mail" />
+            <Input type="password" name="password" label="Password" />
             <SubmitButton type="submit">Log In</SubmitButton>
             {fetchData && <p>{fetchData.msg}</p>}
           </form>

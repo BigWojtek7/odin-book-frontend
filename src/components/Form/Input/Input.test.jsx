@@ -11,10 +11,11 @@ describe('testing Input component', () => {
     await user.type(input, 'React');
     expect(input.value).toBe('React');
   });
+  
   it('call the callback every time input value is changed', async () => {
     const user = userEvent.setup();
     const handleChange = vi.fn();
-    render(<Input setInputValue={handleChange} />);
+    render(<Input onChange={handleChange} />);
     const input = screen.getByRole('textbox');
     await user.type(input, 'React');
     expect(handleChange).toHaveBeenCalledTimes(5);

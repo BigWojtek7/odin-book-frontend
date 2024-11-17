@@ -1,14 +1,14 @@
-.formGroup {
-  display: grid;
-  align-items: center;
-  gap: 0.5rem;
+
+.error {
+  color: red;
 }
 
-.formGroup input {
+.input {
   background-color: var(--nav-bg);
   border: solid 1px var(--input-bd);
   padding: 0.5em 0.75em;
   color: white;
   color-scheme: dark;
   font-size: 1rem;
+  width: 100%;
 }
