@@ -1,7 +1,7 @@
 import styles from './Requests.module.css';
 import Friend from '../../components/FriendsCard/Friend';
 import SubmitButton from '../../components/Form/Buttons/SubmitButton';
-import CancelButton from '../../components/Form/Buttons/cancelButton';
+import CancelButton from '../../components/Form/Buttons/CancelButton';
 
 import useRequests from '../../hooks/useRequests';
 
@@ -45,13 +45,14 @@ function Requests() {
                 />
                 <CancelButton
                   type="submit"
-                  name="Cancel follow request"
                   style={{
                     width: '100%',
                     fontSize: '0.6rem',
                     borderRadius: '0 0 10px 10px',
                   }}
-                />
+                >
+                  Cancel follow request
+                </CancelButton>
               </form>
             </div>
           ))}
@@ -90,7 +91,9 @@ function Requests() {
                       fontSize: '0.6rem',
                       borderRadius: '0 0 0 10px',
                     }}
-                  />
+                  >
+                    Confirm
+                  </SubmitButton>
                 </form>
                 <form
                   className={styles.form}
@@ -102,13 +105,14 @@ function Requests() {
                   <input type="hidden" name="request_id" value={request.id} />
                   <CancelButton
                     type="submit"
-                    name="Delete"
                     style={{
                       width: '100%',
                       fontSize: '0.6rem',
                       borderRadius: '0 0 10px 0',
                     }}
-                  />
+                  >
+                    Delete
+                  </CancelButton>
                 </form>
               </div>
             </div>
@@ -141,13 +145,14 @@ function Requests() {
                 />
                 <SubmitButton
                   type="submit"
-                  name="Send follow request"
                   style={{
                     width: '100%',
                     fontSize: '0.6rem',
                     borderRadius: '0 0 10px 10px',
                   }}
-                />
+                >
+                  Send follow request
+                </SubmitButton>
               </form>
             </div>
           ))}

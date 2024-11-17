@@ -1,6 +1,6 @@
 import Input from '../../components/Form/Input/Input';
 import SubmitButton from '../../components/Form/Buttons/SubmitButton';
-import CancelButton from '../../components/Form/Buttons/cancelButton';
+import CancelButton from '../../components/Form/Buttons/CancelButton';
 import styles from './Login.module.css';
 import { useState } from 'react';
 import useAuth from '../../contexts/Auth/useAuth';
@@ -28,13 +28,13 @@ function Login() {
           <form className={styles.form} onSubmit={handleLogin}>
             <Input type="text" name="username" labelName="Username / E-mail" />
             <Input type="password" name="password" labelName="Password" />
-            <SubmitButton type="submit" name="Log In" />
+            <SubmitButton type="submit">Log In</SubmitButton>
             {fetchData && <p>{fetchData.msg}</p>}
           </form>
           <form className={styles.form} onSubmit={handleLogin}>
             <input type="hidden" name="username" value="guest" />
             <input type="hidden" name="password" value="guest" />
-            <CancelButton type="submit" name="Guest Mode" />
+            <CancelButton type="submit">Guest Mode</CancelButton>
           </form>
         </>
       ) : (

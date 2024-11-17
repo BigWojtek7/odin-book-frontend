@@ -3,6 +3,8 @@ import useModal from '../../contexts/Modal/useModal';
 
 import styles from './Modal.module.css';
 import Button from '../Form/Button/Button';
+import SubmitButton from '../Form/Buttons/SubmitButton';
+import CancelButton from '../Form/Buttons/CancelButton';
 
 function Modal() {
   const { modalData, closeModal } = useModal();
@@ -14,11 +16,19 @@ function Modal() {
       {createPortal(
         <div className={styles.overlay}>
           <div className={styles.content}>
-            <p>{modalData.message}</p>
-            <Button onClick={modalData.onConfirm}>Yes</Button>
-            <Button onClick={closeModal} style={{ marginLeft: '0.5em' }}>
+            <p className={styles.message}>{modalData.message}</p>
+            <SubmitButton
+              onClick={modalData.onConfirm}
+              style={{ fontSize: '1em' }}
+            >
+              Yes
+            </SubmitButton>
+            <CancelButton
+              onClick={closeModal}
+              style={{ marginLeft: '0.5em', fontSize: '1em' }}
+            >
               No
-            </Button>
+            </CancelButton>
           </div>
         </div>,
         document.getElementById('modal-root')

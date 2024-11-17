@@ -1,13 +1,13 @@
 import styles from './Buttons.module.css';
-function SubmitButton({ type, name, clickHandler, style }) {
+function SubmitButton({ children, onClick, type, style }) {
   return (
     <button
       className={styles.submitButton}
       style={style}
       type={type}
-      onClick={clickHandler}
+      onClick={onClick}
     >
-      {name}
+      {children}
     </button>
   );
 }

@@ -29,11 +29,9 @@ function AddComment({ textareaRef, handleAddComment }) {
           inputValue={inputValue}
           setInputValue={setInputValue}
         ></Textarea>
-        <SubmitButton
-          type="submit"
-          name="Post"
-          style={{ borderRadius: '10px' }}
-        />
+        <SubmitButton type="submit" style={{ borderRadius: '10px' }}>
+          Post
+        </SubmitButton>
       </form>
       {addCommentFetch &&
         addCommentFetch.msg.map((err, index) => <p key={index}>{err.msg}</p>)}

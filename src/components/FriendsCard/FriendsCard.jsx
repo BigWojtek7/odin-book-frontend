@@ -1,6 +1,6 @@
 import styles from './FriendsCard.module.css';
 import Friend from './Friend';
-import CancelButton from '../Form/Buttons/cancelButton';
+import CancelButton from '../Form/Buttons/CancelButton';
 import requestWithNativeFetch from '../../utils/requestWithNativeFetch';
 import useAuth from '../../contexts/Auth/useAuth';
 import useFriends from '../../hooks/useFriends';
@@ -77,20 +77,20 @@ function FriendsCard({ onDeletePostsByFollower }) {
               />
               <CancelButton
                 type="button"
-                clickHandler={() =>
+                onClick={() =>
                   confirmDeleteFriend(
                     follower.follower_id,
                     follower.follower_name
                   )
                 }
-                name="Unfollow"
-                className={styles.unfollowButton}
                 style={{
                   fontSize: '0.6rem',
                   borderRadius: '0 0 10px 10px',
                   width: '100%',
                 }}
-              />
+              >
+                Unfollow
+              </CancelButton>
             </div>
           ))}
         </div>

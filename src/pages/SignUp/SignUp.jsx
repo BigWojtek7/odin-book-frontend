@@ -7,6 +7,7 @@ import { useReducer } from 'react';
 import formReducer from './reducer/formReducer';
 import initialFormState from './reducer/initialFormState';
 import useAuth from '../../contexts/Auth/useAuth';
+import SubmitButton from '../../components/Form/Buttons/SubmitButton';
 
 function SignUp() {
   const [fetchData, setFetchData] = useState(null);
@@ -84,7 +85,7 @@ function SignUp() {
             inputValue={formState.re_password}
             setInputValue={(e) => handleInputChange(e)}
           />
-          <Button type="submit" name="Sign Up" />
+           <SubmitButton type="submit" >Sign Up</SubmitButton>
           {!fetchData?.success &&
             fetchData?.msg.map((err, index) => <p key={index}>{err.msg}</p>)}
         </form>

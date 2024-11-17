@@ -1,13 +1,13 @@
 import styles from './Buttons.module.css';
-function CancelButton({ type, name, clickHandler, style }) {
+function CancelButton({ children, onClick, type, style }) {
   return (
     <button
       className={styles.cancelButton}
       style={style}
       type={type}
-      onClick={clickHandler}
+      onClick={onClick}
     >
-      {name}
+      {children}
     </button>
   );
 }

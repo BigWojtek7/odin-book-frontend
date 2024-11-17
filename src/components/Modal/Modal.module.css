@@ -12,9 +12,14 @@
 }
 
 .content {
-  background: white;
-  color: black;
+  background: var(--input-bd);
+  color: white;
   padding: 20px;
   border-radius: 8px;
   position: relative;
+}
+
+.message {
+  margin-bottom: 0.5em;
+  font-size: 1.2rem;
 }

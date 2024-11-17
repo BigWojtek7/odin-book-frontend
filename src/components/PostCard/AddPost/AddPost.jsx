@@ -28,11 +28,9 @@ function AddPost({ avatarURL, handleAddPost }) {
             setInputValue={setInputValue}
             inputValue={inputValue}
           ></Textarea>
-          <SubmitButton
-            type="submit"
-            name="Post"
-            style={{ borderRadius: '10px' }}
-          />
+          <SubmitButton type="submit" style={{ borderRadius: '10px' }}>
+            Post
+          </SubmitButton>
         </form>
       </div>
     </div>

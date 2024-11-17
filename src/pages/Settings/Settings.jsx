@@ -201,7 +201,7 @@ function Settings() {
               encType="multipart/form-data"
             >
               <input type="file" className={styles.inputFile} name="avatar" />
-              <SubmitButton type="submit" name="Submit" />
+              <SubmitButton type="submit">Submit</SubmitButton>
               {uploadAvatar && (
                 <p className={styles.uploadRes}>{uploadAvatar.msg}</p>
               )}
@@ -217,7 +217,7 @@ function Settings() {
                   inputValue={aboutInput}
                   setInputValue={setAboutInput}
                 />
-                <SubmitButton type="submit" name="Submit" />
+                <SubmitButton type="submit">Submit</SubmitButton>
                 {aboutFetch &&
                   aboutFetch.msg.map((err, index) => (
                     <p key={index}>{err.msg}</p>
@@ -263,7 +263,7 @@ function Settings() {
                 inputValue={professionInput}
                 setInputValue={(e) => setProfessionInput(e.target.value)}
               />
-              <SubmitButton type="submit" name="Submit" />
+              <SubmitButton type="submit">Submit</SubmitButton>
               {profileFetch &&
                 profileFetch.msg.map((err, index) => (
                   <p key={index}>{err.msg}</p>
@@ -284,7 +284,7 @@ function Settings() {
                 name="re_password"
                 labelName="Reenter Password"
               />
-              <SubmitButton type="submit" name="Submit" />
+              <SubmitButton type="submit">Submit</SubmitButton>
               {passwordFetch &&
                 passwordFetch.msg.map((err, index) => (
                   <p key={index}>{err.msg}</p>
