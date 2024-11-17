@@ -35,6 +35,12 @@ function Login() {
     }
   };
 
+  const handleDemoLogin = async () => {
+    const demoCredentials = { username: 'guest', password: 'guest' };
+
+    await loginAction(demoCredentials);
+  };
+
   const handleInputChange = (e) => {
     dispatch({
       type: 'input_validate',
@@ -44,7 +50,7 @@ function Login() {
   };
 
   return (
-    <>
+    <div className={styles.login}>
       {!token ? (
         <>
           <form className={styles.form} onSubmit={handleLogin}>
@@ -68,16 +74,25 @@ function Login() {
             <SubmitButton type="submit">Log In</SubmitButton>
             {fetchData && <p>{fetchData.msg}</p>}
           </form>
-          <form className={styles.form} onSubmit={handleLogin}>
-            <input type="hidden" name="username" value="guest" />
-            <input type="hidden" name="password" value="guest" />
-            <CancelButton type="submit">Guest Mode</CancelButton>
-          </form>
+          <div className={styles.demoLogin}>
+            <p className={styles.demoInfo}>
+              Want to test the application? Use the demo account.
+            </p>
+            <div className={styles.demoButton}>
+              <CancelButton
+                type="submit"
+                style={{ width: '100%' }}
+                onClick={handleDemoLogin}
+              >
+                Demo User
+              </CancelButton>
+            </div>
+          </div>
         </>
       ) : (
         <p>You are logged in</p>
       )}
-    </>
+    </div>
   );
 }
 export default Login;

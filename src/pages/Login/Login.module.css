@@ -1,9 +1,18 @@
+.login {
+  width: min(15rem, 100%);
+}
+
 .form {
   display: grid;
-  width: min(15rem, 100%);
   gap: 10px;
 }
 
 main .form {
   margin-bottom: 1em;
+}
+
+.demoInfo {
+  max-width: 26ch;
+
+  margin-bottom: 0.5em;
 }

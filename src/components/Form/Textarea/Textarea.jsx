@@ -1,34 +1,21 @@
 import styles from './Textarea.module.css';
-import { forwardRef } from 'react';
 
-const Textarea = forwardRef(function Textarea(props, ref) {
-  const labelName = `${props.name[0].toUpperCase()}${props.name.slice(1)}`;
+function Textarea({ name, label, placeholder, value, onChange, style, error }) {
   return (
     <div className={styles.formGroup}>
-      {props.isLabel && <label htmlFor={props.name}>{labelName}</label>}
-      {props.isControlled ? (
-        <textarea
-          className={styles.textarea}
-          style={props.style}
-          placeholder={props.placeholder}
-          id={props.name}
-          name={props.name}
-          value={props.inputValue || ''}
-          onChange={(e) => props.setInputValue(e.target.value)}
-          ref={ref}
-        />
-      ) : (
-        <textarea
-          className={styles.textarea}
-          style={props.style}
-          placeholder={props.placeholder}
-          id={props.name}
-          name={props.name}
-          ref={ref}
-        />
-      )}
+      {label && <label htmlFor={name}>{label}</label>}
+      <textarea
+        name={name}
+        placeholder={placeholder}
+        id={name}
+        value={value}
+        style={style}
+        onChange={onChange}
+        className={styles.textarea}
+      ></textarea>
+      {error && <p className={styles.error}>{error}</p>}
     </div>
   );
-});
+}
 
 export default Textarea;
