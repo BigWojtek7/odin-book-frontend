@@ -54,7 +54,6 @@ function Login() {
       {!token ? (
         <>
           <form className={styles.form} onSubmit={handleLogin}>
-            {' '}
             <Input
               name="username"
               label="Username / E-mail"

@@ -1,5 +1,5 @@
 import styles from './Buttons.module.css';
-function SubmitButton({ children, onClick, type, style }) {
+function SubmitButton({ children, onClick, type = 'button', style }) {
   return (
     <button
       className={styles.submitButton}
