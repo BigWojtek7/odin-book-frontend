@@ -2,7 +2,7 @@ import styles from './Settings.module.css';
 import Input from '../../components/Form/Input/Input';
 import SubmitButton from '../../components/Form/Buttons/SubmitButton';
 import Textarea from '../../components/Form/Textarea/Textarea';
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import { Link } from 'react-router-dom';
 import requestWithNativeFetch from '../../utils/requestWithNativeFetch';
 import Icon from '@mdi/react';
@@ -11,6 +11,15 @@ import useAuth from '../../contexts/Auth/useAuth';
 import useLoader from '../../contexts/Loader/useLoader';
 import useNotification from '../../contexts/Notification/useNotification';
 import useModal from '../../contexts/Modal/useModal';
+import formReducer from '../../reducers/formReducer';
+import {
+  initialProfileFormState,
+  profileFormRules,
+  initialAboutFormState,
+  aboutFormRules,
+  initialPasswordFormState,
+  passwordFormRules,
+} from '../../reducers/initialSettingsFormState';
 
 function Settings() {
   const { token, user, refreshUser } = useAuth();
@@ -26,35 +35,56 @@ function Settings() {
   const [uploadAvatar, setUploadAvatar] = useState();
 
   const [isUpdated, setIsUpdated] = useState(false);
-
-  const [firstNameInput, setFirstNameInput] = useState('');
-  const [lastNameInput, setLastNameInput] = useState();
-
-  const [usernameInput, setUsernameInput] = useState();
-
-  const [emailInput, setLastEmailInput] = useState();
-  const [professionInput, setProfessionInput] = useState();
   const [aboutInput, setAboutInput] = useState();
 
+  const [profileState, dispatchProfile] = useReducer(
+    (state, action) => formReducer(state, action, profileFormRules),
+    initialProfileFormState
+  );
+
+  const [aboutState, dispatchAbout] = useReducer(
+    (state, action) => formReducer(state, action, aboutFormRules),
+    initialAboutFormState
+  );
+
+  const [passwordState, dispatchPassword] = useReducer(
+    (state, action) => formReducer(state, action, passwordFormRules),
+    initialPasswordFormState
+  );
+
   useEffect(() => {
-    const initialFirstNameValue = user?.first_name;
-    setFirstNameInput(initialFirstNameValue);
-
-    const initialLastNameValue = user?.last_name;
-    setLastNameInput(initialLastNameValue);
-
-    const initialUsernameValue = user?.username;
-    setUsernameInput(initialUsernameValue);
-
-    const initialEmailValue = user?.e_mail;
-    setLastEmailInput(initialEmailValue);
-
-    const initialProfessionValue = user?.profession;
-    setProfessionInput(initialProfessionValue);
-
-    const initialAboutValue = user?.about;
-    setAboutInput(initialAboutValue);
+    if (user) {
+      dispatchProfile({
+        type: 'initialize',
+        payload: {
+          first_name: user?.first_name,
+          last_name: user?.last_name,
+          username: user?.username,
+          email: user?.e_mail,
+          profession: user?.profession,
+        },
+      });
+      dispatchProfile({
+        type: 'validate_all',
+      });
+    }
   }, [user]);
+
+  useEffect(() => {
+    if (user) {
+      dispatchAbout({
+        type: 'initialize',
+        payload: {
+          about: user?.about,
+        },
+      });
+      dispatchAbout({
+        type: 'validate_all',
+      });
+    }
+  }, [user]);
+
+  console.log(profileState);
 
   const handleAvatarUpload = async (e) => {
     e.preventDefault();
@@ -86,31 +116,40 @@ function Settings() {
 
   const handleEditProfile = async (e) => {
     e.preventDefault();
+
     try {
-      loaderStart();
-      const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
-        user.user_id
-      }/profile`;
-      const options = {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: token,
-        },
-        body: JSON.stringify({
-          first_name: e.target.first_name.value,
-          last_name: e.target.last_name.value,
-          email: e.target.email.value,
-          profession: e.target.profession.value,
-          username: e.target.username.value,
-        }),
-      };
+      dispatchProfile({
+        type: 'validate_all',
+      });
+      console.log(profileState.isValid);
+      if (profileState.isValid) {
+        loaderStart();
+        const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
+          user.user_id
+        }/profile`;
+        const options = {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: token,
+          },
 
-      const profileChangeData = await requestWithNativeFetch(url, options);
-      setProfileFetch(profileChangeData);
+          body: JSON.stringify({
+            first_name: profileState.first_name,
+            last_name: profileState.last_name,
+            email: profileState.email,
+            profession: profileState.profession,
+            username: profileState.username,
+          }),
+        };
 
-      if (profileChangeData.success) {
-        refreshUser();
+        const profileChangeData = await requestWithNativeFetch(url, options);
+        setProfileFetch(profileChangeData);
+
+        if (profileChangeData.success) {
+          refreshUser();
+          addNotification('You profile has been updated', 'success');
+        }
       }
     } catch (err) {
       console.log(err);
@@ -121,66 +160,102 @@ function Settings() {
 
   const handleEditAbout = async (e) => {
     e.preventDefault();
-    try {
-      loaderStart();
-      const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
-        user.user_id
-      }/about`;
-      const options = {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: token,
-        },
-        body: JSON.stringify({ about: e.target.about.value }),
-      };
+    dispatchAbout({
+      type: 'validate_all',
+    });
 
-      const aboutChangeData = await requestWithNativeFetch(url, options);
-      setAboutFetch(aboutChangeData);
+    if (aboutState.isValid) {
+      try {
+        loaderStart();
+        const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
+          user.user_id
+        }/about`;
+        const options = {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: token,
+          },
+          body: JSON.stringify({ about: aboutState.about }),
+        };
 
-      if (aboutChangeData.success) {
-        refreshUser();
+        const aboutChangeData = await requestWithNativeFetch(url, options);
+        setAboutFetch(aboutChangeData);
+
+        if (aboutChangeData.success) {
+          refreshUser();
+          addNotification('Your about section has been updated', 'success');
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        loaderStop();
       }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      loaderStop();
     }
   };
 
   const handleEditPassword = async (e) => {
     e.preventDefault();
-    try {
-      loaderStart();
-      const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
-        user.user_id
-      }/password`;
-      const options = {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: token,
-        },
-        body: JSON.stringify({
-          old_password: e.target.old_password.value,
-          new_password: e.target.password.value,
-          re_new_password: e.target.re_password.value,
-        }),
-      };
+    dispatchPassword({
+      type: 'validate_all',
+    });
+    if (aboutState.isValid) {
+      try {
+        loaderStart();
+        const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
+          user.user_id
+        }/password`;
+        const options = {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: token,
+          },
+          body: JSON.stringify({
+            current_password: passwordState.current_password,
+            new_password: passwordState.new_password,
+            confirm_password: passwordState.confirm_password,
+          }),
+        };
 
-      const passwordChangeData = await requestWithNativeFetch(url, options);
-      setPasswordFetch(passwordChangeData);
+        const passwordChangeData = await requestWithNativeFetch(url, options);
+        setPasswordFetch(passwordChangeData);
 
-      if (passwordChangeData.success) {
-        refreshUser();
-        localStorage.removeItem('token');
-        setToken(null);
+        if (passwordChangeData.success) {
+          addNotification('Your password has been updated', 'success');
+          // refreshUser();
+          // localStorage.removeItem('token');
+          // setToken(null);
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        loaderStop();
       }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      loaderStop();
     }
+  };
+
+  const handleProfileInput = (e) => {
+    dispatchProfile({
+      type: 'input_validate',
+      field: e.target.name,
+      payload: e.target.value,
+    });
+  };
+  const handleAboutInput = (e) => {
+    dispatchAbout({
+      type: 'input_validate',
+      field: e.target.name,
+      payload: e.target.value,
+    });
+  };
+
+  const handlePasswordInput = (e) => {
+    dispatchPassword({
+      type: 'input_validate',
+      field: e.target.name,
+      payload: e.target.value,
+    });
   };
   return (
     <>
@@ -210,12 +285,11 @@ function Settings() {
               <h2>Edit About:</h2>
               <form className={styles.form} onSubmit={handleEditAbout}>
                 <Textarea
-                  placeholder="A few words about you"
                   name="about"
-                  isControlled={true}
                   style={{ height: '6em', backgroundColor: 'var(--nav-bg)' }}
-                  inputValue={aboutInput}
-                  setInputValue={setAboutInput}
+                  value={aboutState.about}
+                  onChange={handleAboutInput}
+                  error={aboutState.errors.about}
                 />
                 <SubmitButton type="submit">Submit</SubmitButton>
                 {aboutFetch &&
@@ -229,39 +303,40 @@ function Settings() {
             <h2 className={styles.cardHeading}>Edit your Profile:</h2>
             <form className={styles.form} onSubmit={handleEditProfile}>
               <Input
-                type="text"
                 name="first_name"
-                labelName="First Name"
-                inputValue={firstNameInput}
-                setInputValue={(e) => setFirstNameInput(e.target.value)}
+                label="First Name"
+                value={profileState.first_name}
+                onChange={handleProfileInput}
+                error={profileState.errors.first_name}
               />
               <Input
-                type="text"
                 name="last_name"
-                labelName="Last Name"
-                inputValue={lastNameInput}
-                setInputValue={(e) => setLastNameInput(e.target.value)}
+                label="Last Name"
+                value={profileState.last_name}
+                onChange={handleProfileInput}
+                error={profileState.errors.last_name}
               />
               <Input
                 type="email"
                 name="email"
-                labelName="Email"
-                inputValue={emailInput}
-                setInputValue={(e) => setLastEmailInput(e.target.value)}
+                label="Email"
+                value={profileState.email}
+                onChange={handleProfileInput}
+                error={profileState.errors.email}
               />
               <Input
-                type="text"
                 name="username"
-                labelName="Username"
-                inputValue={usernameInput}
-                setInputValue={(e) => setUsernameInput(e.target.value)}
+                label="Username"
+                value={profileState.username}
+                onChange={handleProfileInput}
+                error={profileState.errors.username}
               />
               <Input
-                type="text"
                 name="profession"
-                labelName="Profession"
-                inputValue={professionInput}
-                setInputValue={(e) => setProfessionInput(e.target.value)}
+                label="Profession"
+                value={profileState.profession}
+                onChange={handleProfileInput}
+                error={profileState.errors.profession}
               />
               <SubmitButton type="submit">Submit</SubmitButton>
               {profileFetch &&
@@ -275,14 +350,27 @@ function Settings() {
             <form className={styles.form} onSubmit={handleEditPassword}>
               <Input
                 type="password"
-                name="old_password"
-                labelName="Old password"
+                name="current_password"
+                label="Current password"
+                value={passwordState.current_password}
+                onChange={handlePasswordInput}
+                error={passwordState.errors.current_password}
               />
-              <Input type="password" name="password" labelName="Password" />
               <Input
                 type="password"
-                name="re_password"
-                labelName="Reenter Password"
+                name="new_password"
+                label="New password"
+                value={passwordState.new_password}
+                onChange={handlePasswordInput}
+                error={passwordState.errors.new_password}
+              />
+              <Input
+                type="password"
+                name="confirm_password"
+                label="Confirm new Password"
+                value={passwordState.confirm_password}
+                onChange={handlePasswordInput}
+                error={passwordState.errors.confirm_password}
               />
               <SubmitButton type="submit">Submit</SubmitButton>
               {passwordFetch &&

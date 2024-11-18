@@ -2,6 +2,12 @@ import validateForm from '../utils/validateForm';
 
 function formReducer(state, action, formRules) {
   switch (action.type) {
+    
+    case 'initialize':
+      return {
+        ...state,
+        ...action.payload,
+      };
     case 'input_validate': {
       const updatedState = {
         ...state,
