@@ -49,5 +49,7 @@
   .settings{
     flex-direction: column;
     align-items: center;
+    width: min(15rem, 100%);
+    margin: 0 auto;
   }
 }

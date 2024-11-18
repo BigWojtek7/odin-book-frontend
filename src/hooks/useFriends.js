@@ -7,7 +7,6 @@ function useFriends(userId) {
   const [friends, setFriends] = useState([]);
   const { token, user } = useAuth();
 
-  console.log(userId);
   const { start: loaderStart, stop: loaderStop } = useLoader();
 
   useEffect(() => {

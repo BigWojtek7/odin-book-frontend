@@ -106,47 +106,48 @@ function Settings() {
     }
   };
 
-  const handleEditProfile = async (e) => {
+  const handleEditProfile = (e) => {
     e.preventDefault();
+    dispatchProfile({
+      type: 'validate_all',
+    });
+    if (profileState.isValid) {
+      openModal('Do you really want to change your profile ?', async () => {
+        try {
+          loaderStart();
+          const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
+            user.user_id
+          }/profile`;
+          const options = {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: token,
+            },
 
-    try {
-      dispatchProfile({
-        type: 'validate_all',
-      });
-      console.log(profileState.isValid);
-      if (profileState.isValid) {
-        loaderStart();
-        const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
-          user.user_id
-        }/profile`;
-        const options = {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: token,
-          },
+            body: JSON.stringify({
+              first_name: profileState.first_name,
+              last_name: profileState.last_name,
+              email: profileState.email,
+              profession: profileState.profession,
+              username: profileState.username,
+            }),
+          };
 
-          body: JSON.stringify({
-            first_name: profileState.first_name,
-            last_name: profileState.last_name,
-            email: profileState.email,
-            profession: profileState.profession,
-            username: profileState.username,
-          }),
-        };
+          const profileChangeData = await requestWithNativeFetch(url, options);
+          setProfileFetch(profileChangeData);
 
-        const profileChangeData = await requestWithNativeFetch(url, options);
-        setProfileFetch(profileChangeData);
-
-        if (profileChangeData.success) {
-          refreshUser();
-          addNotification('You profile has been updated', 'success');
+          if (profileChangeData.success) {
+            refreshUser();
+            addNotification('You profile has been updated', 'success');
+          }
+        } catch (err) {
+          console.log(err);
+        } finally {
+          loaderStop();
+          closeModal();
         }
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      loaderStop();
+      });
     }
   };
 
@@ -188,11 +189,12 @@ function Settings() {
 
   const handleEditPassword = (e) => {
     e.preventDefault();
-    openModal('Do you really want to change password', async () => {
-      dispatchPassword({
-        type: 'validate_all',
-      });
-      if (aboutState.isValid) {
+
+    dispatchPassword({
+      type: 'validate_all',
+    });
+    if (passwordState.isValid) {
+      openModal('Do you really want to change password', async () => {
         try {
           loaderStart();
           const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
@@ -223,8 +225,8 @@ function Settings() {
           loaderStop();
           closeModal();
         }
-      }
-    });
+      });
+    }
   };
 
   const handleProfileInput = (e) => {
