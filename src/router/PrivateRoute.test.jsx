@@ -5,7 +5,6 @@ import useAuth from '../contexts/Auth/useAuth';
 
 vi.mock('../contexts/Auth/useAuth');
 
-// Mock komponentu Outlet
 const MockOutlet = () => <div>Private Content</div>;
 
 describe('PrivateRoute', () => {

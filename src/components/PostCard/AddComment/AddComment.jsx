@@ -1,7 +1,7 @@
 import SubmitButton from '../../Form/Buttons/SubmitButton';
 import styles from './AddComment.module.css';
 import TextareaWithRef from '../../Form/Textarea/TextareaWithRef';
-import { useReducer, useState } from 'react';
+import { useReducer } from 'react';
 import useAuth from '../../../contexts/Auth/useAuth';
 import formReducer from '../../../reducers/formReducer';
 import {
@@ -11,8 +11,6 @@ import {
 
 function AddComment({ textareaRef, handleAddComment }) {
   const { user } = useAuth();
-  // const [addCommentFetch, setAddCommentFetch] = useState();
-  // const [inputValue, setInputValue] = useState('');
 
   const [formState, dispatch] = useReducer(
     (state, action) => formReducer(state, action, commentFormRules),

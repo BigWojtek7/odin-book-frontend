@@ -1,7 +1,7 @@
 import styles from './AddPost.module.css';
 import SubmitButton from '../../Form/Buttons/SubmitButton';
 import Textarea from '../../Form/Textarea/Textarea';
-import { useReducer, useState } from 'react';
+import { useReducer } from 'react';
 import formReducer from '../../../reducers/formReducer';
 import {
   initialPostFormState,

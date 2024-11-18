@@ -1,10 +1,10 @@
-import { waitFor, render, screen } from '@testing-library/react';
+import {render, screen } from '@testing-library/react';
 import AddPost from './AddPost';
 
 import userEvent from '@testing-library/user-event';
 
 const setIsLoading = vi.fn();
-const myContextData = [, , , , setIsLoading];
+const myContextData = [ setIsLoading];
 
 beforeEach(() => {
   vi.spyOn(global, 'fetch').mockResolvedValue({

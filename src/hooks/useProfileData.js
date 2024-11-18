@@ -29,7 +29,7 @@ const useProfileData = (followerid) => {
     if (token && isFollowerProfile) {
       fetchDataForProfile();
     } else {
-      setProfileUser(user); // Ustawia aktualnie zalogowanego użytkownika, jeśli to jego profil
+      setProfileUser(user);
     }
   }, [token, followerid, isFollowerProfile, user]);
 

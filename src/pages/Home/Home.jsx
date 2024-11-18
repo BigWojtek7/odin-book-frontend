@@ -1,14 +1,11 @@
 import PostCard from '../../components/PostCard/PostCard';
 import FriendsCard from '../../components/FriendsCard/FriendsCard';
 import styles from './Home.module.css';
-import { Link } from 'react-router-dom';
-import Icon from '@mdi/react';
-import { mdiLogin, mdiAccountPlus } from '@mdi/js';
 import useAuth from '../../contexts/Auth/useAuth';
 import usePosts from '../../hooks/usePosts';
 
 function Home() {
-  const { token, user } = useAuth();
+  const { user } = useAuth();
 
   const { posts, setPosts } = usePosts(
     `${import.meta.env.VITE_BACKEND_URL}/posts/${user?.user_id}/followers`,
