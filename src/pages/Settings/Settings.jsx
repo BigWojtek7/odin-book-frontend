@@ -3,10 +3,7 @@ import Input from '../../components/Form/Input/Input';
 import SubmitButton from '../../components/Form/Buttons/SubmitButton';
 import Textarea from '../../components/Form/Textarea/Textarea';
 import { useEffect, useReducer, useState } from 'react';
-import { Link } from 'react-router-dom';
 import requestWithNativeFetch from '../../utils/requestWithNativeFetch';
-import Icon from '@mdi/react';
-import { mdiLogin } from '@mdi/js';
 import useAuth from '../../contexts/Auth/useAuth';
 import useLoader from '../../contexts/Loader/useLoader';
 import useNotification from '../../contexts/Notification/useNotification';
@@ -33,9 +30,6 @@ function Settings() {
   const [aboutFetch, setAboutFetch] = useState(null);
 
   const [uploadAvatar, setUploadAvatar] = useState();
-
-  const [isUpdated, setIsUpdated] = useState(false);
-  const [aboutInput, setAboutInput] = useState();
 
   const [profileState, dispatchProfile] = useReducer(
     (state, action) => formReducer(state, action, profileFormRules),
@@ -83,8 +77,6 @@ function Settings() {
       });
     }
   }, [user]);
-
-  console.log(profileState);
 
   const handleAvatarUpload = async (e) => {
     e.preventDefault();
@@ -194,45 +186,45 @@ function Settings() {
     }
   };
 
-  const handleEditPassword = async (e) => {
+  const handleEditPassword = (e) => {
     e.preventDefault();
-    dispatchPassword({
-      type: 'validate_all',
-    });
-    if (aboutState.isValid) {
-      try {
-        loaderStart();
-        const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
-          user.user_id
-        }/password`;
-        const options = {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: token,
-          },
-          body: JSON.stringify({
-            current_password: passwordState.current_password,
-            new_password: passwordState.new_password,
-            confirm_password: passwordState.confirm_password,
-          }),
-        };
+    openModal('Do you really want to change password', async () => {
+      dispatchPassword({
+        type: 'validate_all',
+      });
+      if (aboutState.isValid) {
+        try {
+          loaderStart();
+          const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
+            user.user_id
+          }/password`;
+          const options = {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: token,
+            },
+            body: JSON.stringify({
+              current_password: passwordState.current_password,
+              new_password: passwordState.new_password,
+              confirm_password: passwordState.confirm_password,
+            }),
+          };
 
-        const passwordChangeData = await requestWithNativeFetch(url, options);
-        setPasswordFetch(passwordChangeData);
+          const passwordChangeData = await requestWithNativeFetch(url, options);
+          setPasswordFetch(passwordChangeData);
 
-        if (passwordChangeData.success) {
-          addNotification('Your password has been updated', 'success');
-          // refreshUser();
-          // localStorage.removeItem('token');
-          // setToken(null);
+          if (passwordChangeData.success) {
+            addNotification('Your password has been updated', 'success');
+          }
+        } catch (err) {
+          console.log(err);
+        } finally {
+          loaderStop();
+          closeModal();
         }
-      } catch (err) {
-        console.log(err);
-      } finally {
-        loaderStop();
       }
-    }
+    });
   };
 
   const handleProfileInput = (e) => {
@@ -258,137 +250,116 @@ function Settings() {
     });
   };
   return (
-    <>
-      {!isUpdated ? (
-        <div className={styles.settings}>
-          <div className={styles.avatarSection}>
-            <h2 className={styles.cardHeading}>Edit Avatar:</h2>
-            <div className={styles.avatarContainer}>
-              <img
-                className={styles.avatar}
-                src={user?.avatar_url}
-                alt="avatar"
-              />
-            </div>
-            <form
-              className={styles.form}
-              onSubmit={handleAvatarUpload}
-              encType="multipart/form-data"
-            >
-              <input type="file" className={styles.inputFile} name="avatar" />
-              <SubmitButton type="submit">Submit</SubmitButton>
-              {uploadAvatar && (
-                <p className={styles.uploadRes}>{uploadAvatar.msg}</p>
-              )}
-            </form>
-            <div className={styles.editAbout}>
-              <h2>Edit About:</h2>
-              <form className={styles.form} onSubmit={handleEditAbout}>
-                <Textarea
-                  name="about"
-                  style={{ height: '6em', backgroundColor: 'var(--nav-bg)' }}
-                  value={aboutState.about}
-                  onChange={handleAboutInput}
-                  error={aboutState.errors.about}
-                />
-                <SubmitButton type="submit">Submit</SubmitButton>
-                {aboutFetch &&
-                  aboutFetch.msg.map((err, index) => (
-                    <p key={index}>{err.msg}</p>
-                  ))}
-              </form>
-            </div>
-          </div>
-          <div className={styles.editProfile}>
-            <h2 className={styles.cardHeading}>Edit your Profile:</h2>
-            <form className={styles.form} onSubmit={handleEditProfile}>
-              <Input
-                name="first_name"
-                label="First Name"
-                value={profileState.first_name}
-                onChange={handleProfileInput}
-                error={profileState.errors.first_name}
-              />
-              <Input
-                name="last_name"
-                label="Last Name"
-                value={profileState.last_name}
-                onChange={handleProfileInput}
-                error={profileState.errors.last_name}
-              />
-              <Input
-                type="email"
-                name="email"
-                label="Email"
-                value={profileState.email}
-                onChange={handleProfileInput}
-                error={profileState.errors.email}
-              />
-              <Input
-                name="username"
-                label="Username"
-                value={profileState.username}
-                onChange={handleProfileInput}
-                error={profileState.errors.username}
-              />
-              <Input
-                name="profession"
-                label="Profession"
-                value={profileState.profession}
-                onChange={handleProfileInput}
-                error={profileState.errors.profession}
-              />
-              <SubmitButton type="submit">Submit</SubmitButton>
-              {profileFetch &&
-                profileFetch.msg.map((err, index) => (
-                  <p key={index}>{err.msg}</p>
-                ))}
-            </form>
-          </div>
-          <div className={styles.editProfile}>
-            <h2 className={styles.cardHeading}>Change password:</h2>
-            <form className={styles.form} onSubmit={handleEditPassword}>
-              <Input
-                type="password"
-                name="current_password"
-                label="Current password"
-                value={passwordState.current_password}
-                onChange={handlePasswordInput}
-                error={passwordState.errors.current_password}
-              />
-              <Input
-                type="password"
-                name="new_password"
-                label="New password"
-                value={passwordState.new_password}
-                onChange={handlePasswordInput}
-                error={passwordState.errors.new_password}
-              />
-              <Input
-                type="password"
-                name="confirm_password"
-                label="Confirm new Password"
-                value={passwordState.confirm_password}
-                onChange={handlePasswordInput}
-                error={passwordState.errors.confirm_password}
-              />
-              <SubmitButton type="submit">Submit</SubmitButton>
-              {passwordFetch &&
-                passwordFetch.msg.map((err, index) => (
-                  <p key={index}>{err.msg}</p>
-                ))}
-            </form>
-          </div>
+    <div className={styles.settings}>
+      <div className={styles.avatarSection}>
+        <h2 className={styles.cardHeading}>Edit Avatar:</h2>
+        <div className={styles.avatarContainer}>
+          <img className={styles.avatar} src={user?.avatar_url} alt="avatar" />
         </div>
-      ) : (
-        <div className={styles.profileEdited}>
-          <p>{passwordFetch?.msg || profileFetch?.msg}</p>
-          <Link to="/login">
-            <Icon path={mdiLogin} size={5} color="var(--icon-clr"></Icon>
-          </Link>
+        <form
+          className={styles.form}
+          onSubmit={handleAvatarUpload}
+          encType="multipart/form-data"
+        >
+          <input type="file" className={styles.inputFile} name="avatar" />
+          <SubmitButton type="submit">Submit</SubmitButton>
+          {uploadAvatar && (
+            <p className={styles.uploadRes}>{uploadAvatar.msg}</p>
+          )}
+        </form>
+        <div className={styles.editAbout}>
+          <h2>Edit About:</h2>
+          <form className={styles.form} onSubmit={handleEditAbout}>
+            <Textarea
+              name="about"
+              style={{ height: '6em', backgroundColor: 'var(--nav-bg)' }}
+              value={aboutState.about}
+              onChange={handleAboutInput}
+              error={aboutState.errors.about}
+            />
+            <SubmitButton type="submit">Submit</SubmitButton>
+            {aboutFetch &&
+              aboutFetch.msg.map((err, index) => <p key={index}>{err.msg}</p>)}
+          </form>
         </div>
-      )}
-    </>
+      </div>
+      <div className={styles.editProfile}>
+        <h2 className={styles.cardHeading}>Edit your Profile:</h2>
+        <form className={styles.form} onSubmit={handleEditProfile}>
+          <Input
+            name="first_name"
+            label="First Name"
+            value={profileState.first_name}
+            onChange={handleProfileInput}
+            error={profileState.errors.first_name}
+          />
+          <Input
+            name="last_name"
+            label="Last Name"
+            value={profileState.last_name}
+            onChange={handleProfileInput}
+            error={profileState.errors.last_name}
+          />
+          <Input
+            type="email"
+            name="email"
+            label="Email"
+            value={profileState.email}
+            onChange={handleProfileInput}
+            error={profileState.errors.email}
+          />
+          <Input
+            name="username"
+            label="Username"
+            value={profileState.username}
+            onChange={handleProfileInput}
+            error={profileState.errors.username}
+          />
+          <Input
+            name="profession"
+            label="Profession"
+            value={profileState.profession}
+            onChange={handleProfileInput}
+            error={profileState.errors.profession}
+          />
+          <SubmitButton type="submit">Submit</SubmitButton>
+          {profileFetch &&
+            profileFetch.msg.map((err, index) => <p key={index}>{err.msg}</p>)}
+        </form>
+      </div>
+      <div className={styles.editProfile}>
+        <h2 className={styles.cardHeading}>Change password:</h2>
+        <form className={styles.form} onSubmit={handleEditPassword}>
+          <Input
+            type="password"
+            name="current_password"
+            label="Current password"
+            value={passwordState.current_password}
+            onChange={handlePasswordInput}
+            error={passwordState.errors.current_password}
+          />
+          <Input
+            type="password"
+            name="new_password"
+            label="New password"
+            value={passwordState.new_password}
+            onChange={handlePasswordInput}
+            error={passwordState.errors.new_password}
+          />
+          <Input
+            type="password"
+            name="confirm_password"
+            label="Confirm new Password"
+            value={passwordState.confirm_password}
+            onChange={handlePasswordInput}
+            error={passwordState.errors.confirm_password}
+          />
+          <SubmitButton type="submit">Submit</SubmitButton>
+          {passwordFetch &&
+            passwordFetch.msg.map((err, index) => <p key={index}>{err.msg}</p>)}
+        </form>
+      </div>
+    </div>
   );
 }
 export default Settings;
