@@ -2,9 +2,10 @@
   width: 100%;
   background-color: var(--nav-bg);
   border-radius: 10px;
-  padding-inline: 3em;
+  padding-inline: 2em;
   padding-block: 1em;
   text-align: center;
+  height: 100%;
 }
 
 .profileImage {
