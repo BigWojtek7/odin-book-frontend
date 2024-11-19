@@ -50,7 +50,7 @@ function AddPost({ avatarURL, handleAddPost }) {
             onChange={handleInputChange}
             error={formState.errors.content}
           ></Textarea>
-          <SubmitButton type="submit" style={{ borderRadius: '10px' }}>
+          <SubmitButton type="submit" style={{ borderRadius: '10px', height: '4em'}}>
             Post
           </SubmitButton>
         </form>

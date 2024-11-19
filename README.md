@@ -1,5 +1,8 @@
 # Odin Book
 
+[![Live Preview](https://img.shields.io/badge/Live_Preview-Available-brightgreen)](https://odin-books.netlify.app/)  
+[![Backend Repository](https://img.shields.io/badge/Backend_Repo-Link-blue)](https://github.com/BigWojtek7/odin-book-backend)
+
 Odin Book is a simplified social networking app inspired by Facebook, created as part of [The Odin Project](https://www.theodinproject.com/). This application allows users to register, make friends, create posts and comments, and manage their profiles and privacy settings.
 
 ![Screenshot of Odin Book](screenshot-placeholder)
@@ -50,11 +53,11 @@ Odin Book is a simplified social networking app inspired by Facebook, created as
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/odin-book.git
+   git clone https://https://github.com/BigWojtek7/odin-book-frontend.git
    ```
 2. Navigate to the project directory:
    ```bash
-   cd odin-book
+   cd odin-book-frontend
    ```
 3. Install dependencies:
    ```bash
@@ -65,9 +68,8 @@ Odin Book is a simplified social networking app inspired by Facebook, created as
    - Add the required environment variables (e.g., `JWT_SECRET`, `DB_URI`, etc.).
 5. Start the server:
    ```bash
-   npm start
+   npm run dev
    ```
-6. Access the application in your browser at `http://localhost:3000`.
 
 ## Server & API
 

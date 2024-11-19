@@ -10,5 +10,5 @@ export const initialPostFormState = {
 };
 
 export const postFormRules = {
-  content: { required: true },
+  content: { required: true, minLength: 15 },
 };

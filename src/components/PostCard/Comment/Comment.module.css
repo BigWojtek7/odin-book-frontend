@@ -6,13 +6,18 @@
   gap: 0.5em;
 }
 
-.imgDiv {
+.avatarContainer {
   margin-top: 10px;
 }
 
 .avatar {
   width: 50px;
   aspect-ratio: 1/1;
+}
+
+.commentHeader {
+  display: flex;
+  align-items: center;
 }
 .commentName {
   font-weight: 700;
@@ -24,6 +29,7 @@
 .commentContent,
 .commentName {
   display: inline;
+  word-break: break-all;
 }
 
 .commentMain {
@@ -37,13 +43,14 @@
   display: inline-block;
 }
 
+
 .trashIcon {
   color: white;
   background-color: var(--btn-clr);
   border: none;
   cursor: pointer;
   margin-left: 10px;
-  padding: 0.1em 0.3em;
+  padding: 0.3em 0.3em 0.1em 0.3em;
   border-radius: 5px;
   transition: 0.3s;
 }

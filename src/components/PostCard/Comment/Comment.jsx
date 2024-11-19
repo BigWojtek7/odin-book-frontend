@@ -105,7 +105,7 @@ function Comment({ postId, textareaRef }) {
       />
       {comments.map((comment) => (
         <div className={styles.comment} key={comment.comment_id}>
-          <div className={styles.imgDiv}>
+          <div className={styles.avatarContainer}>
             <img
               className={styles.avatar}
               src={comment.avatar_url}
@@ -113,26 +113,33 @@ function Comment({ postId, textareaRef }) {
             />
           </div>
           <div className={styles.commentMain}>
-            <Link
-              to={`/profile/${
-                user.user_id === comment.author_id ? '#' : comment.author_id
-              }`}
-              className={styles.commentName}
-            >
-              {comment.author_name}
-            </Link>
-            <p className={styles.commentContent}>{comment.content}</p>
-            <div>
-              <p className={styles.commentDate}>{comment.date_format}</p>
-              {comment.author_id === user.user_id && (
-                <button
-                  className={styles.trashIcon}
-                  onClick={() => handleDeleteComment(comment.comment_id)}
+            <div className={styles.commentHeader}>
+              <div className={styles.authorWithDate}>
+                <Link
+                  to={`/profile/${
+                    user.user_id === comment.author_id ? '#' : comment.author_id
+                  }`}
+                  className={styles.commentName}
                 >
-                  <Icon path={mdiTrashCan} size={1} />
-                </button>
+                  {comment.author_name}
+                </Link>
+                <div>
+                  <p className={styles.commentDate}>{comment.date_format}</p>
+                </div>
+              </div>
+
+              {comment.author_id === user.user_id && (
+                <div className={styles.commentDelete}>
+                  <button
+                    className={styles.trashIcon}
+                    onClick={() => handleDeleteComment(comment.comment_id)}
+                  >
+                    <Icon path={mdiTrashCan}  size={1.2} />
+                  </button>
+                </div>
               )}
             </div>
+            <p className={styles.commentContent}>{comment.content}</p>
           </div>
         </div>
       ))}

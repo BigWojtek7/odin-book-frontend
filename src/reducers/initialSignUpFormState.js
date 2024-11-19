@@ -25,10 +25,10 @@ export const initialSignUpFormState = {
 };
 
 export const signUpFormRules = {
-  first_name: { required: true },
-  last_name: { required: true },
-  email: { required: true },
-  username: { required: true },
-  password: { required: true },
+  first_name: { required: true, minLength: 3 },
+  last_name: { required: true, minLength: 3 },
+  email: { required: true, pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ },
+  username: { required: true, minLength: 3 },
+  password: { required: true,  minLength: 3 },
   re_password: { required: true, match: 'password' },
 };

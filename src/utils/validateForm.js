@@ -1,36 +1,55 @@
+const fieldLabels = {
+  email: 'Email',
+  password: 'Password',
+  re_password: 'Password confirmation',
+  first_name: 'First name',
+  last_name: 'Last name',
+  current_password: 'Current password',
+  new_password: 'New password',
+  confirm_password: 'Confirm password',
+};
+
 const validateForm = (state, rules) => {
   const errors = {};
   let isValid = true;
+
   Object.keys(rules).forEach((field) => {
     const value = state[field];
     const rule = rules[field];
-
-    if (rule.required && !value && state.isTouched[field]) {
-      errors[field] = `${
-        field === 're_password' ? 'Password confirmation' : field
-      } is required`;
+    const fieldLabel = fieldLabels[field] || field;
+    console.log(state.isTouched[field], field)
+    if (!state.isTouched[field]) {
+      console.log('www')
       isValid = false;
-      return {
-        ...state,
-        errors,
-        isValid,
-      };
+      return;
+    }
+
+    if (rule.required && !value) {
+      errors[field] = `${fieldLabel} is required`;
+      isValid = false;
+      return;
     }
 
     if (rule.minLength && value.length < rule.minLength) {
       errors[
         field
-      ] = `${field} must be at least ${rule.minLength} characters long`;
+      ] = `${fieldLabel} must be at least ${rule.minLength} characters long`;
       isValid = false;
+      return;
     }
-    if (rule.match && state[field] !== state[rule.match]) {
+
+    if (rule.pattern && !rule.pattern.test(value)) {
+      errors[field] = `${fieldLabel} is invalid`;
+      isValid = false;
+      return;
+    }
+
+    if (rule.match && value !== state[rule.match]) {
       errors[field] = 'Passwords do not match';
       isValid = false;
     }
-    if (!state.isTouched[field]) {
-      isValid = false;
-    }
   });
+
   return {
     ...state,
     errors,

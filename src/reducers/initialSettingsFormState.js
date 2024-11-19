@@ -22,10 +22,10 @@ export const initialProfileFormState = {
 };
 
 export const profileFormRules = {
-  first_name: { required: true },
-  last_name: { required: true },
-  email: { required: true }, //pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ },
-  username: { required: true },
+  first_name: { required: true, minLength: 2 },
+  last_name: { required: true, minLength: 2 },
+  email: { required: true, pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ },
+  username: { required: true, minLength: 3 },
   profession: { required: false },
 };
 
@@ -41,7 +41,7 @@ export const initialAboutFormState = {
 };
 
 export const aboutFormRules = {
-  about: { required: true },
+  about: { required: true, minLength: 15},
 };
 
 export const initialPasswordFormState = {
