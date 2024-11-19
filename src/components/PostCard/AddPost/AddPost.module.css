@@ -26,6 +26,7 @@
 @media (max-width: 500px) {
   .addPost {
     flex-direction: column;
+    align-items: center;
   }
   .postForm {
     flex-direction: column;

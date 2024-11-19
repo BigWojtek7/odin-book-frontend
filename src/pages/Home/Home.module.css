@@ -4,11 +4,11 @@
 }
 
 .friendsCard{
-  width: 320px;
+  flex-shrink: 0;
 }
 
 .posts{
-  width: 100%;
+  max-width: 100%;
 }
 
 .welcomeMessage svg {
