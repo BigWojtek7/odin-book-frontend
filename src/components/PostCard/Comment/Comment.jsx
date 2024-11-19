@@ -133,8 +133,9 @@ function Comment({ postId, textareaRef }) {
                   <button
                     className={styles.trashIcon}
                     onClick={() => handleDeleteComment(comment.comment_id)}
+                    aria-label="delete"
                   >
-                    <Icon path={mdiTrashCan}  size={1.2} />
+                    <Icon path={mdiTrashCan} size={1.2} />
                   </button>
                 </div>
               )}
