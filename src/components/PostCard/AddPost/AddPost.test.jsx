@@ -1,45 +1,54 @@
-import {render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import AddPost from './AddPost';
-
+import useAuth from '../../../contexts/Auth/useAuth';
+import useNotification from '../../../contexts/Notification/useNotification';
+import requestWithNativeFetch from '../../../utils/requestWithNativeFetch';
 import userEvent from '@testing-library/user-event';
 
-const setIsLoading = vi.fn();
-const myContextData = [ setIsLoading];
+const mockNavigate = vi.fn();
 
-beforeEach(() => {
-  vi.spyOn(global, 'fetch').mockResolvedValue({
-    ok: true,
-    status: 200,
-    json: async () => ({
-      success: true,
-      msg: [{ msg: 'Post has been saved' }],
-    }),
-  });
-});
-
-afterEach(() => {
-  vi.restoreAllMocks();
-});
-
+vi.mock('../../../contexts/Auth/useAuth.js');
+vi.mock('../../../contexts/Notification/useNotification.js');
+vi.mock('../../../utils/requestWithNativeFetch');
 vi.mock('react-router-dom', () => ({
   ...vi.importActual('react-router-dom'),
-  useOutletContext: () => myContextData,
-  useNavigate: vi.fn(),
+  useNavigate: () => mockNavigate,
+}));
+vi.mock('../../contexts/Loader/useLoader.js', () => ({
+  default: () => ({ start: vi.fn(), stop: vi.fn() }),
 }));
 
-describe('test AddPost component', () => {
-  it('renders component', async () => {
-    const mockSetForceRenderPosts = vi.fn();
+describe('AddPost component', () => {
+  const mockAddNotification = vi.fn();
 
-    const user = userEvent.setup();
-    render(<AddPost setForceRenderPosts={mockSetForceRenderPosts} />);
-    const button = screen.getByRole('button');
-    const textarea = screen.getByRole('textbox');
+  beforeEach(() => {
+    useAuth.mockReturnValue({ token: 'mockToken' });
+    useNotification.mockReturnValue({ addNotification: mockAddNotification });
+  });
 
-    await user.type(textarea, 'test content');
-    await user.click(button);
-    expect(textarea).toHaveValue('test content');
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
 
-    // await user.click(button)
+  it('renders form', () => {
+    render(<AddPost />);
+    expect(screen.getByRole('form')).toBeInTheDocument();
+  });
+
+  it('submits form and updates post on success', async () => {
+    requestWithNativeFetch.mockResolvedValue({
+      success: true,
+      msg: [{ msg: 'Post has been saved' }],
+    });
+
+    render(<AddPost />);
+
+    await userEvent.type(screen.getByPlaceholderText(/write a post/i), 'Test content');
+    await userEvent.click(screen.getByText('Post'));
+
+    expect(mockAddNotification).toHaveBeenCalledWith(
+      'The post has been created',
+      'success'
+    );
   });
 });

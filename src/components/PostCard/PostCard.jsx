@@ -1,6 +1,6 @@
 import styles from './PostCard.module.css';
 import Post from './Post/Post';
-import Comment from './Comment/Comment';
+import Comments from './Comment/Comments';
 import { useRef } from 'react';
 import useAuth from '../../contexts/Auth/useAuth';
 import useModal from '../../contexts/Modal/useModal';
@@ -61,7 +61,7 @@ function PostCard({ posts, onDelete }) {
             inputRefIndex={index}
             handleDelete={handleDeletePost}
           />
-          <Comment
+          <Comments
             postId={post.post_id}
             textareaRef={(el) => (inputRef.current[index] = el)}
           />

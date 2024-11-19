@@ -17,9 +17,8 @@ const validateForm = (state, rules) => {
     const value = state[field];
     const rule = rules[field];
     const fieldLabel = fieldLabels[field] || field;
-    console.log(state.isTouched[field], field)
+
     if (!state.isTouched[field]) {
-      console.log('www')
       isValid = false;
       return;
     }

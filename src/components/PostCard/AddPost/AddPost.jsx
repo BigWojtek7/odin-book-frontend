@@ -41,7 +41,7 @@ function AddPost({ avatarURL, handleAddPost }) {
         <div>
           <img className={styles.avatar} src={avatarURL} alt="avatar" />
         </div>
-        <form className={styles.postForm} onSubmit={handleSubmit}>
+        <form className={styles.postForm} onSubmit={handleSubmit} role="form">
           <Textarea
             style={{ height: '6em' }}
             name="content"
@@ -50,7 +50,10 @@ function AddPost({ avatarURL, handleAddPost }) {
             onChange={handleInputChange}
             error={formState.errors.content}
           ></Textarea>
-          <SubmitButton type="submit" style={{ borderRadius: '10px', height: '4em'}}>
+          <SubmitButton
+            type="submit"
+            style={{ borderRadius: '10px', height: '4em' }}
+          >
             Post
           </SubmitButton>
         </form>

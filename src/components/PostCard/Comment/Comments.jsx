@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import styles from './Comment.module.css';
+import styles from './Comments.module.css';
 import Icon from '@mdi/react';
 import { mdiTrashCan } from '@mdi/js';
 import useAuth from '../../../contexts/Auth/useAuth';
@@ -11,7 +11,7 @@ import requestWithNativeFetch from '../../../utils/requestWithNativeFetch';
 
 import AddComment from '../AddComment/AddComment';
 
-function Comment({ postId, textareaRef }) {
+function Comments({ postId, textareaRef }) {
   const { token, user } = useAuth();
 
   const { openModal, closeModal } = useModal();
@@ -147,4 +147,4 @@ function Comment({ postId, textareaRef }) {
     </>
   );
 }
-export default Comment;
+export default Comments;
