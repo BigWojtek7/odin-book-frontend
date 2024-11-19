@@ -26,7 +26,9 @@ function Home() {
 
   return (
     <div className={styles.home}>
-      <FriendsCard onDeletePostsByFollower={onDeletePostsByFollower} />
+      <div className={styles.friendsCard}>
+        <FriendsCard onDeletePostsByFollower={onDeletePostsByFollower} />
+      </div>
       <div className={styles.posts}>
         <PostCard posts={posts} onDelete={handleDeletePost} />
       </div>

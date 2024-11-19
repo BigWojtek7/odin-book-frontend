@@ -1,4 +1,5 @@
 .main {
   padding-block-start: var(--size-400);
   padding-block-end: var(--size-800);
+  max-width: 1000px;
 }

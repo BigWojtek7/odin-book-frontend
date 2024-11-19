@@ -78,32 +78,36 @@ function Settings() {
     }
   }, [user]);
 
-  const handleAvatarUpload = async (e) => {
+  const handleAvatarUpload = (e) => {
     e.preventDefault();
-    try {
-      loaderStart();
-      const data = new FormData();
-      const file = e.target.avatar.files[0];
-      data.set('file', file);
+    openModal('Do you really want to change your avatar?', async () => {
+      try {
+        loaderStart();
+        const data = new FormData();
+        const file = e.target.avatar.files[0];
+        data.set('file', file);
 
-      const url = `${import.meta.env.VITE_BACKEND_URL}/users/avatar`;
-      const options = {
-        method: 'POST',
-        headers: { Authorization: token },
-        body: data,
-      };
+        const url = `${import.meta.env.VITE_BACKEND_URL}/users/avatar`;
+        const options = {
+          method: 'POST',
+          headers: { Authorization: token },
+          body: data,
+        };
 
-      const responseData = await requestWithNativeFetch(url, options);
-      setUploadAvatar(responseData);
+        const responseData = await requestWithNativeFetch(url, options);
+        setUploadAvatar(responseData);
 
-      if (responseData.success) {
-        refreshUser();
+        if (responseData.success) {
+          refreshUser();
+          addNotification('Your avatar has been updated', 'success');
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        loaderStop();
+        closeModal();
       }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      loaderStop();
-    }
+    });
   };
 
   const handleEditProfile = (e) => {
@@ -139,7 +143,7 @@ function Settings() {
 
           if (profileChangeData.success) {
             refreshUser();
-            addNotification('You profile has been updated', 'success');
+            addNotification('Your profile has been updated', 'success');
           }
         } catch (err) {
           console.log(err);

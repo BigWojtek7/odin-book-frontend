@@ -3,6 +3,14 @@
   gap: 15px;
 }
 
+.friendsCard{
+  width: 320px;
+}
+
+.posts{
+  width: 100%;
+}
+
 .welcomeMessage svg {
   margin-right: 30px;
 }
