@@ -11,4 +11,5 @@ function CancelButton({ children, onClick, type = 'button', style }) {
     </button>
   );
 }
+
 export default CancelButton;

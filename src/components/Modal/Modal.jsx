@@ -3,7 +3,7 @@ import useModal from '../../contexts/Modal/useModal';
 
 import styles from './Modal.module.css';
 import SubmitButton from '../Form/Buttons/SubmitButton';
-import CancelButton from '../Form/Buttons/CancelButton';
+import CancelButton from '../Form/Buttons/CancelButton.jsx';
 
 function Modal() {
   const { modalData, closeModal } = useModal();

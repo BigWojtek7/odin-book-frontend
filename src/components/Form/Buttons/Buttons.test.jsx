@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 
 import userEvent from '@testing-library/user-event';
 import SubmitButton from './SubmitButton';
-import CancelButton from './CancelButton';
+import CancelButton from './CancelButton.jsx';
 import { expect } from 'vitest';
 
 describe('Submit button', () => {

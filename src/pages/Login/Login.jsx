@@ -1,6 +1,6 @@
 import Input from '../../components/Form/Input/Input';
 import SubmitButton from '../../components/Form/Buttons/SubmitButton';
-import CancelButton from '../../components/Form/Buttons/CancelButton';
+import CancelButton from '../../components/Form/Buttons/CancelButton.jsx';
 import styles from './Login.module.css';
 import {
   initialLoginFormState,

@@ -1,6 +1,6 @@
 import styles from './FriendsCard.module.css';
 import Friend from './Friend';
-import CancelButton from '../Form/Buttons/CancelButton';
+import CancelButton from '../Form/Buttons/CancelButton.jsx';
 import requestWithNativeFetch from '../../utils/requestWithNativeFetch';
 import useAuth from '../../contexts/Auth/useAuth';
 import useFriends from '../../hooks/useFriends';

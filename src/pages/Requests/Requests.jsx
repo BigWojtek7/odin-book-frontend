@@ -1,7 +1,7 @@
 import styles from './Requests.module.css';
 import Friend from '../../components/FriendsCard/Friend';
 import SubmitButton from '../../components/Form/Buttons/SubmitButton';
-import CancelButton from '../../components/Form/Buttons/CancelButton';
+import CancelButton from '../../components/Form/Buttons/CancelButton.jsx';
 
 import useRequests from '../../hooks/useRequests';
 
