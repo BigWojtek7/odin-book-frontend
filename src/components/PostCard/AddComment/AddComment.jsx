@@ -55,8 +55,6 @@ function AddComment({ textareaRef, handleAddComment }) {
           Post
         </SubmitButton>
       </form>
-      {/* {addCommentFetch &&
-        addCommentFetch.msg.map((err, index) => <p key={index}>{err.msg}</p>)} */}
     </div>
   );
 }

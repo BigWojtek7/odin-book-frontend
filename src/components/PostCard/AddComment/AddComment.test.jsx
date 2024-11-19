@@ -1,44 +1,80 @@
-import { render, screen } from '@testing-library/react';
-import AddComment from './AddComment';
-
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import AddComment from './AddComment';
+import useAuth from '../../../contexts/Auth/useAuth';
 
-const user = { avatar_url: 'https://i.pravatar.cc/300' };
-const myContextData = [, , user];
+vi.mock('../../../contexts/Auth/useAuth');
 
-beforeEach(() => {
-  vi.spyOn(global, 'fetch').mockResolvedValue({
-    ok: true,
-    status: 200,
-    json: async () => ({
-      success: true,
-      msg: [{ msg: 'Post has been saved' }],
-    }),
+test('renders user avatar, textarea, and submit button', () => {
+  useAuth.mockReturnValue({
+    user: { avatar_url: 'http://example.com/avatar.jpg' },
+  });
+
+  render(<AddComment handleAddComment={vi.fn()} textareaRef={null} />);
+
+  expect(screen.getByAltText('avatar')).toBeInTheDocument();
+  expect(screen.getByPlaceholderText('Write a comment...')).toBeInTheDocument();
+  expect(screen.getByRole('button', { name: /post/i })).toBeInTheDocument();
+});
+
+test('updates form state on textarea change', async () => {
+  useAuth.mockReturnValue({
+    user: { avatar_url: 'http://example.com/avatar.jpg' },
+  });
+
+  render(<AddComment handleAddComment={vi.fn()} textareaRef={null} />);
+  const textarea = screen.getByPlaceholderText('Write a comment...');
+
+  const user = userEvent.setup();
+
+  await user.type(textarea, 'Test comment');
+
+  expect(textarea).toHaveValue('Test comment');
+});
+
+test('calls handleAddComment with form content on submit', async () => {
+  useAuth.mockReturnValue({
+    user: { avatar_url: 'http://example.com/avatar.jpg' },
+  });
+  const handleAddComment = vi.fn();
+
+  render(<AddComment handleAddComment={handleAddComment} textareaRef={null} />);
+
+  const textarea = screen.getByPlaceholderText('Write a comment...');
+  const button = screen.getByRole('button', { name: /post/i });
+
+  const user = userEvent.setup();
+  await user.type(textarea, 'Test comment');
+  await user.click(button);
+
+  expect(handleAddComment).toHaveBeenCalledWith('Test comment');
+});
+
+test('does not submit form if content is invalid', async () => {
+  useAuth.mockReturnValue({
+    user: { avatar_url: 'http://example.com/avatar.jpg' },
+  });
+  const handleAddComment = vi.fn();
+
+  render(<AddComment handleAddComment={handleAddComment} textareaRef={null} />);
+  const button = screen.getByRole('button', { name: /post/i });
+
+  const user = userEvent.setup();
+  await user.click(button);
+
+  expect(handleAddComment).not.toHaveBeenCalled();
+  await waitFor(() => {
+    expect(screen.getByText(/content is required/i)).toBeInTheDocument();
   });
 });
 
-afterEach(() => {
-  vi.restoreAllMocks();
-});
-
-vi.mock('react-router-dom', () => ({
-  ...vi.importActual('react-router-dom'),
-  useOutletContext: () => myContextData,
-  useNavigate: vi.fn(),
-}));
-
-describe('test AddComment component', () => {
-  it('renders component', async () => {
-    const mockSetForceRenderComment = vi.fn();
-
-    const user = userEvent.setup();
-    render(<AddComment setForceRenderComments={mockSetForceRenderComment} />);
-    const button = screen.getByRole('button');
-    const textarea = screen.getByRole('textbox');
-
-    await user.type(textarea, 'test content');
-    await user.click(button);
-
-    expect(textarea).toHaveValue('test content');
+test('renders user avatar from context', () => {
+  useAuth.mockReturnValue({
+    user: { avatar_url: 'http://example.com/avatar.jpg' },
   });
+
+  render(<AddComment handleAddComment={vi.fn()} textareaRef={null} />);
+
+  const avatar = screen.getByAltText('avatar');
+  expect(avatar).toHaveAttribute('src', 'http://example.com/avatar.jpg');
 });
