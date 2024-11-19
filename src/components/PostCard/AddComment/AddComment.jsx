@@ -51,7 +51,7 @@ function AddComment({ textareaRef, handleAddComment }) {
           onChange={handleInputChange}
           error={formState.errors.content}
         ></TextareaWithRef>
-        <SubmitButton type="submit" style={{ borderRadius: '10px' }}>
+        <SubmitButton type="submit" style={{ borderRadius: '10px', maxHeight: '2.7em' }}>
           Post
         </SubmitButton>
       </form>

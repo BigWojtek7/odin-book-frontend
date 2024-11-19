@@ -29,7 +29,6 @@
 .commentContent,
 .commentName {
   display: inline;
-  word-break: break-all;
 }
 
 .commentMain {
