@@ -1,92 +1,110 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import Home from './Home';
 import useAuth from '../../contexts/Auth/useAuth';
 import usePosts from '../../hooks/usePosts';
-import useLoader from '../../contexts/Loader/useLoader';
+import FriendsCard from '../../components/FriendsCard/FriendsCard';
+import PostCard from '../../components/PostCard/PostCard';
 
-// Mock the necessary hooks
 vi.mock('../../contexts/Auth/useAuth');
 vi.mock('../../hooks/usePosts');
-vi.mock('../../contexts/Loader/useLoader.js')
+vi.mock('../../components/FriendsCard/FriendsCard', () => ({
+  __esModule: true,
+  default: vi.fn(),
+}));
+vi.mock('../../components/PostCard/PostCard', () => ({
+  __esModule: true,
+  default: vi.fn(),
+}));
 
-describe('Home', () => {
-  test('renders posts and friends card', () => {
-    useAuth.mockReturnValue({
-      user: { user_id: 'user123' },
-    });
+describe('Home Component', () => {
+  const mockSetPosts = vi.fn();
+  const mockUser = { user_id: 1, name: 'John Doe' };
+  const mockPosts = [
+    { post_id: 1, author_id: 2, content: 'Hello World' },
+    { post_id: 2, author_id: 3, content: 'React Testing' },
+  ];
 
-    useLoader.mockReturnValue({})
-
-    usePosts.mockReturnValue({
-      posts: [
-        { post_id: '1', author_id: 'user123', content: 'Post 1' },
-        { post_id: '2', author_id: 'user456', content: 'Post 2' },
-      ],
-      setPosts: vi.fn(),
-    });
-
-    render(<Home />);
-
-    // Ensure the FriendsCard and PostCard are rendered
-    expect(screen.getByText(/friends card/i)).toBeInTheDocument();
-    expect(screen.getByText(/post 1/i)).toBeInTheDocument();
-    expect(screen.getByText(/post 2/i)).toBeInTheDocument();
+  beforeEach(() => {
+    useAuth.mockReturnValue({ user: mockUser });
+    usePosts.mockReturnValue({ posts: mockPosts, setPosts: mockSetPosts });
+    FriendsCard.mockImplementation(({ onDeletePostsByFollower }) => (
+      <div data-testid="friends-card">
+        <button
+          onClick={() => onDeletePostsByFollower(2)}
+          data-testid="delete-follower"
+        >
+          Delete Follower's Posts
+        </button>
+      </div>
+    ));
+    PostCard.mockImplementation(({ posts, onDelete }) => (
+      <div data-testid="post-card">
+        {posts.map((post) => (
+          <div key={post.post_id}>
+            <span>{post.content}</span>
+            <button
+              onClick={() => onDelete(post.post_id)}
+              data-testid={`delete-post-${post.post_id}`}
+            >
+              Delete Post
+            </button>
+          </div>
+        ))}
+      </div>
+    ));
   });
 
-  test('deletes a post when handleDeletePost is triggered', async () => {
-    const setPosts = vi.fn();
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
 
-    useAuth.mockReturnValue({
-      user: { user_id: 'user123' },
-    });
-
-    usePosts.mockReturnValue({
-      posts: [
-        { post_id: '1', author_id: 'user123', content: 'Post 1' },
-        { post_id: '2', author_id: 'user456', content: 'Post 2' },
-      ],
-      setPosts,
-    });
-
+  it('renders FriendsCard and PostCard with correct props', () => {
     render(<Home />);
 
-    const deleteButton = screen.getAllByRole('button', { name: /delete/i })[0];
-    fireEvent.click(deleteButton);
+    expect(screen.getByTestId('friends-card')).toBeInTheDocument();
 
-    // Check if setPosts is called with the updated posts list (Post 1 should be deleted)
-    await waitFor(() =>
-      expect(setPosts).toHaveBeenCalledWith([
-        { post_id: '2', author_id: 'user456', content: 'Post 2' },
-      ])
+    expect(screen.getByTestId('post-card')).toBeInTheDocument();
+
+    expect(PostCard).toHaveBeenCalledWith(
+      {
+        posts: mockPosts,
+        onDelete: expect.any(Function),
+      },
+      {}
+    );
+
+    expect(FriendsCard).toHaveBeenCalledWith(
+      {
+        onDeletePostsByFollower: expect.any(Function),
+      },
+      {}
     );
   });
 
-  test('removes posts from a specific follower when onDeletePostsByFollower is triggered', async () => {
-    const setPosts = vi.fn();
-
-    useAuth.mockReturnValue({
-      user: { user_id: 'user123' },
-    });
-
-    usePosts.mockReturnValue({
-      posts: [
-        { post_id: '1', author_id: 'user123', content: 'Post 1' },
-        { post_id: '2', author_id: 'user456', content: 'Post 2' },
-      ],
-      setPosts,
-    });
-
+  it('calls setPosts when a post is deleted', async () => {
     render(<Home />);
+    const deletePostButton = screen.getByTestId('delete-post-1');
+    await userEvent.click(deletePostButton);
 
-    // Simulate deleting posts by a specific follower
-    const deleteByFollowerButton = screen.getByText(/delete posts by follower/i);
-    fireEvent.click(deleteByFollowerButton);
+    expect(mockSetPosts).toHaveBeenCalledWith(expect.any(Function));
+    const updateFunction = mockSetPosts.mock.calls[0][0];
+    const updatedPosts = updateFunction(mockPosts);
+    expect(updatedPosts).toEqual([
+      { post_id: 2, author_id: 3, content: 'React Testing' },
+    ]);
+  });
 
-    // Check if setPosts was called with the filtered posts (Post 1 should remain)
-    await waitFor(() =>
-      expect(setPosts).toHaveBeenCalledWith([
-        { post_id: '1', author_id: 'user123', content: 'Post 1' },
-      ])
-    );
+  it('calls setPosts when a follower is deleted', async () => {
+    render(<Home />);
+    const deleteFollowerButton = screen.getByTestId('delete-follower');
+    await userEvent.click(deleteFollowerButton);
+
+    expect(mockSetPosts).toHaveBeenCalledWith(expect.any(Function));
+    const updateFunction = mockSetPosts.mock.calls[0][0];
+    const updatedPosts = updateFunction(mockPosts);
+    expect(updatedPosts).toEqual([
+      { post_id: 2, author_id: 3, content: 'React Testing' },
+    ]);
   });
 });

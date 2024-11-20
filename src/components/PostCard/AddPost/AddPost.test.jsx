@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import AddPost from './AddPost';
 import useAuth from '../../../contexts/Auth/useAuth';
 import useNotification from '../../../contexts/Notification/useNotification';
@@ -20,6 +20,7 @@ vi.mock('../../contexts/Loader/useLoader.js', () => ({
 
 describe('AddPost component', () => {
   const mockAddNotification = vi.fn();
+  const mockHandleAddPost = vi.fn();
 
   beforeEach(() => {
     useAuth.mockReturnValue({ token: 'mockToken' });
@@ -31,24 +32,48 @@ describe('AddPost component', () => {
   });
 
   it('renders form', () => {
-    render(<AddPost />);
+    render(<AddPost handleAddPost={mockHandleAddPost} />);
     expect(screen.getByRole('form')).toBeInTheDocument();
   });
 
   it('submits form and updates post on success', async () => {
     requestWithNativeFetch.mockResolvedValue({
       success: true,
-      msg: [{ msg: 'Post has been saved' }],
+      data: {
+        user_id: 'mockUserId',
+        author_name: 'Mock Author',
+        avatar_url: 'mockAvatarUrl',
+        id: 'mockPostId',
+        content: 'Mock post content',
+        date_format: '2024-11-19',
+      },
     });
+  
+    const mockHandleAddPost = vi.fn((content) => {
+      mockAddNotification('The post has been created', 'success');
+    });
+  
+    render(
+      <AddPost
+        avatarURL="mockAvatarUrl"
+        handleAddPost={mockHandleAddPost}
+      />
+    );
 
-    render(<AddPost />);
-
-    await userEvent.type(screen.getByPlaceholderText(/write a post/i), 'Test content');
+    await userEvent.type(
+      screen.getByPlaceholderText(/write a post/i),
+      'Test content. Post must have at least 15 characters'
+    );
     await userEvent.click(screen.getByText('Post'));
-
+  
+    expect(mockHandleAddPost).toHaveBeenCalledWith(
+      'Test content. Post must have at least 15 characters'
+    );
+  
     expect(mockAddNotification).toHaveBeenCalledWith(
       'The post has been created',
       'success'
     );
+    screen.debug();
   });
 });

@@ -10,7 +10,7 @@ describe('Submit button', () => {
     const user = userEvent.setup();
     const handleClick = vi.fn();
 
-    render(<SubmitButton clickHandler={handleClick} />);
+    render(<SubmitButton onClick={handleClick} />);
     const button = screen.getByRole('button');
 
     await user.click(button);
@@ -23,7 +23,7 @@ describe('Cancel button', () => {
     const user = userEvent.setup();
     const handleClick = vi.fn();
 
-    render(<CancelButton clickHandler={handleClick} />);
+    render(<CancelButton onClick={handleClick} />);
     const button = screen.getByRole('button');
 
     await user.click(button);
