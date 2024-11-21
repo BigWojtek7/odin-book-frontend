@@ -2,7 +2,6 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Modal from './Modal';
 
-// Inicjalizacja mockowanych funkcji
 let mockOnConfirm = vi.fn();
 let mockCloseModal = vi.fn();
 
@@ -11,7 +10,6 @@ vi.mock('react-dom', () => ({
   createPortal: (element) => element,
 }));
 
-// Mockowanie hooka useModal
 vi.mock('../../contexts/Modal/useModal.js', () => {
   return {
     default: () => ({

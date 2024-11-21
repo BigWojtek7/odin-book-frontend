@@ -1,5 +1,5 @@
-import { render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { screen } from '@testing-library/react';
+import renderWithProviders from '../utils/testUtils/renderWithProviders';
 import MainLayout from './MainLayout';
 import styles from './MainLayout.module.css';
 
@@ -12,11 +12,7 @@ vi.mock('../components/Modal/Modal', () => ({
 
 describe('MainLayout', () => {
   it('renders main layout with header, loader, modal, and outlet', () => {
-    render(
-      <MemoryRouter>
-        <MainLayout />
-      </MemoryRouter>
-    );
+    renderWithProviders(<MainLayout />);
 
     expect(screen.getByText('Mocked Loader')).toBeInTheDocument();
 

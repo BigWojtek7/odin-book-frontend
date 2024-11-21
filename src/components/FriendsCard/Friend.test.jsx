@@ -1,6 +1,6 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import Friend from './Friend';
-import { BrowserRouter } from 'react-router-dom';
+import renderWithProviders from '../../utils/testUtils/renderWithProviders';
 
 describe('testing Friend component', () => {
   const friend = {
@@ -10,16 +10,15 @@ describe('testing Friend component', () => {
     avatarURL: 'https://i.pravatar.cc/300',
   };
   it('renders Friends with props in jsx', () => {
-    render(
-      <BrowserRouter>
-        <Friend
-          followerId={friend.followerId}
-          name={friend.name}
-          friendsNumber={friend.friendsNumber}
-          avatarURL={friend.avatarURL}
-        />
-      </BrowserRouter>
+    renderWithProviders(
+      <Friend
+        followerId={friend.followerId}
+        name={friend.name}
+        friendsNumber={friend.friendsNumber}
+        avatarURL={friend.avatarURL}
+      />
     );
+
     screen.debug();
     expect(screen.getByText('name test')).toBeInTheDocument();
     expect(

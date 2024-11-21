@@ -1,16 +1,12 @@
-import { expect } from 'vitest';
 import Navbar from './Navbar';
+import renderWithProviders from '../../utils/testUtils/renderWithProviders';
 
-import { render } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+// import { render } from '@testing-library/react';
+// import { BrowserRouter } from 'react-router-dom';
 
 describe('Testing Navbar Components', () => {
   it('The component UI should not change', () => {
-    const { container } = render(
-      <BrowserRouter>
-        <Navbar />
-      </BrowserRouter>
-    );
+    const { container } = renderWithProviders(<Navbar />);
     expect(container).toMatchSnapshot();
   });
 });
