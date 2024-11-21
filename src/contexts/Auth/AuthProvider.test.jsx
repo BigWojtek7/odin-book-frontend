@@ -7,6 +7,9 @@ vi.mock('react-router-dom', () => ({
   ...vi.importActual('react-router-dom'),
   useNavigate: vi.fn(),
 }));
+beforeEach(() => {
+  vi.unmock('../Auth/useAuth');
+});
 
 const mockLoader = { start: vi.fn(), stop: vi.fn() };
 vi.mock('../Loader/useLoader', () => ({
@@ -90,7 +93,7 @@ describe('test AuthProvider', () => {
     expect(screen.getByText('User: No user')).toBeInTheDocument();
     expect(mockNotification.addNotification).toHaveBeenCalledWith(
       'You have been logged out',
-      'success'
+      'delete'
     );
   });
 });

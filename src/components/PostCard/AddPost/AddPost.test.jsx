@@ -49,7 +49,7 @@ describe('AddPost component', () => {
       },
     });
   
-    const mockHandleAddPost = vi.fn((content) => {
+    const mockHandleAddPost = vi.fn(() => {
       mockAddNotification('The post has been created', 'success');
     });
   
@@ -74,6 +74,5 @@ describe('AddPost component', () => {
       'The post has been created',
       'success'
     );
-    screen.debug();
   });
 });

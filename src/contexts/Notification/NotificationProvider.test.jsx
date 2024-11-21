@@ -3,6 +3,10 @@ import NotificationProvider from './NotificationProvider';
 import NotificationContext from './NotificationContext';
 import React from 'react';
 
+beforeEach(() => {
+  vi.unmock('../Notification/useNotification');
+});
+
 const MockComponent = () => {
   const { addNotification } = React.useContext(NotificationContext);
 

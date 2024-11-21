@@ -31,7 +31,7 @@ describe('PrivateRoute', () => {
     render(
       <MemoryRouter initialEntries={['/private']}>
         <Routes>
-          <Route path="/" element={<div>Public Home</div>} />
+          <Route path="/login" element={<div>Public Home</div>} />
           <Route element={<PrivateRoute />}>
             <Route path="/private" element={<MockOutlet />} />
           </Route>

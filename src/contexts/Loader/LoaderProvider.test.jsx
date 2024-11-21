@@ -3,6 +3,10 @@ import LoaderProvider from './LoaderProvider';
 import useLoader from './useLoader';
 import userEvent from '@testing-library/user-event';
 
+beforeEach(() => {
+  vi.unmock('../Loader/useLoader');
+});
+
 const MockComponent = () => {
   const { isLoading, loaderText, start, stop } = useLoader();
   return (

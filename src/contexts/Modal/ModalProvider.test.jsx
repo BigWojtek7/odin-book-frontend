@@ -4,6 +4,10 @@ import ModalProvider from './ModalProvider';
 import ModalContext from './ModalContext';
 import { useContext } from 'react';
 
+beforeEach(() => {
+  vi.unmock('../Modal/useModal');
+});
+
 const MockComponent = ({ onConfirm }) => {
   const { modalData, openModal, closeModal } = useContext(ModalContext);
 

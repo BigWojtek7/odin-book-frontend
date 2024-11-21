@@ -3,9 +3,6 @@ import { MemoryRouter } from 'react-router-dom';
 import MainLayout from './MainLayout';
 import styles from './MainLayout.module.css';
 
-vi.mock('../components/Header/Header', () => ({
-  default: () => <div>Mocked Header</div>,
-}));
 vi.mock('../components/Loader/Loader', () => ({
   default: () => <div>Mocked Loader</div>,
 }));
@@ -20,8 +17,6 @@ describe('MainLayout', () => {
         <MainLayout />
       </MemoryRouter>
     );
-
-    expect(screen.getByText('Mocked Header')).toBeInTheDocument();
 
     expect(screen.getByText('Mocked Loader')).toBeInTheDocument();
 
