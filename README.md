@@ -79,8 +79,6 @@ The application is powered by a Node.js and Express server, handling:
 - CRUD operations for posts, comments, friends, and friend requests
 - Profile and settings management
 
-For more details on the API endpoints, refer to the [API Documentation](api-docs-link) (if available).
-
 ## Technologies Used
 
 - **Frontend**: React, Module CSS for responsive design
