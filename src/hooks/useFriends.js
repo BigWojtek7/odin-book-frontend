@@ -4,7 +4,7 @@ import useAuth from '../contexts/Auth/useAuth';
 import useLoader from '../contexts/Loader/useLoader';
 
 function useFriends(userId) {
-  const [friends, setFriends] = useState([]);
+  const [friends, setFriends] = useState(null);
   const { token, user } = useAuth();
 
   const { start: loaderStart, stop: loaderStop } = useLoader();

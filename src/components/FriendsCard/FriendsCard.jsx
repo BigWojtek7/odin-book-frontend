@@ -66,7 +66,7 @@ function FriendsCard({ onDeletePostsByFollower }) {
       ) : (
         <div className={styles.container}>
           <h2>Friends:</h2>
-          {friends.map((follower) => (
+          {friends?.map((follower) => (
             <div key={follower.follower_id} className={styles.friendBar}>
               <Friend
                 followerId={follower.follower_id}
