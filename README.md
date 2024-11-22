@@ -5,7 +5,7 @@
 
 Odin Book is a simplified social networking app inspired by Facebook, created as part of [The Odin Project](https://www.theodinproject.com/). This application allows users to register, make friends, create posts and comments, and manage their profiles and privacy settings.
 
-![Screenshot of Odin Book](screenshot-placeholder)
+![Screenshot of Odin Book](./src/assets/images/home.png)
 
 ## Features
 
