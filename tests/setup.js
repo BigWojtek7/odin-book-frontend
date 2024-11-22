@@ -7,20 +7,6 @@ afterEach(() => {
   cleanup();
 });
 
-// vi.mock('../src/utils/requestWithNativeFetch', () => ({
-//   default: vi.fn().mockResolvedValue({
-//     success: true,
-//     data: {
-//       user_id: 'mockUserId',
-//       author_name: 'Mock Author',
-//       avatar_url: 'mockAvatarUrl',
-//       id: 'mockPostId',
-//       content: 'Mock post content',
-//       date_format: '2024-11-19',
-//     },
-//   }),
-// }));
-
 // useNotification mock
 vi.mock('../src/contexts/Notification/useNotification', () => ({
   default: () => ({
@@ -48,6 +34,7 @@ vi.mock('../src/contexts/Modal/useModal', () => ({
   default: () => ({
     openModal: vi.fn(),
     closeModal: vi.fn(),
+    modalData: null,
   }),
 }));
 
