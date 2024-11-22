@@ -7,37 +7,38 @@ import useRequests from '../../hooks/useRequests';
 vi.mock('../../hooks/useRequests');
 
 describe('Requests Component', () => {
+  const mockRequests = {
+    requestsReceived: [
+      {
+        follower_id: 1,
+        follower_name: 'John Doe',
+        user_followers_count: 10,
+        avatar_url: 'test.png',
+      },
+    ],
+    requestsSent: [
+      {
+        follower_id: 2,
+        follower_name: 'Jane Smith',
+        user_followers_count: 3,
+        avatar_url: 'avatar2.jpg',
+      },
+    ],
+    friendsSuggest: [
+      {
+        user_id: 3,
+        full_name: 'Alice Johnson',
+        user_followers_count: 8,
+        avatar_url: 'avatar3.jpg',
+      },
+    ],
+    handleAddFollower: vi.fn(),
+    handleSentRequest: vi.fn(),
+    handleDeleteRequest: vi.fn(),
+  };
+
   beforeEach(() => {
-    // Mock danych
-    useRequests.mockReturnValue({
-      requestsReceived: [
-        {
-          follower_id: 1,
-          follower_name: 'John Doe',
-          user_followers_count: 5,
-          avatar_url: 'avatar1.jpg',
-        },
-      ],
-      requestsSent: [
-        {
-          follower_id: 2,
-          follower_name: 'Jane Smith',
-          user_followers_count: 3,
-          avatar_url: 'avatar2.jpg',
-        },
-      ],
-      friendsSuggest: [
-        {
-          user_id: 3,
-          full_name: 'Alice Johnson',
-          user_followers_count: 8,
-          avatar_url: 'avatar3.jpg',
-        },
-      ],
-      handleAddFollower: vi.fn(),
-      handleSentRequest: vi.fn(),
-      handleDeleteRequest: vi.fn(),
-    });
+    useRequests.mockReturnValue(mockRequests);
   });
 
   it('renders Sent Requests section correctly', () => {
@@ -79,8 +80,9 @@ describe('Requests Component', () => {
 
   it('calls handleDeleteRequest for Sent Requests when Cancel button is clicked', async () => {
     const user = userEvent.setup();
-    const { handleDeleteRequest } = useRequests.mock.results[0].value;
 
+    const { handleDeleteRequest } = useRequests.mock.results[0].value;
+    console.log(handleDeleteRequest);
     renderWithProviders(<Requests />);
 
     const cancelButton = screen.getByText('Cancel follow request');
