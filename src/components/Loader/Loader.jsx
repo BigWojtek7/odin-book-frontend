@@ -26,7 +26,7 @@ function Loader() {
             <span className={styles.text}>{loaderText}</span>
             {isDelay && (
               <span className={styles.text}>
-                loading may take longer when server wakes up
+                The server might take up to a minute to respond when waking up.
               </span>
             )}
           </div>
