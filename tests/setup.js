@@ -5,6 +5,7 @@ expect.extend(matchers);
 
 afterEach(() => {
   cleanup();
+  vi.clearAllMocks();
 });
 
 // useNotification mock
@@ -29,6 +30,8 @@ vi.mock('../src/contexts/Loader/useLoader', () => ({
     stop: vi.fn(),
   }),
 }));
+
+// useModal mock
 
 vi.mock('../src/contexts/Modal/useModal', () => ({
   default: () => ({

@@ -9,9 +9,6 @@ module.exports = {
     'prettier',
     'plugin:vitest-globals/recommended',
   ],
-  // globals: {
-  //   vi: true,
-  // },
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
   settings: { react: { version: '18.2' } },
