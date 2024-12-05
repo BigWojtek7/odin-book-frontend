@@ -8,6 +8,7 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'prettier',
     'plugin:vitest-globals/recommended',
+    'plugin:@typescript-eslint/recommended',
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
@@ -20,5 +21,8 @@ module.exports = {
       { allowConstantExport: true },
     ],
     'react/prop-types': 'off',
+    '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-explicit-any': 'warn',
   },
 };
