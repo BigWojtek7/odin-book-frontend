@@ -2,8 +2,8 @@ import { createPortal } from 'react-dom';
 import useModal from '../../contexts/Modal/useModal';
 
 import styles from './Modal.module.css';
-import SubmitButton from '../Form/Buttons/SubmitButton';
-import CancelButton from '../Form/Buttons/CancelButton.jsx';
+import SubmitButton from '../Form/Button/SubmitButton';
+import CancelButton from '../Form/Button/CancelButton.jsx';
 
 function Modal() {
   const { modalData, closeModal } = useModal();

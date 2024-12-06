@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useReducer } from 'react';
 
 import useAuth from '../../contexts/Auth/useAuth';
-import SubmitButton from '../../components/Form/Buttons/SubmitButton';
+import SubmitButton from '../../components/Form/Button/SubmitButton';
 import formReducer from '../../reducers/formReducer';
 import {
   initialSignUpFormState,
