@@ -18,7 +18,7 @@ const usePosts = (url, shouldFetch = true) => {
         const response = await requestWithNativeFetch(url, {
           headers: { Authorization: token },
         });
-        if (!ignore) {
+        if (!ignore && Array.isArray(response)) {
           setPosts(response);
         }
       } catch (err) {

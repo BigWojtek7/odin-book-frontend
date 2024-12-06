@@ -82,7 +82,6 @@ describe('Requests Component', () => {
     const user = userEvent.setup();
 
     const { handleDeleteRequest } = useRequests.mock.results[0].value;
-    console.log(handleDeleteRequest);
     renderWithProviders(<Requests />);
 
     const cancelButton = screen.getByText('Cancel follow request');
@@ -93,6 +92,7 @@ describe('Requests Component', () => {
 
   it('calls handleSentRequest when Send follow request button is clicked', async () => {
     const user = userEvent.setup();
+    console.log(useRequests.mock.results)
     const { handleSentRequest } = useRequests.mock.results[0].value;
 
     renderWithProviders(<Requests />);
