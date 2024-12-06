@@ -1,6 +1,6 @@
 import styles from './Request.module.css';
 import Friend from '../FriendsCard/Friend';
-import Button from '../Form/Buttons/SubmitButton';
+import Button from '../Form/Button/SubmitButton';
 function RequestCard() {
   return (
     <div className={styles.container}>

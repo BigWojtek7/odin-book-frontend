@@ -1,0 +1,23 @@
+.button {
+  padding: 0.5em 0.75em;
+  color: var(--font-clr);
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  cursor: pointer;
+  background-color: var(--btn-clr);
+  border: none;
+  transition: 0.3s;
+}
+
+.button:hover {
+  background-color: #11423e;
+}
+
+.button.cancel {
+  background-color: #ed3131;
+}
+
+.button.cancel:hover {
+  background-color: #941b1d;
+}

@@ -1,4 +1,4 @@
-import SubmitButton from '../../Form/Buttons/SubmitButton';
+import SubmitButton from '../../Form/Button/SubmitButton';
 import styles from './AddComment.module.css';
 import TextareaWithRef from '../../Form/Textarea/TextareaWithRef';
 import { useReducer } from 'react';
@@ -51,7 +51,10 @@ function AddComment({ textareaRef, handleAddComment }) {
           onChange={handleInputChange}
           error={formState.errors.content}
         ></TextareaWithRef>
-        <SubmitButton type="submit" style={{ borderRadius: '10px', maxHeight: '2.7em' }}>
+        <SubmitButton
+          type="submit"
+          style={{ borderRadius: '10px', maxHeight: '2.7em' }}
+        >
           Post
         </SubmitButton>
       </form>

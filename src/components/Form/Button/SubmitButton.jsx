@@ -11,4 +11,5 @@ function SubmitButton({ children, onClick, type = 'button', style }) {
     </button>
   );
 }
+
 export default SubmitButton;

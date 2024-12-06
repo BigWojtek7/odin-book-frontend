@@ -1,7 +1,6 @@
 import styles from './Requests.module.css';
 import Friend from '../../components/FriendsCard/Friend';
-import SubmitButton from '../../components/Form/Buttons/SubmitButton';
-import CancelButton from '../../components/Form/Buttons/CancelButton.jsx';
+import Button from '../../components/Form/Button/Button';
 
 import useRequests from '../../hooks/useRequests';
 
@@ -38,7 +37,8 @@ function Requests() {
                   handleDeleteRequest('sent', request.follower_id);
                 }}
               >
-                <CancelButton
+                <Button
+                  Button
                   type="submit"
                   style={{
                     width: '100%',
@@ -47,7 +47,7 @@ function Requests() {
                   }}
                 >
                   Cancel follow request
-                </CancelButton>
+                </Button>
               </form>
             </div>
           ))}
@@ -73,7 +73,7 @@ function Requests() {
                     handleAddFollower(request.follower_id);
                   }}
                 >
-                  <SubmitButton
+                  <Button
                     type="submit"
                     name="Confirm"
                     style={{
@@ -83,7 +83,7 @@ function Requests() {
                     }}
                   >
                     Confirm
-                  </SubmitButton>
+                  </Button>
                 </form>
                 <form
                   className={styles.form}
@@ -92,7 +92,8 @@ function Requests() {
                     handleDeleteRequest('received', request.follower_id);
                   }}
                 >
-                  <CancelButton
+                  <Button
+                    cancelButton
                     type="submit"
                     style={{
                       width: '100%',
@@ -101,7 +102,7 @@ function Requests() {
                     }}
                   >
                     Delete
-                  </CancelButton>
+                  </Button>
                 </form>
               </div>
             </div>
@@ -127,7 +128,7 @@ function Requests() {
                   handleSentRequest(friend.user_id);
                 }}
               >
-                <SubmitButton
+                <Button
                   type="submit"
                   style={{
                     width: '100%',
@@ -136,7 +137,7 @@ function Requests() {
                   }}
                 >
                   Send follow request
-                </SubmitButton>
+                </Button>
               </form>
             </div>
           ))}

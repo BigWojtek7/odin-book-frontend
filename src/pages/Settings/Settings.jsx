@@ -1,6 +1,6 @@
 import styles from './Settings.module.css';
 import Input from '../../components/Form/Input/Input';
-import SubmitButton from '../../components/Form/Buttons/SubmitButton';
+import SubmitButton from '../../components/Form/Button/SubmitButton';
 import Textarea from '../../components/Form/Textarea/Textarea';
 import { useEffect, useReducer, useState } from 'react';
 import requestWithNativeFetch from '../../utils/requestWithNativeFetch';

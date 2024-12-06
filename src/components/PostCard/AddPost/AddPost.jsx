@@ -1,5 +1,5 @@
 import styles from './AddPost.module.css';
-import SubmitButton from '../../Form/Buttons/SubmitButton';
+import SubmitButton from '../../Form/Button/SubmitButton';
 import Textarea from '../../Form/Textarea/Textarea';
 import { useReducer } from 'react';
 import formReducer from '../../../reducers/formReducer';
