@@ -38,11 +38,6 @@ function Requests() {
                   handleDeleteRequest('sent', request.follower_id);
                 }}
               >
-                <input
-                  type="hidden"
-                  name="request_receiver_id"
-                  value={request.follower_id}
-                />
                 <CancelButton
                   type="submit"
                   style={{
@@ -78,11 +73,6 @@ function Requests() {
                     handleAddFollower(request.follower_id);
                   }}
                 >
-                  <input
-                    type="hidden"
-                    name="follower_id"
-                    value={request.follower_id}
-                  />
                   <SubmitButton
                     type="submit"
                     name="Confirm"
@@ -102,7 +92,6 @@ function Requests() {
                     handleDeleteRequest('received', request.follower_id);
                   }}
                 >
-                  <input type="hidden" name="request_id" value={request.id} />
                   <CancelButton
                     type="submit"
                     style={{
@@ -138,11 +127,6 @@ function Requests() {
                   handleSentRequest(friend.user_id);
                 }}
               >
-                <input
-                  type="hidden"
-                  name="request_receiver_id"
-                  value={friend.user_id}
-                />
                 <SubmitButton
                   type="submit"
                   style={{
