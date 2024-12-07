@@ -18,7 +18,6 @@ function FriendsCard({ onDeletePostsByFollower }) {
   const { start: loaderStart, stop: loaderStop } = useLoader();
 
   const confirmDeleteFriend = (followerId, followerName) => {
-    console.log(followerName, followerId);
     openModal(`Do you really want to delete ${followerName}?`, () =>
       deleteFriend(followerId, followerName)
     );
