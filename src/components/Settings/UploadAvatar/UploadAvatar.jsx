@@ -1,6 +1,7 @@
 import useAuth from '../../../contexts/Auth/useAuth';
 import Button from '../../Form/Button/Button';
-import styles from '../SettingsSharedCSS.module.css';
+import styles from './UploadAvatar.module.css';
+import sharedStyle from "../SettingsSharedCSS.module.css"
 function UploadAvatar({ handleAvatarUpload, uploadAvatar }) {
   const { user } = useAuth();
   return (
@@ -10,7 +11,7 @@ function UploadAvatar({ handleAvatarUpload, uploadAvatar }) {
         <img className={styles.avatar} src={user?.avatar_url} alt="avatar" />
       </div>
       <form
-        className={styles.form}
+        className={sharedStyle.form}
         onSubmit={handleAvatarUpload}
         encType="multipart/form-data"
       >

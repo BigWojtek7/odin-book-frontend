@@ -8,35 +8,6 @@
   gap: 10px;
 }
 
-
-.inputFile {
-  width: 100%;
-}
-
-.inputFile::file-selector-button {
-  background-color: var(--btn-clr);
-  border: none;
-  color: var(--font-clr);
-  padding: 0.5em 1em;
-  cursor: pointer;
-  margin-right: 1em;
-}
-
-.avatar {
-  border-radius: 50%;
-  border: var(--input-bd) 4px solid;
-  margin-bottom: 0.5em;
-  width: 150px;
-  aspect-ratio: 1/1;
-}
-.avatarContainer {
-  text-align: center;
-}
-
-.uploadRes {
-  font-size: 0.8rem;
-}
-
 .editAbout h2 {
   margin: 10px 0;
 }
