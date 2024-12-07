@@ -3,31 +3,6 @@
   gap: 15px;
 }
 
-.sideCard {
-  width: 280px;
-  background-color: var(--nav-bg);
-  padding: 0.5em;
-  border-radius: 10px;
-}
-
-.sideHeading {
-  margin-bottom: 0.5em;
-}
-
-.usersCard {
-  background-color: var(--body-bg);
-  border-radius: 10px;
-  margin-bottom: 0.5em;
-}
-
-.form {
-  width: 100%;
-}
-
-.buttons {
-  display: flex;
-}
-
 @media (max-width: 700px) {
   .requests {
     flex-direction: column;
