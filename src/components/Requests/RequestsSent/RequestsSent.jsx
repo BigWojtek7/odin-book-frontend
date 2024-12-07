@@ -1,6 +1,6 @@
 import Friend from '../../FriendsCard/Friend';
 import RequestForm from '../RequestForm/RequestForm';
-import styles from './RequestsSent.module.css';
+import styles from '../RequestsComponents.module.css';
 
 function RequestsSent({ title, requestsSent, handleDeleteRequest }) {
   return (

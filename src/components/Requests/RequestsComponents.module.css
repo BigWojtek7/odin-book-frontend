@@ -1,3 +1,5 @@
+/* Shared Requests CSS properties */
+
 .sideCard {
   width: 280px;
   background-color: var(--nav-bg);
@@ -13,4 +15,14 @@
   background-color: var(--body-bg);
   border-radius: 10px;
   margin-bottom: 0.5em;
+}
+
+/* RequestsReceived: */
+.buttons {
+  display: flex;
+}
+
+/* RequestsForm: */
+.form {
+  width: 100%;
 }
