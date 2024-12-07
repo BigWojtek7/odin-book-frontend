@@ -1,5 +1,5 @@
 import Button from '../../Form/Button/Button';
-import styles from "../RequestsComponents.module.css";
+import styles from '../RequestsSharedCSS.module.css';
 
 function RequestForm({
   onSubmit,

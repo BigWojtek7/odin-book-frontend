@@ -1,6 +1,6 @@
 import Friend from '../../FriendsCard/Friend';
 import RequestForm from '../RequestForm/RequestForm';
-import styles from '../RequestsComponents.module.css';
+import styles from '../RequestsSharedCSS.module.css';
 function UserSuggestion({ title, friendsSuggest, handleSentRequest }) {
   return (
     <div className={styles.sideCard}>
