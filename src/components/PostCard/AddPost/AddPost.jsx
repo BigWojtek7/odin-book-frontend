@@ -1,16 +1,18 @@
 import styles from './AddPost.module.css';
-import SubmitButton from '../../Form/Button/SubmitButton';
 import Textarea from '../../Form/Textarea/Textarea';
 import { useReducer } from 'react';
-import formReducer from '../../../reducers/formReducer';
 import {
   initialPostFormState,
   postFormRules,
 } from '../../../reducers/initialPostFormState';
+import handleInputChange from '../../../utils/handleInputChange';
+import Button from '../../Form/Button/Button';
+import createFormReducer from '../../../utils/createFormReducer';
 
 function AddPost({ avatarURL, handleAddPost }) {
+  const postFormReducer = createFormReducer(postFormRules);
   const [formState, dispatch] = useReducer(
-    (state, action) => formReducer(state, action, postFormRules),
+    postFormReducer,
     initialPostFormState
   );
 
@@ -26,13 +28,8 @@ function AddPost({ avatarURL, handleAddPost }) {
     }
   };
 
-  const handleInputChange = (e) => {
-    e.preventDefault();
-    dispatch({
-      type: 'input_validate',
-      field: e.target.name,
-      payload: e.target.value,
-    });
+  const handleChange = (e) => {
+    handleInputChange(e, dispatch);
   };
 
   return (
@@ -47,15 +44,12 @@ function AddPost({ avatarURL, handleAddPost }) {
             name="content"
             placeholder="Write a post..."
             value={formState.content}
-            onChange={handleInputChange}
+            onChange={handleChange}
             error={formState.errors.content}
           ></Textarea>
-          <SubmitButton
-            type="submit"
-            style={{ borderRadius: '10px', height: '4em' }}
-          >
+          <Button type="submit" style={{ borderRadius: '10px', height: '4em' }}>
             Post
-          </SubmitButton>
+          </Button>
         </form>
       </div>
     </div>

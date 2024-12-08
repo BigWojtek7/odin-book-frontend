@@ -1,6 +1,4 @@
 import Input from '../../components/Form/Input/Input';
-import SubmitButton from '../../components/Form/Button/SubmitButton';
-import CancelButton from '../../components/Form/Button/CancelButton.jsx';
 import styles from './Login.module.css';
 import {
   initialLoginFormState,
@@ -8,14 +6,18 @@ import {
 } from '../../reducers/initialLoginFormState';
 import { useReducer, useState } from 'react';
 import useAuth from '../../contexts/Auth/useAuth';
-import formReducer from '../../reducers/formReducer';
+import createFormReducer from '../../utils/createFormReducer.js';
+import handleInputChange from '../../utils/handleInputChange.js';
+import Button from '../../components/Form/Button/Button.jsx';
 
 function Login() {
   const [fetchData, setFetchData] = useState(null);
   const { token, loginAction } = useAuth();
 
+  const loginFormReducer = createFormReducer(loginFormRules);
+
   const [formState, dispatch] = useReducer(
-    (state, action) => formReducer(state, action, loginFormRules),
+    loginFormReducer,
     initialLoginFormState
   );
 
@@ -41,12 +43,8 @@ function Login() {
     await loginAction(demoCredentials);
   };
 
-  const handleInputChange = (e) => {
-    dispatch({
-      type: 'input_validate',
-      field: e.target.name,
-      payload: e.target.value,
-    });
+  const handleChange = (e) => {
+    handleInputChange(e, dispatch);
   };
 
   return (
@@ -58,7 +56,7 @@ function Login() {
               name="username"
               label="Username / E-mail"
               value={formState.username}
-              onChange={handleInputChange}
+              onChange={handleChange}
               error={formState.errors.username}
             />
             <Input
@@ -66,11 +64,11 @@ function Login() {
               type="password"
               label="Password"
               value={formState.password}
-              onChange={handleInputChange}
+              onChange={handleChange}
               error={formState.errors.password}
               autocomplete="current-password"
             />
-            <SubmitButton type="submit">Log In</SubmitButton>
+            <Button type="submit">Log In</Button>
             {fetchData && <p>{fetchData.msg}</p>}
           </form>
           <div className={styles.demoLogin}>
@@ -78,13 +76,13 @@ function Login() {
               Want to test the application? Use the demo account.
             </p>
             <div className={styles.demoButton}>
-              <CancelButton
+              <Button
                 type="submit"
                 style={{ width: '100%' }}
                 onClick={handleDemoLogin}
               >
                 Demo User
-              </CancelButton>
+              </Button>
             </div>
           </div>
         </>

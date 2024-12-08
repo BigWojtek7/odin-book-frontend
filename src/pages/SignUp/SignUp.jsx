@@ -5,19 +5,22 @@ import { useState } from 'react';
 import { useReducer } from 'react';
 
 import useAuth from '../../contexts/Auth/useAuth';
-import SubmitButton from '../../components/Form/Button/SubmitButton';
-import formReducer from '../../reducers/formReducer';
 import {
   initialSignUpFormState,
   signUpFormRules,
 } from '../../reducers/initialSignUpFormState';
+import handleInputChange from '../../utils/handleInputChange';
+import Button from '../../components/Form/Button/Button';
+import createFormReducer from '../../utils/createFormReducer';
 
 function SignUp() {
   const [fetchData, setFetchData] = useState(null);
   const { token, signUpAction } = useAuth();
 
+  const signUpFormReducer = createFormReducer(signUpFormRules);
+
   const [formState, dispatch] = useReducer(
-    (state, action) => formReducer(state, action, signUpFormRules),
+    signUpFormReducer,
     initialSignUpFormState
   );
 
@@ -40,12 +43,8 @@ function SignUp() {
     }
   };
 
-  const handleInputChange = (e) => {
-    dispatch({
-      type: 'input_validate',
-      field: e.target.name,
-      payload: e.target.value,
-    });
+  const handleChange = (e) => {
+    handleInputChange(e, dispatch);
   };
 
   return (
@@ -56,14 +55,14 @@ function SignUp() {
             name="first_name"
             label="First Name"
             inputValue={formState.first_name}
-            onChange={handleInputChange}
+            onChange={handleChange}
             error={formState.errors.first_name}
           />
           <Input
             name="last_name"
             label="Last Name"
             inputValue={formState.last_name}
-            onChange={handleInputChange}
+            onChange={handleChange}
             error={formState.errors.last_name}
           />
           <Input
@@ -71,14 +70,14 @@ function SignUp() {
             name="email"
             label="Email"
             inputValue={formState.email}
-            onChange={handleInputChange}
+            onChange={handleChange}
             error={formState.errors.email}
           />
           <Input
             name="username"
             label="Username"
             inputValue={formState.username}
-            onChange={handleInputChange}
+            onChange={handleChange}
             error={formState.errors.username}
           />
           <Input
@@ -86,7 +85,7 @@ function SignUp() {
             name="password"
             label="Password"
             inputValue={formState.password}
-            onChange={handleInputChange}
+            onChange={handleChange}
             error={formState.errors.password}
           />
           <Input
@@ -94,10 +93,10 @@ function SignUp() {
             name="re_password"
             label="Reenter Password"
             inputValue={formState.re_password}
-            onChange={handleInputChange}
+            onChange={handleChange}
             error={formState.errors.re_password}
           />
-          <SubmitButton type="submit">Sign Up</SubmitButton>
+          <Button type="submit">Sign Up</Button>
           {!fetchData?.success &&
             fetchData?.msg.map((err, index) => <p key={index}>{err.msg}</p>)}
         </form>

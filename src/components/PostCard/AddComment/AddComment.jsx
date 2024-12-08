@@ -1,19 +1,22 @@
-import SubmitButton from '../../Form/Button/SubmitButton';
 import styles from './AddComment.module.css';
 import TextareaWithRef from '../../Form/Textarea/TextareaWithRef';
 import { useReducer } from 'react';
 import useAuth from '../../../contexts/Auth/useAuth';
-import formReducer from '../../../reducers/formReducer';
 import {
   initialCommentFormState,
   commentFormRules,
 } from '../../../reducers/initialCommentFormState';
+import handleInputChange from '../../../utils/handleInputChange';
+import createFormReducer from '../../../utils/createFormReducer';
+import Button from '../../Form/Button/Button';
 
 function AddComment({ textareaRef, handleAddComment }) {
   const { user } = useAuth();
 
+  const commentFormReducer = createFormReducer(commentFormRules);
+
   const [formState, dispatch] = useReducer(
-    (state, action) => formReducer(state, action, commentFormRules),
+    commentFormReducer,
     initialCommentFormState
   );
 
@@ -29,12 +32,8 @@ function AddComment({ textareaRef, handleAddComment }) {
     }
   };
 
-  const handleInputChange = (e) => {
-    dispatch({
-      type: 'input_validate',
-      field: e.target.name,
-      payload: e.target.value,
-    });
+  const handleChange = (e) => {
+    handleInputChange(e, dispatch);
   };
 
   return (
@@ -48,15 +47,15 @@ function AddComment({ textareaRef, handleAddComment }) {
           placeholder="Write a comment..."
           ref={textareaRef}
           value={formState.content}
-          onChange={handleInputChange}
+          onChange={handleChange}
           error={formState.errors.content}
         ></TextareaWithRef>
-        <SubmitButton
+        <Button
           type="submit"
           style={{ borderRadius: '10px', maxHeight: '2.7em' }}
         >
           Post
-        </SubmitButton>
+        </Button>
       </form>
     </div>
   );

@@ -1,4 +1,4 @@
-export const handleInputChange = (e, dispatch) => {
+const handleInputChange = (e, dispatch) => {
   const name = e.target.name;
   const value = e.target.value;
 

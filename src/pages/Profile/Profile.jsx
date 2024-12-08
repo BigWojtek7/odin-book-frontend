@@ -14,13 +14,10 @@ function Profile() {
   const { followerid } = useParams();
 
   const { profileUser, isFollowerProfile } = useProfileData(followerid);
-
   const { token } = useAuth();
-
   const { addNotification } = useNotification();
-
   const { start: loaderStart, stop: loaderStop } = useLoader();
-
+  
   const { posts, setPosts } = usePosts(
     `${import.meta.env.VITE_BACKEND_URL}/posts/user/${profileUser?.user_id}`,
     Boolean(profileUser?.user_id)
@@ -74,7 +71,8 @@ function Profile() {
     <>
       <div className={styles.profile}>
         <div className={styles.userCard}>
-          <UserCard profileUser={profileUser} /></div>
+          <UserCard profileUser={profileUser} />
+        </div>
         <div className={styles.posts}>
           {!isFollowerProfile && (
             <AddPost
