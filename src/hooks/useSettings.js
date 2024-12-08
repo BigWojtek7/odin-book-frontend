@@ -100,6 +100,7 @@ function useSettings() {
         }
       } catch (err) {
         console.log(err);
+        addNotification('An error occurred. Please try again.', 'error');
       } finally {
         loaderStop();
         closeModal();
@@ -144,6 +145,7 @@ function useSettings() {
           }
         } catch (err) {
           console.log(err);
+          addNotification('An error occurred. Please try again.', 'error');
         } finally {
           loaderStop();
           closeModal();
@@ -182,6 +184,7 @@ function useSettings() {
         }
       } catch (err) {
         console.log(err);
+        addNotification('An error occurred. Please try again.', 'error');
       } finally {
         loaderStop();
       }
@@ -222,6 +225,7 @@ function useSettings() {
           }
         } catch (err) {
           console.log(err);
+          addNotification('An error occurred. Please try again.', 'error');
         } finally {
           loaderStop();
           closeModal();

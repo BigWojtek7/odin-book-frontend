@@ -13,10 +13,12 @@
   border-radius: 5px;
 }
 
-.notification.success {
+.notification.success,
+.notification.add {
   background-color: green;
 }
 
+.notification.error,
 .notification.delete {
   background-color: red;
 }

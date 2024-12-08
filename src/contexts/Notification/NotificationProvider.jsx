@@ -5,7 +5,7 @@ import NotificationsList from '../../components/NotificationsList/NotificationsL
 const NotificationProvider = ({ children }) => {
   const [notifications, setNotifications] = useState([]);
 
-  const addNotification = (message, type = 'info') => {
+  const addNotification = (message, type = 'success') => {
     const id = new Date().getTime();
 
     setNotifications((prevNotifications) => [
