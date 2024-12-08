@@ -1,12 +1,12 @@
 import styles from './FriendsCard.module.css';
 import Friend from './Friend';
-import CancelButton from '../Form/Button/CancelButton';
 import requestWithNativeFetch from '../../utils/requestWithNativeFetch';
 import useAuth from '../../contexts/Auth/useAuth';
 import useFriends from '../../hooks/useFriends';
 import useNotification from '../../contexts/Notification/useNotification';
 import useModal from '../../contexts/Modal/useModal';
 import useLoader from '../../contexts/Loader/useLoader';
+import Button from '../Form/Button/Button';
 
 function FriendsCard({ onDeletePostsByFollower }) {
   const { friends, setFriends } = useFriends();
@@ -74,7 +74,8 @@ function FriendsCard({ onDeletePostsByFollower }) {
                 avatarURL={follower.avatar_url}
                 style={{ padding: '0.5em 0.5em 0 0.5em' }}
               />
-              <CancelButton
+              <Button
+                cancelButton
                 type="button"
                 onClick={() =>
                   confirmDeleteFriend(
@@ -89,7 +90,7 @@ function FriendsCard({ onDeletePostsByFollower }) {
                 }}
               >
                 Unfollow
-              </CancelButton>
+              </Button>
             </div>
           ))}
         </div>
