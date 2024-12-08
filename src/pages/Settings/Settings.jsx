@@ -18,9 +18,7 @@ function Settings() {
     handleEditProfile,
     handleEditAbout,
     handleEditPassword,
-    handleProfileInput,
-    handleAboutInput,
-    handlePasswordInput,
+    handleChange,
   } = useSettings();
 
   return (
@@ -33,20 +31,20 @@ function Settings() {
         <EditAbout
           aboutState={aboutState}
           handleEditAbout={handleEditAbout}
-          handleAboutInput={handleAboutInput}
+          handleAboutInput={(e) => handleChange(e, 'about')}
           aboutFetch={aboutFetch}
         />
       </div>
       <EditProfile
         profileState={profileState}
-        handleProfileInput={handleProfileInput}
+        handleProfileInput={(e) => handleChange(e, 'profile')}
         handleEditProfile={handleEditProfile}
         profileFetch={profileFetch}
       />
       <EditPassword
         passwordState={passwordState}
         handleEditPassword={handleEditPassword}
-        handlePasswordInput={handlePasswordInput}
+        handlePasswordInput={(e) => handleChange(e, 'password')}
         passwordFetch={passwordFetch}
       />
     </div>

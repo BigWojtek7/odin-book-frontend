@@ -13,6 +13,7 @@ import {
   profileFormRules,
 } from '../reducers/initialSettingsFormState';
 import requestWithNativeFetch from '../utils/requestWithNativeFetch';
+import handleInputChange from '../utils/handleInputChange';
 
 function useSettings() {
   const { token, user, refreshUser } = useAuth();
@@ -229,27 +230,20 @@ function useSettings() {
     }
   };
 
-  const handleProfileInput = (e) => {
-    dispatchProfile({
-      type: 'input_validate',
-      field: e.target.name,
-      payload: e.target.value,
-    });
-  };
-  const handleAboutInput = (e) => {
-    dispatchAbout({
-      type: 'input_validate',
-      field: e.target.name,
-      payload: e.target.value,
-    });
-  };
-
-  const handlePasswordInput = (e) => {
-    dispatchPassword({
-      type: 'input_validate',
-      field: e.target.name,
-      payload: e.target.value,
-    });
+  const handleChange = (e, dispatchName) => {
+    switch (dispatchName) {
+      case 'profile':
+        handleInputChange(e, dispatchProfile);
+        break;
+      case 'password':
+        handleInputChange(e, dispatchPassword);
+        break;
+      case 'about':
+        handleInputChange(e, dispatchAbout);
+        break;
+      default:
+        console.log(`Sorry, we are out of ${dispatchName}.`);
+    }
   };
 
   return {
@@ -264,9 +258,7 @@ function useSettings() {
     handleEditProfile,
     handleEditAbout,
     handleEditPassword,
-    handleProfileInput,
-    handleAboutInput,
-    handlePasswordInput,
+    handleChange,
   };
 }
 
