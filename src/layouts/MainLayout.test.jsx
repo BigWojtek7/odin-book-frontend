@@ -1,5 +1,5 @@
 import { screen } from '@testing-library/react';
-import renderWithProviders from '../utils/testUtils/renderWithProviders';
+import renderWithProviders from '../utils/testHelpers/renderWithProviders';
 import MainLayout from './MainLayout';
 import styles from './MainLayout.module.css';
 

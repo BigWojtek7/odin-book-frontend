@@ -1,7 +1,7 @@
 import formReducer from './formReducer';
-import validateForm from '../utils/validateForm';
+import validateForm from '../utils/formHelpers/validateForm';
 
-vi.mock('../utils/validateForm');
+vi.mock('../utils/formHelpers/validateForm');
 
 describe('formReducer', () => {
   const initialState = {

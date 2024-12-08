@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react';
 import Friend from './Friend';
-import renderWithProviders from '../../utils/testUtils/renderWithProviders';
+import renderWithProviders from '../../utils/testHelpers/renderWithProviders';
 
 describe('testing Friend component', () => {
   const friend = {

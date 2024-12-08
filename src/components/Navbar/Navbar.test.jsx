@@ -1,5 +1,5 @@
 import Navbar from './Navbar';
-import renderWithProviders from '../../utils/testUtils/renderWithProviders';
+import renderWithProviders from '../../utils/testHelpers/renderWithProviders';
 
 // import { render } from '@testing-library/react';
 // import { BrowserRouter } from 'react-router-dom';
