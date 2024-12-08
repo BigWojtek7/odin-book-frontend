@@ -9,7 +9,9 @@ function Friend({ followerId, name, friendsNumber, avatarURL, style }) {
         <Link to={`../profile/${followerId}`} className={styles.name}>
           {name}
         </Link>
-        <p className={styles.friendsNumber}>{`${friendsNumber} friends`}</p>
+        <p className={styles.friendsNumber}>
+          {friendsNumber} {friendsNumber === 1 ? 'friend' : 'friends'}
+        </p>
       </div>
     </div>
   );

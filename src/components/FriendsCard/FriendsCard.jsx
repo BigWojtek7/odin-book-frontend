@@ -57,7 +57,6 @@ function FriendsCard({ onDeletePostsByFollower }) {
       prevFriends.filter((friend) => friend.follower_id !== followerId)
     );
   };
-
   return (
     <>
       {friends?.length === 0 ? (

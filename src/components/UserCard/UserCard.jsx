@@ -19,7 +19,10 @@ function UserCard({ profileUser }) {
         <p className={styles.profilePosition}>{profileUser?.profession}</p>
         <p className={styles.profileBody}>{profileUser?.about}</p>
       </div>
-      <h2>{`${profileUser?.user_followers_count} friends:`}</h2>
+      <h2>
+        {profileUser?.user_followers_count}{' '}
+        {profileUser?.user_followers_count === 1 ? 'friend' : 'friends'}
+      </h2>
       <div className={styles.profileFriends}>
         {friends?.map((friend) => (
           <FriendsMiniature
