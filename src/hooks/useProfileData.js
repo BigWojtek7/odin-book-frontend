@@ -5,11 +5,8 @@ import requestWithNativeFetch from '../utils/requestWithNativeFetch';
 const useProfileData = (followerid) => {
   const { token, user } = useAuth();
   const [profileUser, setProfileUser] = useState({});
-  const [isFollowerProfile, setIsFollowerProfile] = useState(false);
 
-  useEffect(() => {
-    setIsFollowerProfile(followerid !== 'profile');
-  }, [followerid]);
+  const isFollowerProfile = followerid !== 'profile';
 
   useEffect(() => {
     const fetchDataForProfile = async () => {

@@ -12,7 +12,6 @@ import requestWithNativeFetch from '../../utils/requestWithNativeFetch';
 
 function Profile() {
   const { followerid } = useParams();
-
   const { profileUser, isFollowerProfile } = useProfileData(followerid);
   const { token } = useAuth();
   const { addNotification } = useNotification();
