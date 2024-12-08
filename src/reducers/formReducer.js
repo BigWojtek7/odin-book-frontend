@@ -1,13 +1,18 @@
-import validateForm from '../utils/validateForm';
+import validateForm from '../utils/formHelpers/validateForm';
 
 function formReducer(state, action, formRules) {
   switch (action.type) {
-    
-    case 'initialize':
-      return {
+    case 'initialize': {
+      const initialState = {
         ...state,
         ...action.payload,
+        isTouched: Object.keys(state.isTouched).reduce((acc, field) => {
+          acc[field] = true;
+          return acc;
+        }, {}),
       };
+      return validateForm(initialState, formRules);
+    }
     case 'input_validate': {
       const updatedState = {
         ...state,

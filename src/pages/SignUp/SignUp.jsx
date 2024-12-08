@@ -9,9 +9,10 @@ import {
   initialSignUpFormState,
   signUpFormRules,
 } from '../../reducers/initialSignUpFormState';
-import handleInputChange from '../../utils/handleInputChange';
+import handleInputChange from '../../utils/formHelpers/handleInputChange';
 import Button from '../../components/Form/Button/Button';
-import createFormReducer from '../../utils/createFormReducer';
+import createFormReducer from '../../utils/reducerHelpers/createFormReducer';
+import isFormValid from '../../utils/formHelpers/isFormValid';
 
 function SignUp() {
   const [fetchData, setFetchData] = useState(null);
@@ -26,9 +27,8 @@ function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch({ type: 'validate_all' });
 
-    if (formState.isValid) {
+    if (isFormValid(formState, dispatch)) {
       const data = {
         first_name: formState.first_name,
         last_name: formState.last_name,

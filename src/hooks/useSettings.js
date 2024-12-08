@@ -13,7 +13,8 @@ import {
   profileFormRules,
 } from '../reducers/initialSettingsFormState';
 import requestWithNativeFetch from '../utils/requestWithNativeFetch';
-import handleInputChange from '../utils/handleInputChange';
+import handleInputChange from '../utils/formHelpers/handleInputChange';
+import isFormValid from '../utils/formHelpers/isFormValid';
 
 function useSettings() {
   const { token, user, refreshUser } = useAuth();
@@ -55,9 +56,6 @@ function useSettings() {
           profession: user?.profession,
         },
       });
-      dispatchProfile({
-        type: 'validate_all',
-      });
     }
   }, [user]);
 
@@ -68,9 +66,6 @@ function useSettings() {
         payload: {
           about: user?.about,
         },
-      });
-      dispatchAbout({
-        type: 'validate_all',
       });
     }
   }, [user]);
@@ -110,10 +105,7 @@ function useSettings() {
 
   const handleEditProfile = (e) => {
     e.preventDefault();
-    dispatchProfile({
-      type: 'validate_all',
-    });
-    if (profileState.isValid) {
+    if (isFormValid(profileState, dispatchProfile)) {
       openModal('Do you really want to change your profile ?', async () => {
         try {
           loaderStart();
@@ -154,50 +146,49 @@ function useSettings() {
     }
   };
 
-  const handleEditAbout = async (e) => {
+  const handleEditAbout = (e) => {
     e.preventDefault();
-    dispatchAbout({
-      type: 'validate_all',
-    });
+    if (isFormValid(aboutState, dispatchAbout)) {
+      openModal(
+        'Do you really want to change your about section ?',
+        async () => {
+          try {
+            loaderStart();
+            const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
+              user.user_id
+            }/about`;
+            const options = {
+              method: 'PATCH',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: token,
+              },
+              body: JSON.stringify({ about: aboutState.about }),
+            };
 
-    if (aboutState.isValid) {
-      try {
-        loaderStart();
-        const url = `${import.meta.env.VITE_BACKEND_URL}/users/${
-          user.user_id
-        }/about`;
-        const options = {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: token,
-          },
-          body: JSON.stringify({ about: aboutState.about }),
-        };
+            const aboutChangeData = await requestWithNativeFetch(url, options);
+            setAboutFetch(aboutChangeData);
 
-        const aboutChangeData = await requestWithNativeFetch(url, options);
-        setAboutFetch(aboutChangeData);
-
-        if (aboutChangeData.success) {
-          refreshUser();
-          addNotification('Your about section has been updated', 'success');
+            if (aboutChangeData.success) {
+              refreshUser();
+              addNotification('Your about section has been updated', 'success');
+            }
+          } catch (err) {
+            console.log(err);
+            addNotification('An error occurred. Please try again.', 'error');
+          } finally {
+            loaderStop();
+            closeModal();
+          }
         }
-      } catch (err) {
-        console.log(err);
-        addNotification('An error occurred. Please try again.', 'error');
-      } finally {
-        loaderStop();
-      }
+      );
     }
   };
 
   const handleEditPassword = (e) => {
     e.preventDefault();
 
-    dispatchPassword({
-      type: 'validate_all',
-    });
-    if (passwordState.isValid) {
+    if (isFormValid(passwordState, dispatchPassword)) {
       openModal('Do you really want to change password', async () => {
         try {
           loaderStart();

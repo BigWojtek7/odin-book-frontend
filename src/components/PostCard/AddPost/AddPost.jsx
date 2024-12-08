@@ -5,9 +5,10 @@ import {
   initialPostFormState,
   postFormRules,
 } from '../../../reducers/initialPostFormState';
-import handleInputChange from '../../../utils/handleInputChange';
+import handleInputChange from '../../../utils/formHelpers/handleInputChange';
 import Button from '../../Form/Button/Button';
-import createFormReducer from '../../../utils/createFormReducer';
+import createFormReducer from '../../../utils/reducerHelpers/createFormReducer';
+import isFormValid from '../../../utils/formHelpers/isFormValid';
 
 function AddPost({ avatarURL, handleAddPost }) {
   const postFormReducer = createFormReducer(postFormRules);
@@ -18,8 +19,7 @@ function AddPost({ avatarURL, handleAddPost }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch({ type: 'validate_all' });
-    if (formState.isValid) {
+    if (isFormValid(formState, dispatch)) {
       handleAddPost(formState.content);
       dispatch({
         type: 'reset_input_value',

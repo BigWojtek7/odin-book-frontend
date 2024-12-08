@@ -6,9 +6,10 @@ import {
 } from '../../reducers/initialLoginFormState';
 import { useReducer, useState } from 'react';
 import useAuth from '../../contexts/Auth/useAuth';
-import createFormReducer from '../../utils/createFormReducer.js';
-import handleInputChange from '../../utils/handleInputChange.js';
+import createFormReducer from '../../utils/reducerHelpers/createFormReducer.js';
+import handleInputChange from '../../utils/formHelpers/handleInputChange.js';
 import Button from '../../components/Form/Button/Button.jsx';
+import isFormValid from '../../utils/formHelpers/isFormValid.js';
 
 function Login() {
   const [fetchData, setFetchData] = useState(null);
@@ -23,10 +24,7 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    dispatch({
-      type: 'validate_all',
-    });
-    if (formState.isValid) {
+    if (isFormValid(formState, dispatch)) {
       const data = {
         username: formState.username,
         password: formState.password,

@@ -6,9 +6,10 @@ import {
   initialCommentFormState,
   commentFormRules,
 } from '../../../reducers/initialCommentFormState';
-import handleInputChange from '../../../utils/handleInputChange';
-import createFormReducer from '../../../utils/createFormReducer';
+import handleInputChange from '../../../utils/formHelpers/handleInputChange';
+import createFormReducer from '../../../utils/reducerHelpers/createFormReducer';
 import Button from '../../Form/Button/Button';
+import isFormValid from '../../../utils/formHelpers/isFormValid';
 
 function AddComment({ textareaRef, handleAddComment }) {
   const { user } = useAuth();
@@ -22,8 +23,8 @@ function AddComment({ textareaRef, handleAddComment }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch({ type: 'validate_all' });
-    if (formState.isValid) {
+
+    if (isFormValid(formState, dispatch)) {
       handleAddComment(formState.content);
       dispatch({
         type: 'reset_input_value',
